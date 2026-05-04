@@ -91,8 +91,8 @@ const fs = require('fs');
       const emptySlides = [];
       for (let i = 0; i < slideCount; i++) {
         const slide = page.locator('.slide').nth(i);
-        const text = await slide.innerText();
-        if (text.trim().length === 0) {
+        const html = await slide.innerHTML();
+        if (html.trim().length === 0) {
           emptySlides.push(i + 1);
         }
       }
