@@ -16,8 +16,6 @@
     }
 
     /* Custom keynote styles */
-    .slide { overflow: hidden; }
-
     .slide::after {
       content: '';
       position: absolute;
@@ -27,10 +25,7 @@
       height: 200%;
       background: radial-gradient(ellipse at center, rgba(123, 47, 247, 0.03) 0%, transparent 70%);
       pointer-events: none;
-      z-index: 0;
     }
-
-    .slide > * { position: relative; z-index: 1; }
 
     .gradient-text {
       background: linear-gradient(135deg, #00d4ff, #7b2ff7);
@@ -135,9 +130,16 @@
     }
 
     /* SVG diagram styles */
+    .diagram {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
     .diagram svg {
-      max-width: 100%;
+      width: 100%;
       height: auto;
+      display: block;
     }
 
     .diagram svg text {
@@ -253,30 +255,30 @@
         <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.3"/>
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.8"/>
               <stop offset="100%" style="stop-color:#7b2ff7;stop-opacity:1"/>
             </linearGradient>
           </defs>
           <!-- Timeline line -->
-          <line x1="80" y1="100" x2="820" y2="100" stroke="url(#lineGrad)" stroke-width="3"/>
+          <line x1="80" y1="100" x2="820" y2="100" stroke="url(#lineGrad)" stroke-width="4"/>
           <!-- Nodes -->
-          <circle cx="150" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2" class="fragment"/>
-          <foreignObject x="138" y="89" width="24" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;text-align:center;line-height:24px;">💬</div></foreignObject>
+          <circle cx="150" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="150" y="105" text-anchor="middle" font-size="12" fill="#f0f6fc">◉</text>
           <text x="150" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Chatbots</text>
           <text x="150" y="165" text-anchor="middle" fill="#555" font-size="10">2020</text>
 
-          <circle cx="350" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2" class="fragment"/>
-          <foreignObject x="338" y="89" width="24" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;text-align:center;line-height:24px;">🧠</div></foreignObject>
+          <circle cx="350" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="350" y="105" text-anchor="middle" font-size="12" fill="#f0f6fc">◈</text>
           <text x="350" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Copilots</text>
           <text x="350" y="165" text-anchor="middle" fill="#555" font-size="10">2023</text>
 
-          <circle cx="550" cy="100" r="20" fill="#0d1440" stroke="#7b2ff7" stroke-width="2" class="fragment"/>
-          <foreignObject x="538" y="89" width="24" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;text-align:center;line-height:24px;">⚡</div></foreignObject>
+          <circle cx="550" cy="100" r="20" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
+          <text x="550" y="105" text-anchor="middle" font-size="12" fill="#f0f6fc">⚡</text>
           <text x="550" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Agents</text>
           <text x="550" y="165" text-anchor="middle" fill="#555" font-size="10">2025</text>
 
-          <circle cx="750" cy="100" r="24" fill="rgba(123,47,247,0.2)" stroke="#7b2ff7" stroke-width="3" class="fragment svg-pulse"/>
-          <foreignObject x="738" y="89" width="24" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px;text-align:center;line-height:24px;">🌐</div></foreignObject>
+          <circle cx="750" cy="100" r="24" fill="rgba(123,47,247,0.2)" stroke="#7b2ff7" stroke-width="3"/>
+          <text x="750" y="105" text-anchor="middle" font-size="12" fill="#f0f6fc">◎</text>
           <text x="750" y="145" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="bold">Multi-Agent</text>
           <text x="750" y="165" text-anchor="middle" fill="#7b2ff7" font-size="10">NOW</text>
         </svg>
@@ -408,19 +410,19 @@
           <!-- Orchestrator -->
           <circle cx="400" cy="120" r="50" fill="url(#nodeGlow)"/>
           <circle cx="400" cy="120" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2.5"/>
-          <foreignObject x="382" y="93" width="36" height="36"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:18px;text-align:center;line-height:36px;">🎯</div></foreignObject>
+          <text x="400" y="115" text-anchor="middle" font-size="18" fill="#f0f6fc">◉</text>
           <text x="400" y="138" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Orchestrator</text>
           <!-- Agent 1 -->
           <circle cx="200" cy="280" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="184" y="255" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">⚙️</div></foreignObject>
+          <text x="200" y="275" text-anchor="middle" font-size="16" fill="#f0f6fc">⚙</text>
           <text x="200" y="298" text-anchor="middle" fill="#f0f6fc" font-size="9">Code Agent</text>
           <!-- Agent 2 -->
           <circle cx="400" cy="300" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="384" y="275" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">🧪</div></foreignObject>
+          <text x="400" y="295" text-anchor="middle" font-size="16" fill="#f0f6fc">◇</text>
           <text x="400" y="318" text-anchor="middle" fill="#f0f6fc" font-size="9">Test Agent</text>
           <!-- Agent 3 -->
           <circle cx="600" cy="280" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="584" y="255" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">📝</div></foreignObject>
+          <text x="600" y="275" text-anchor="middle" font-size="16" fill="#f0f6fc">≡</text>
           <text x="600" y="298" text-anchor="middle" fill="#f0f6fc" font-size="9">Doc Agent</text>
           <!-- Label -->
           <text x="400" y="380" text-anchor="middle" fill="#8b949e" font-size="11">Specialized agents collaborate to achieve complex goals</text>
@@ -481,7 +483,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
@@ -530,19 +532,19 @@
           <path d="M 570 125 L 640 125" stroke="url(#pipeGrad)" stroke-width="2" class="svg-flow" fill="none"/>
           <!-- Stage 1 -->
           <rect x="50" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
-          <foreignObject x="90" y="94" width="40" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:20px;text-align:center;line-height:40px;">📝</div></foreignObject>
+          <text x="110" y="118" text-anchor="middle" font-size="20" fill="#f0f6fc">≡</text>
           <text x="110" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Plan</text>
           <!-- Stage 2 -->
           <rect x="250" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
-          <foreignObject x="290" y="94" width="40" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:20px;text-align:center;line-height:40px;">⚡</div></foreignObject>
+          <text x="310" y="118" text-anchor="middle" font-size="20" fill="#f0f6fc">⚡</text>
           <text x="310" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Execute</text>
           <!-- Stage 3 -->
           <rect x="450" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
-          <foreignObject x="490" y="94" width="40" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:20px;text-align:center;line-height:40px;">🧪</div></foreignObject>
+          <text x="510" y="118" text-anchor="middle" font-size="20" fill="#f0f6fc">◇</text>
           <text x="510" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Validate</text>
           <!-- Stage 4 -->
           <rect x="650" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
-          <foreignObject x="690" y="94" width="40" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:20px;text-align:center;line-height:40px;">🚀</div></foreignObject>
+          <text x="710" y="118" text-anchor="middle" font-size="20" fill="#f0f6fc">🚀</text>
           <text x="710" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Deploy</text>
           <!-- Feedback loop -->
           <path d="M 510 170 C 510 220, 310 220, 310 170" stroke="#7b2ff7" stroke-width="1" stroke-dasharray="4,4" fill="none" opacity="0.5"/>
@@ -603,17 +605,17 @@
           <path d="M 470 140 L 600 140" stroke="url(#s2cGrad)" stroke-width="2.5" fill="none" class="svg-flow"/>
           <!-- Spec box -->
           <rect x="60" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="102" y="98" width="56" height="56"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:28px;text-align:center;line-height:56px;">📋</div></foreignObject>
+          <text x="130" y="130" text-anchor="middle" font-size="28" fill="#f0f6fc">▤</text>
           <text x="130" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Spec</text>
           <text x="130" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Functional + Technical</text>
           <!-- Code box -->
           <rect x="330" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
-          <foreignObject x="372" y="98" width="56" height="56"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:28px;text-align:center;line-height:56px;">💻</div></foreignObject>
+          <text x="400" y="130" text-anchor="middle" font-size="28" fill="#f0f6fc">⌨</text>
           <text x="400" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Code</text>
           <text x="400" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Auto-Generated</text>
           <!-- Cloud box -->
           <rect x="600" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#ff6b6b" stroke-width="2"/>
-          <foreignObject x="642" y="98" width="56" height="56"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:28px;text-align:center;line-height:56px;">☁️</div></foreignObject>
+          <text x="670" y="130" text-anchor="middle" font-size="28" fill="#f0f6fc">☁</text>
           <text x="670" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Cloud</text>
           <text x="670" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Deployed & Running</text>
           <!-- Labels under arrows -->
@@ -629,7 +631,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
@@ -644,7 +646,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
@@ -694,27 +696,27 @@
           <!-- Circular arc arrows (simplified as lines to nodes) -->
           <!-- Reason -->
           <circle cx="300" cy="80" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="284" y="55" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">🧠</div></foreignObject>
+          <text x="300" y="75" text-anchor="middle" font-size="16" fill="#f0f6fc">◈</text>
           <text x="300" y="100" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Reason</text>
           <line x1="300" y1="120" x2="300" y2="190" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
           <!-- Act -->
           <circle cx="510" cy="170" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="494" y="145" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">⚡</div></foreignObject>
+          <text x="510" y="165" text-anchor="middle" font-size="16" fill="#f0f6fc">⚡</text>
           <text x="510" y="190" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Act</text>
           <line x1="475" y1="195" x2="360" y2="230" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
           <!-- Learn -->
           <circle cx="510" cy="340" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
-          <foreignObject x="494" y="315" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">📚</div></foreignObject>
+          <text x="510" y="335" text-anchor="middle" font-size="16" fill="#f0f6fc">▧</text>
           <text x="510" y="360" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Learn</text>
           <line x1="475" y1="315" x2="360" y2="270" stroke="#7b2ff7" stroke-width="1.5" opacity="0.5"/>
           <!-- Plan -->
           <circle cx="90" cy="340" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
-          <foreignObject x="74" y="315" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">📋</div></foreignObject>
+          <text x="90" y="335" text-anchor="middle" font-size="16" fill="#f0f6fc">▤</text>
           <text x="90" y="360" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Plan</text>
           <line x1="125" y1="315" x2="240" y2="270" stroke="#7b2ff7" stroke-width="1.5" opacity="0.5"/>
           <!-- Hypothesize -->
           <circle cx="90" cy="170" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
-          <foreignObject x="74" y="145" width="32" height="32"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:16px;text-align:center;line-height:32px;">💡</div></foreignObject>
+          <text x="90" y="165" text-anchor="middle" font-size="16" fill="#f0f6fc">◇</text>
           <text x="90" y="190" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Hypothesize</text>
           <line x1="125" y1="195" x2="240" y2="230" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
           <!-- Outer connecting arc hints -->
@@ -770,38 +772,38 @@
           <text x="720" y="260" text-anchor="middle" fill="#8b949e" font-size="9">Keeps focus sharp</text>
           <!-- Agent boxes -->
           <rect x="50" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
-          <foreignObject x="116" y="152" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">🏗️</div></foreignObject>
+          <text x="130" y="170" text-anchor="middle" font-size="14" fill="#f0f6fc">◆</text>
           <text x="130" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Architect Agent</text>
           <rect x="60" y="215" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
           <text x="130" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
 
           <rect x="240" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
-          <foreignObject x="306" y="152" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">💻</div></foreignObject>
+          <text x="320" y="170" text-anchor="middle" font-size="14" fill="#f0f6fc">⌨</text>
           <text x="320" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Developer Agent</text>
           <rect x="250" y="215" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
           <text x="320" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
 
           <rect x="430" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
-          <foreignObject x="496" y="152" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">🧪</div></foreignObject>
+          <text x="510" y="170" text-anchor="middle" font-size="14" fill="#f0f6fc">◇</text>
           <text x="510" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">QA Agent</text>
           <rect x="440" y="215" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
           <text x="510" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
 
           <!-- More agents row -->
           <rect x="50" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
-          <foreignObject x="116" y="292" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">📝</div></foreignObject>
+          <text x="130" y="310" text-anchor="middle" font-size="14" fill="#f0f6fc">≡</text>
           <text x="130" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Docs Agent</text>
           <rect x="60" y="355" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
           <text x="130" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
 
           <rect x="240" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
-          <foreignObject x="306" y="292" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">🔒</div></foreignObject>
+          <text x="320" y="310" text-anchor="middle" font-size="14" fill="#f0f6fc">◈</text>
           <text x="320" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Security Agent</text>
           <rect x="250" y="355" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
           <text x="320" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
 
           <rect x="430" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
-          <foreignObject x="496" y="292" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:14px;text-align:center;line-height:28px;">🚀</div></foreignObject>
+          <text x="510" y="310" text-anchor="middle" font-size="14" fill="#f0f6fc">🚀</text>
           <text x="510" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Deploy Agent</text>
           <rect x="440" y="355" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
           <text x="510" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
@@ -826,7 +828,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
@@ -841,7 +843,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
@@ -907,7 +909,7 @@
     <section class="slide layout-center">
       <div class="demo-placeholder">
         <div class="play-btn">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
