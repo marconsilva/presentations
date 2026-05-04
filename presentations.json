@@ -1,3 +1,14 @@
 {
-  "presentations": []
+  "presentations": [
+    {
+      "slug": "autonomy-unleashed-agent-framework",
+      "title": "🚀 Autonomy Unleashed: Agent Framework and the New Age of AI Agents 🤖✨",
+      "abstract": "Step into the future of AI! In this dynamic session, we'll explore how Microsoft Agent Framework empowers a new generation of agentic AI — systems that don't just respond, but reason, plan, and act. From orchestrating complex tasks to adapting on the fly, these smart agents are changing the game across industries. Get inspired, see real-world magic, and discover how you can start building AI that truly gets things done.",
+      "date": "2026-05",
+      "tags": ["AI", "Agents", "Microsoft", "Copilot", "Multi-Agent Systems", "Agentic AI"],
+      "events": [
+        { "name": "LabSummit 2026", "date": "May 2026", "location": "TBD" }
+      ]
+    }
+  ]
 }

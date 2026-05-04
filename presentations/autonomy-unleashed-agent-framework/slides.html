@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomy Unleashed: Agent Framework and the New Age of AI Agents</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a0e27;
+      --slide-text: #f0f6fc;
+      --slide-accent: #00d4ff;
+      --slide-secondary: #0d1440;
+      --slide-highlight: #7b2ff7;
+    }
+
+    /* Custom keynote styles */
+    .slide { position: relative; overflow: hidden; }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(123, 47, 247, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .big-number {
+      font-size: 6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .big-statement {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .subtitle-glow {
+      color: #00d4ff;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* Demo slide styling */
+    .demo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem;
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      border-radius: 20px;
+      background: rgba(0, 212, 255, 0.03);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .demo-placeholder .play-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+    }
+
+    .demo-placeholder .demo-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--slide-text);
+      text-align: center;
+    }
+
+    .demo-placeholder .demo-subtitle {
+      font-size: 1rem;
+      color: rgba(240, 246, 252, 0.6);
+      text-align: center;
+    }
+
+    /* Glow effects */
+    .glow-box {
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: rgba(0, 212, 255, 0.05);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(123, 47, 247, 0.2));
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    /* SVG diagram styles */
+    .diagram svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .diagram svg text {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Grid enhancements */
+    .grid-item {
+      background: rgba(13, 20, 64, 0.8);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .grid-item h3 {
+      color: #00d4ff;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Section slides */
+    .slide-section h2 {
+      font-size: 3rem;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Keynote list style */
+    .keynote-list {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .keynote-list li {
+      padding: 0.8rem 0;
+      padding-left: 2rem;
+      position: relative;
+      font-size: 1.4rem;
+    }
+
+    .keynote-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #00d4ff;
+      font-weight: bold;
+    }
+
+    /* Animate SVG nodes */
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .svg-pulse {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+
+    .svg-flow {
+      stroke-dasharray: 10, 5;
+      animation: dash-flow 1s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <!-- ============================================ -->
+    <!-- SLIDE 1: TITLE -->
+    <!-- ============================================ -->
+    <section class="slide slide-title layout-center" id="title">
+      <p class="subtitle-glow" style="margin-bottom: 1rem;">LabSummit 2026</p>
+      <h1 style="font-size: 3rem; line-height: 1.2;">🚀 Autonomy Unleashed</h1>
+      <p class="subtitle" style="font-size: 1.6rem; margin-top: 0.5rem;">Agent Framework and the New Age of AI Agents 🤖✨</p>
+      <p class="author" style="margin-top: 2rem; font-size: 1.1rem;">Marco Antonio Silva</p>
+      <p style="color: rgba(240,246,252,0.5); font-size: 0.9rem;">Senior Global Black Belt — Microsoft</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 2: THE PARADIGM SHIFT -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <p class="big-statement">We are living through a<br><span class="gradient-text">paradigm shift.</span></p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 3: AI EVOLUTION TIMELINE -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">The Evolution of AI</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#7b2ff7;stop-opacity:1"/>
+            </linearGradient>
+          </defs>
+          <!-- Timeline line -->
+          <line x1="80" y1="100" x2="820" y2="100" stroke="url(#lineGrad)" stroke-width="3"/>
+          <!-- Nodes -->
+          <circle cx="150" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2" class="fragment"/>
+          <text x="150" y="105" text-anchor="middle" fill="#00d4ff" font-size="12">💬</text>
+          <text x="150" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Chatbots</text>
+          <text x="150" y="165" text-anchor="middle" fill="#555" font-size="10">2020</text>
+
+          <circle cx="350" cy="100" r="20" fill="#0d1440" stroke="#00d4ff" stroke-width="2" class="fragment"/>
+          <text x="350" y="105" text-anchor="middle" fill="#00d4ff" font-size="12">🧠</text>
+          <text x="350" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Copilots</text>
+          <text x="350" y="165" text-anchor="middle" fill="#555" font-size="10">2023</text>
+
+          <circle cx="550" cy="100" r="20" fill="#0d1440" stroke="#7b2ff7" stroke-width="2" class="fragment"/>
+          <text x="550" y="105" text-anchor="middle" fill="#7b2ff7" font-size="12">⚡</text>
+          <text x="550" y="145" text-anchor="middle" fill="#8b949e" font-size="11">Agents</text>
+          <text x="550" y="165" text-anchor="middle" fill="#555" font-size="10">2025</text>
+
+          <circle cx="750" cy="100" r="24" fill="rgba(123,47,247,0.2)" stroke="#7b2ff7" stroke-width="3" class="fragment svg-pulse"/>
+          <text x="750" y="105" text-anchor="middle" fill="#fff" font-size="12">🌐</text>
+          <text x="750" y="145" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="bold">Multi-Agent</text>
+          <text x="750" y="165" text-anchor="middle" fill="#7b2ff7" font-size="10">NOW</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 4: NOT JUST RESPONDING -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">AI is no longer a tool that <em>responds</em>.</h2>
+      <div class="grid grid-3" style="max-width: 800px; margin: 0 auto;">
+        <div class="grid-item fragment">
+          <div class="icon-circle">🧠</div>
+          <h3>Reasons</h3>
+          <p style="color: #8b949e;">Understands context and nuance</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="icon-circle">📋</div>
+          <h3>Plans</h3>
+          <p style="color: #8b949e;">Breaks down complex goals</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="icon-circle">⚡</div>
+          <h3>Acts</h3>
+          <p style="color: #8b949e;">Executes autonomously</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 5: SECTION - AGENTIC AI -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Agentic AI is<br>Changing Everything</h2>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 6: HOW WE BUILD SOFTWARE -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Transforming How We Work</h2>
+      <ul class="keynote-list">
+        <li class="fragment">How we <strong>build and manage</strong> software</li>
+        <li class="fragment">How we produce <strong>documentation, emails, presentations</strong></li>
+        <li class="fragment">How we <strong>reason about</strong> complex systems</li>
+        <li class="fragment">How we <strong>collaborate</strong> across teams</li>
+      </ul>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 7: THE SHIFT -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.5rem; color: #8b949e; margin-bottom: 1rem;" class="fragment">From</p>
+        <p style="font-size: 2rem; margin-bottom: 2rem;" class="fragment">"AI as <strong>Assistant</strong>"</p>
+        <p style="font-size: 1.5rem; color: #8b949e; margin-bottom: 1rem;" class="fragment">To</p>
+        <p style="font-size: 2.5rem; font-weight: 700;" class="fragment"><span class="gradient-text">"AI as Autonomous Collaborator"</span></p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 8: SECTION - MULTI-AGENT -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>The Power of Multi-Model,<br>Multi-Agent Systems</h2>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 9: THE TEAM ANALOGY -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">Think of a Software Dev Team</h2>
+      <p style="color: #8b949e; font-size: 1.2rem; margin-bottom: 2rem;">Each member specializes, each is grounded to their task</p>
+      <div class="grid grid-3" style="max-width: 800px; margin: 0 auto; gap: 1rem;">
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">👨‍💻</div>
+          <h3 style="font-size: 0.95rem;">Frontend Dev</h3>
+        </div>
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+          <h3 style="font-size: 0.95rem;">Backend Dev</h3>
+        </div>
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧪</div>
+          <h3 style="font-size: 0.95rem;">QA Engineer</h3>
+        </div>
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+          <h3 style="font-size: 0.95rem;">Product Manager</h3>
+        </div>
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏗️</div>
+          <h3 style="font-size: 0.95rem;">Architect</h3>
+        </div>
+        <div class="grid-item fragment" style="text-align: center; padding: 1.5rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎨</div>
+          <h3 style="font-size: 0.95rem;">Designer</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 10: AGENTS WORK THE SAME WAY -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">AI Agents Work the Same Way</h2>
+      <p style="color: #8b949e; font-size: 1.2rem; margin-bottom: 2rem;" class="fragment">Specialized • Grounded • Collaborative</p>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0"/>
+            </radialGradient>
+            <linearGradient id="connGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.8"/>
+              <stop offset="100%" style="stop-color:#7b2ff7;stop-opacity:0.8"/>
+            </linearGradient>
+          </defs>
+          <!-- Connection lines -->
+          <line x1="400" y1="120" x2="200" y2="280" stroke="url(#connGrad)" stroke-width="1.5" opacity="0.5" class="svg-flow"/>
+          <line x1="400" y1="120" x2="400" y2="300" stroke="url(#connGrad)" stroke-width="1.5" opacity="0.5" class="svg-flow"/>
+          <line x1="400" y1="120" x2="600" y2="280" stroke="url(#connGrad)" stroke-width="1.5" opacity="0.5" class="svg-flow"/>
+          <line x1="200" y1="280" x2="400" y2="300" stroke="url(#connGrad)" stroke-width="1" opacity="0.3" class="svg-flow"/>
+          <line x1="400" y1="300" x2="600" y2="280" stroke="url(#connGrad)" stroke-width="1" opacity="0.3" class="svg-flow"/>
+          <line x1="200" y1="280" x2="600" y2="280" stroke="url(#connGrad)" stroke-width="1" opacity="0.3" class="svg-flow"/>
+          <!-- Orchestrator -->
+          <circle cx="400" cy="120" r="50" fill="url(#nodeGlow)"/>
+          <circle cx="400" cy="120" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2.5"/>
+          <text x="400" y="115" text-anchor="middle" fill="#7b2ff7" font-size="18">🎯</text>
+          <text x="400" y="138" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Orchestrator</text>
+          <!-- Agent 1 -->
+          <circle cx="200" cy="280" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="200" y="275" text-anchor="middle" fill="#00d4ff" font-size="16">⚙️</text>
+          <text x="200" y="298" text-anchor="middle" fill="#f0f6fc" font-size="9">Code Agent</text>
+          <!-- Agent 2 -->
+          <circle cx="400" cy="300" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="400" y="295" text-anchor="middle" fill="#00d4ff" font-size="16">🧪</text>
+          <text x="400" y="318" text-anchor="middle" fill="#f0f6fc" font-size="9">Test Agent</text>
+          <!-- Agent 3 -->
+          <circle cx="600" cy="280" r="35" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="600" y="275" text-anchor="middle" fill="#00d4ff" font-size="16">📝</text>
+          <text x="600" y="298" text-anchor="middle" fill="#f0f6fc" font-size="9">Doc Agent</text>
+          <!-- Label -->
+          <text x="400" y="380" text-anchor="middle" fill="#8b949e" font-size="11">Specialized agents collaborate to achieve complex goals</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 11: SECTION - CUSTOM AGENTS -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Custom Agents,<br>Skills & Instructions</h2>
+      <p class="fragment" style="color: #8b949e; font-size: 1.2rem; margin-top: 1rem;">The Grounding Mechanism</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 12: AGENT ANATOMY -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Anatomy of a Custom Agent</h2>
+      <div class="grid grid-3" style="max-width: 800px; margin: 0 auto;">
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📄</div>
+          <h3>Agent Definition</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Identity, capabilities, personality</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔧</div>
+          <h3>Skills</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Specialized tools &amp; capabilities</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📋</div>
+          <h3>Instructions</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Grounding context &amp; focus</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 13: GROUNDING EXPLAINED -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Grounding = Focus</h2>
+      <div class="glow-box fragment" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.3rem; line-height: 1.8;">
+          Instructions files act as the <strong style="color: #00d4ff;">grounding mechanism</strong> that keeps agents focused on their specialized domain.
+        </p>
+        <p style="color: #8b949e; font-size: 1rem; margin-top: 1rem;">
+          No hallucination. No scope creep. Pure expertise.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 14: DEMO - GitHub Copilot CLI -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: GitHub Copilot CLI & Custom Agents</div>
+        <div class="demo-subtitle">Custom agents in action — real-time, autonomous task execution</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 15: SECTION - AGENTIC WORKFLOWS -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Agentic Workflows</h2>
+      <p class="fragment" style="color: #8b949e; font-size: 1.2rem; margin-top: 1rem;">Orchestrating Complexity, Seamlessly</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 16: WHAT ARE AGENTIC WORKFLOWS -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Multi-Step Orchestration</h2>
+      <ul class="keynote-list">
+        <li class="fragment">Agents that <strong>chain tasks</strong> autonomously</li>
+        <li class="fragment">Context flows between steps <strong>intelligently</strong></li>
+        <li class="fragment">Failures are handled with <strong>adaptive recovery</strong></li>
+        <li class="fragment">Human-in-the-loop <strong>when needed</strong></li>
+      </ul>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 17: WORKFLOW PIPELINE DIAGRAM -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">GitHub Agentic Workflows</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 850 250" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff"/>
+              <stop offset="100%" style="stop-color:#7b2ff7"/>
+            </linearGradient>
+          </defs>
+          <!-- Pipeline arrows -->
+          <path d="M 170 125 L 240 125" stroke="url(#pipeGrad)" stroke-width="2" class="svg-flow" fill="none" marker-end="url(#arrowhead)"/>
+          <path d="M 370 125 L 440 125" stroke="url(#pipeGrad)" stroke-width="2" class="svg-flow" fill="none"/>
+          <path d="M 570 125 L 640 125" stroke="url(#pipeGrad)" stroke-width="2" class="svg-flow" fill="none"/>
+          <!-- Stage 1 -->
+          <rect x="50" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="110" y="118" text-anchor="middle" fill="#00d4ff" font-size="20">📝</text>
+          <text x="110" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Plan</text>
+          <!-- Stage 2 -->
+          <rect x="250" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="310" y="118" text-anchor="middle" fill="#00d4ff" font-size="20">⚡</text>
+          <text x="310" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Execute</text>
+          <!-- Stage 3 -->
+          <rect x="450" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
+          <text x="510" y="118" text-anchor="middle" fill="#7b2ff7" font-size="20">🧪</text>
+          <text x="510" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Validate</text>
+          <!-- Stage 4 -->
+          <rect x="650" y="85" width="120" height="80" rx="12" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
+          <text x="710" y="118" text-anchor="middle" fill="#7b2ff7" font-size="20">🚀</text>
+          <text x="710" y="145" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Deploy</text>
+          <!-- Feedback loop -->
+          <path d="M 510 170 C 510 220, 310 220, 310 170" stroke="#7b2ff7" stroke-width="1" stroke-dasharray="4,4" fill="none" opacity="0.5"/>
+          <text x="410" y="215" text-anchor="middle" fill="#8b949e" font-size="9">Adaptive Feedback Loop</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 18: SECTION - SPEC-DRIVEN DEV -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Spec-Driven Development</h2>
+      <p class="fragment" style="color: #8b949e; font-size: 1.2rem; margin-top: 1rem;">Vibe Coding, Matured</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 19: SPEC IS THE NEW CODE -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div style="text-align: center;">
+        <p class="big-statement fragment"><span class="gradient-text">Spec is the new code.</span></p>
+        <p style="font-size: 1.4rem; color: #8b949e; margin-top: 2rem;" class="fragment">Code is just a <em>byproduct</em> of good functional and technical specification.</p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 20: VIBE CODING MATURED -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">The Evolution</h2>
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="glow-box fragment" style="margin-bottom: 1rem; opacity: 0.5; border-color: rgba(139,148,158,0.3);">
+          <p style="font-size: 1.1rem;"><span style="color: #8b949e;">❌ "Vibe Coding"</span> — unstructured prompting, unpredictable results</p>
+        </div>
+        <div class="glow-box fragment" style="border-color: rgba(0,212,255,0.5);">
+          <p style="font-size: 1.1rem;"><span style="color: #00d4ff;">✅ Spec-Driven Development</span> — structured specifications, deterministic outcomes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 21: SPEC2CLOUD FLOW -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">Spec2Cloud Framework</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="s2cGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff"/>
+              <stop offset="50%" style="stop-color:#7b2ff7"/>
+              <stop offset="100%" style="stop-color:#ff6b6b"/>
+            </linearGradient>
+          </defs>
+          <!-- Flow arrows -->
+          <path d="M 200 140 L 330 140" stroke="url(#s2cGrad)" stroke-width="2.5" fill="none" class="svg-flow"/>
+          <path d="M 470 140 L 600 140" stroke="url(#s2cGrad)" stroke-width="2.5" fill="none" class="svg-flow"/>
+          <!-- Spec box -->
+          <rect x="60" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="130" y="130" text-anchor="middle" fill="#00d4ff" font-size="28">📋</text>
+          <text x="130" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Spec</text>
+          <text x="130" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Functional + Technical</text>
+          <!-- Code box -->
+          <rect x="330" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
+          <text x="400" y="130" text-anchor="middle" fill="#7b2ff7" font-size="28">💻</text>
+          <text x="400" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Code</text>
+          <text x="400" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Auto-Generated</text>
+          <!-- Cloud box -->
+          <rect x="600" y="90" width="140" height="100" rx="15" fill="#0d1440" stroke="#ff6b6b" stroke-width="2"/>
+          <text x="670" y="130" text-anchor="middle" fill="#ff6b6b" font-size="28">☁️</text>
+          <text x="670" y="165" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">Cloud</text>
+          <text x="670" y="182" text-anchor="middle" fill="#8b949e" font-size="9">Deployed & Running</text>
+          <!-- Labels under arrows -->
+          <text x="265" y="120" text-anchor="middle" fill="#00d4ff" font-size="9">AI Agents</text>
+          <text x="535" y="120" text-anchor="middle" fill="#7b2ff7" font-size="9">CI/CD</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 22: DEMO - SPEC2CLOUD GREENFIELD -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: Spec2Cloud — GreenField</div>
+        <div class="demo-subtitle">Building a new application entirely from specification</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 23: DEMO - SPEC2CLOUD BROWNFIELD -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: Spec2Cloud — BrownField</div>
+        <div class="demo-subtitle">Reverse engineering the spec of an existing application</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 24: SECTION - SQUAD -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Squad</h2>
+      <p class="fragment" style="color: #8b949e; font-size: 1.3rem; margin-top: 1rem;">Multi-Agent Teams That Deliver</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 25: SQUAD INTRO -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">What is Squad?</h2>
+      <ul class="keynote-list">
+        <li class="fragment">Build <strong>teams of agents</strong> that collaborate on complex tasks</li>
+        <li class="fragment">Each agent uses <strong>only its own context window</strong></li>
+        <li class="fragment">Agents stay <strong>focused</strong> — context doesn't escalate</li>
+        <li class="fragment">Powered by the <strong>RALPH Loop</strong></li>
+      </ul>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 26: THE RALPH LOOP -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">The RALPH Loop</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ralphGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff"/>
+              <stop offset="100%" style="stop-color:#7b2ff7"/>
+            </linearGradient>
+          </defs>
+          <!-- Central circle -->
+          <circle cx="300" cy="250" r="60" fill="rgba(123,47,247,0.1)" stroke="#7b2ff7" stroke-width="2"/>
+          <text x="300" y="245" text-anchor="middle" fill="#7b2ff7" font-size="14" font-weight="bold">RALPH</text>
+          <text x="300" y="265" text-anchor="middle" fill="#8b949e" font-size="10">Loop</text>
+          <!-- Circular arc arrows (simplified as lines to nodes) -->
+          <!-- Reason -->
+          <circle cx="300" cy="80" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="300" y="75" text-anchor="middle" fill="#00d4ff" font-size="16">🧠</text>
+          <text x="300" y="100" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Reason</text>
+          <line x1="300" y1="120" x2="300" y2="190" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
+          <!-- Act -->
+          <circle cx="510" cy="170" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="510" y="165" text-anchor="middle" fill="#00d4ff" font-size="16">⚡</text>
+          <text x="510" y="190" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Act</text>
+          <line x1="475" y1="195" x2="360" y2="230" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
+          <!-- Learn -->
+          <circle cx="510" cy="340" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
+          <text x="510" y="335" text-anchor="middle" fill="#7b2ff7" font-size="16">📚</text>
+          <text x="510" y="360" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Learn</text>
+          <line x1="475" y1="315" x2="360" y2="270" stroke="#7b2ff7" stroke-width="1.5" opacity="0.5"/>
+          <!-- Plan -->
+          <circle cx="90" cy="340" r="40" fill="#0d1440" stroke="#7b2ff7" stroke-width="2"/>
+          <text x="90" y="335" text-anchor="middle" fill="#7b2ff7" font-size="16">📋</text>
+          <text x="90" y="360" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Plan</text>
+          <line x1="125" y1="315" x2="240" y2="270" stroke="#7b2ff7" stroke-width="1.5" opacity="0.5"/>
+          <!-- Hypothesize -->
+          <circle cx="90" cy="170" r="40" fill="#0d1440" stroke="#00d4ff" stroke-width="2"/>
+          <text x="90" y="165" text-anchor="middle" fill="#00d4ff" font-size="16">💡</text>
+          <text x="90" y="190" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Hypothesize</text>
+          <line x1="125" y1="195" x2="240" y2="230" stroke="#00d4ff" stroke-width="1.5" opacity="0.5"/>
+          <!-- Outer connecting arc hints -->
+          <path d="M 330 85 C 420 60, 490 100, 505 135" stroke="rgba(0,212,255,0.3)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <path d="M 530 205 C 550 260, 545 300, 525 305" stroke="rgba(0,212,255,0.3)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <path d="M 475 360 C 380 400, 200 400, 125 365" stroke="rgba(123,47,247,0.3)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <path d="M 75 305 C 55 250, 60 200, 75 205" stroke="rgba(123,47,247,0.3)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <path d="M 115 140 C 170 80, 250 60, 265 75" stroke="rgba(0,212,255,0.3)" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <!-- Legend -->
+          <text x="300" y="470" text-anchor="middle" fill="#8b949e" font-size="11">Reason → Act → Learn → Plan → Hypothesize → Repeat</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 27: SCRIBER -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Scriber — The Context Guardian</h2>
+      <div class="glow-box fragment" style="max-width: 650px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.2rem; line-height: 1.8;">
+          Continuously <strong style="color: #00d4ff;">reduces and summarizes</strong> the context window.
+        </p>
+        <p style="color: #8b949e; margin-top: 1rem;">
+          Agents never lose focus. Context never explodes. Work stays on track.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 28: SQUAD ARCHITECTURE DIAGRAM -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1rem;">Squad Architecture</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 850 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="squadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.1"/>
+              <stop offset="100%" style="stop-color:#7b2ff7;stop-opacity:0.1"/>
+            </linearGradient>
+          </defs>
+          <!-- Background areas -->
+          <rect x="30" y="30" width="790" height="75" rx="10" fill="rgba(123,47,247,0.05)" stroke="rgba(123,47,247,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+          <text x="425" y="55" text-anchor="middle" fill="#7b2ff7" font-size="11" font-weight="bold">ORCHESTRATOR (RALPH Loop)</text>
+          <text x="425" y="80" text-anchor="middle" fill="#8b949e" font-size="9">Reason • Act • Learn • Plan • Hypothesize</text>
+          <!-- Scriber -->
+          <rect x="640" y="130" width="160" height="250" rx="12" fill="rgba(0,212,255,0.03)" stroke="rgba(0,212,255,0.3)" stroke-width="1.5"/>
+          <text x="720" y="160" text-anchor="middle" fill="#00d4ff" font-size="12" font-weight="bold">✂️ Scriber</text>
+          <text x="720" y="180" text-anchor="middle" fill="#8b949e" font-size="9">Context Reduction</text>
+          <text x="720" y="220" text-anchor="middle" fill="#8b949e" font-size="9">Summarizes output</text>
+          <text x="720" y="240" text-anchor="middle" fill="#8b949e" font-size="9">Trims context</text>
+          <text x="720" y="260" text-anchor="middle" fill="#8b949e" font-size="9">Keeps focus sharp</text>
+          <!-- Agent boxes -->
+          <rect x="50" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="130" y="170" text-anchor="middle" fill="#00d4ff" font-size="14">🏗️</text>
+          <text x="130" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Architect Agent</text>
+          <rect x="60" y="215" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
+          <text x="130" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <rect x="240" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="320" y="170" text-anchor="middle" fill="#00d4ff" font-size="14">💻</text>
+          <text x="320" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Developer Agent</text>
+          <rect x="250" y="215" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
+          <text x="320" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <rect x="430" y="140" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
+          <text x="510" y="170" text-anchor="middle" fill="#7b2ff7" font-size="14">🧪</text>
+          <text x="510" y="195" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">QA Agent</text>
+          <rect x="440" y="215" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
+          <text x="510" y="232" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <!-- More agents row -->
+          <rect x="50" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
+          <text x="130" y="310" text-anchor="middle" fill="#7b2ff7" font-size="14">📝</text>
+          <text x="130" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Docs Agent</text>
+          <rect x="60" y="355" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
+          <text x="130" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <rect x="240" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="320" y="310" text-anchor="middle" fill="#00d4ff" font-size="14">🔒</text>
+          <text x="320" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Security Agent</text>
+          <rect x="250" y="355" width="140" height="25" rx="5" fill="rgba(0,212,255,0.1)"/>
+          <text x="320" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <rect x="430" y="280" width="160" height="110" rx="10" fill="#0d1440" stroke="#7b2ff7" stroke-width="1.5"/>
+          <text x="510" y="310" text-anchor="middle" fill="#7b2ff7" font-size="14">🚀</text>
+          <text x="510" y="335" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">Deploy Agent</text>
+          <rect x="440" y="355" width="140" height="25" rx="5" fill="rgba(123,47,247,0.1)"/>
+          <text x="510" y="372" text-anchor="middle" fill="#8b949e" font-size="8">Own Context Window</text>
+
+          <!-- Connection lines from orchestrator to agents -->
+          <line x1="130" y1="105" x2="130" y2="140" stroke="rgba(0,212,255,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="320" y1="105" x2="320" y2="140" stroke="rgba(0,212,255,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="510" y1="105" x2="510" y2="140" stroke="rgba(123,47,247,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- Scriber connections -->
+          <line x1="590" y1="195" x2="640" y2="220" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="2,2"/>
+          <line x1="590" y1="335" x2="640" y2="280" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <!-- Key insight -->
+          <text x="425" y="410" text-anchor="middle" fill="#8b949e" font-size="10">Each agent operates in isolation • Scriber maintains focus • RALPH orchestrates</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 29: DEMO - SQUAD BUILD APP -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: Squad Building an App from Scratch</div>
+        <div class="demo-subtitle">Watch a team of AI agents architect, code, test, and deploy — together</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 30: DEMO - SQUAD PODCAST -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: Squad as a Podcast Production Team</div>
+        <div class="demo-subtitle">Researcher • Writer • Editor • Producer — all AI agents working in harmony</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 31: SECTION - MODERNIZATION -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>Modernization with<br>GitHub Copilot</h2>
+      <p class="fragment" style="color: #8b949e; font-size: 1.2rem; margin-top: 1rem;">The Killer Use Case</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 32: THE MODERNIZATION PROBLEM -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">The Elephant in Every Enterprise</h2>
+      <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <p class="big-number fragment">73%</p>
+        <p style="font-size: 1.3rem; color: #8b949e;" class="fragment">of enterprise applications are considered "legacy" —<br><strong style="color: #f0f6fc;">and nobody wants to touch them.</strong></p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 33: THE FORMULA -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">The Modernization Formula</h2>
+      <div style="text-align: center;">
+        <div class="glow-box fragment" style="display: inline-block; padding: 2rem 3rem;">
+          <p style="font-size: 1.4rem; line-height: 2;">
+            <span style="color: #00d4ff;">Agentic AI</span><br>
+            <span style="font-size: 2rem;">+</span><br>
+            <span style="color: #7b2ff7;">Spec-Driven Development</span><br>
+            <span style="font-size: 2rem;">=</span><br>
+            <span style="color: #ff6b6b; font-weight: 700; font-size: 1.6rem;">The Modernization Tool</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 34: GH COPILOT MODERNIZATION -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">GitHub Copilot Modernization CLI</h2>
+      <ul class="keynote-list">
+        <li class="fragment">Reverse-engineers <strong>existing application specs</strong></li>
+        <li class="fragment">Generates a <strong>modernization plan</strong></li>
+        <li class="fragment">Executes migration with <strong>multi-agent teams</strong></li>
+        <li class="fragment">Validates results with <strong>automated testing</strong></li>
+        <li class="fragment">Deploys to <strong>modern cloud infrastructure</strong></li>
+      </ul>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 35: DEMO - MODERNIZATION CLI -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <div class="demo-placeholder">
+        <div class="play-btn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <div class="demo-title">Demo: GitHub Copilot Modernization CLI</div>
+        <div class="demo-subtitle">Modernizing a .NET application — from legacy to cloud-native</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 36: SECTION - CLOSING -->
+    <!-- ============================================ -->
+    <section class="slide slide-section layout-center">
+      <h2>The Future is<br>Autonomous</h2>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 37: CALL TO ACTION -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Start Building Today</h2>
+      <div class="grid grid-3" style="max-width: 800px; margin: 0 auto;">
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🛠️</div>
+          <h3>Build Agents</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Create custom agents with skills &amp; instructions</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
+          <h3>Form Squads</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Orchestrate teams for complex tasks</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: center;">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚀</div>
+          <h3>Ship Faster</h3>
+          <p style="color: #8b949e; font-size: 0.9rem;">Modernize, build, deploy — autonomously</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 38: KEY TAKEAWAYS -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Key Takeaways</h2>
+      <ul class="keynote-list">
+        <li class="fragment"><strong class="gradient-text">Agentic AI</strong> is the next frontier — not just tools, but collaborators</li>
+        <li class="fragment"><strong class="gradient-text">Grounding</strong> is what makes agents reliable and focused</li>
+        <li class="fragment"><strong class="gradient-text">Spec-driven development</strong> is the professional evolution of "vibe coding"</li>
+        <li class="fragment"><strong class="gradient-text">Multi-agent teams</strong> solve problems no single agent can</li>
+        <li class="fragment"><strong class="gradient-text">Modernization</strong> is the killer use case — and it's here now</li>
+      </ul>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 39: INSPIRING CLOSE -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <p class="big-statement">The question is no longer<br><em>"What can AI do?"</em></p>
+      <p class="big-statement fragment" style="margin-top: 2rem;"><span class="gradient-text">"What will you build with it?"</span></p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 40: THANK YOU -->
+    <!-- ============================================ -->
+    <section class="slide slide-title layout-center" id="end">
+      <h1 style="font-size: 3.5rem;">Thank You! 🙏</h1>
+      <p class="subtitle" style="margin-top: 1rem; font-size: 1.3rem;">Questions & Discussion</p>
+      <div style="margin-top: 3rem; color: #8b949e; font-size: 1rem;">
+        <p><strong style="color: #f0f6fc;">Marco Antonio Silva</strong></p>
+        <p>Senior Global Black Belt — Microsoft</p>
+        <p style="margin-top: 0.5rem; color: #00d4ff;">LabSummit 2026</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>
