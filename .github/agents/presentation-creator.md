@@ -76,6 +76,26 @@ You will receive:
    }
    ```
 
+6. **Validate with Playwright** - After creating the slides, run the validation script to check for errors:
+   ```bash
+   node validate-slides.js
+   ```
+   
+   This checks:
+   - Console errors and uncaught exceptions
+   - Network/resource loading failures
+   - Slide engine initialization (exactly 1 active slide)
+   - Navigation works (keyboard advance)
+   - Progress bar and slide number UI present
+   - No empty slides (all slides must have visible text content)
+   - SVG diagrams render correctly
+   - HTML structure integrity (matching open/close tags for `<section>` and `<div>`)
+   
+   **Fix all errors before considering the presentation complete.** Common issues:
+   - Empty slides: ensure all `<section class="slide">` elements have visible text content (not just SVGs or elements that `innerText` can't read)
+   - Mismatched tags: count your `<section>`/`</section>` and `<div>`/`</div>` pairs
+   - If the "empty slides" check triggers on slides that have only SVG/visual content, add a visually hidden `<span>` with descriptive text or an `aria-label` on the section
+
 ## Design Principles
 
 - **Visual Hierarchy**: Clear distinction between headings, body text, and supporting elements
