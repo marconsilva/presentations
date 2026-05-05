@@ -107,6 +107,37 @@
       text-align: center;
     }
 
+    /* Demo video styling */
+    .demo-video-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      box-sizing: border-box;
+    }
+
+    .demo-video-container .demo-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--slide-accent);
+      margin-bottom: 0.8rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .demo-video-container video {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 12px;
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+      background: #000;
+      flex-shrink: 1;
+    }
+
     /* Glow effects */
     .glow-box {
       border: 1px solid rgba(0, 212, 255, 0.3);
@@ -486,14 +517,9 @@
     <!-- SLIDE 14: DEMO - GitHub Copilot CLI -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: GitHub Copilot CLI & Custom Agents</div>
-        <div class="demo-subtitle">Custom agents in action — real-time, autonomous task execution</div>
+        <video src="videos/ghcp-cli-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -634,14 +660,9 @@
     <!-- SLIDE 22: DEMO - SPEC2CLOUD GREENFIELD -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: Spec2Cloud — GreenField</div>
-        <div class="demo-subtitle">Building a new application entirely from specification</div>
+        <video src="videos/spec2cloud-gf-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -649,14 +670,9 @@
     <!-- SLIDE 23: DEMO - SPEC2CLOUD BROWNFIELD -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: Spec2Cloud — BrownField</div>
-        <div class="demo-subtitle">Reverse engineering the spec of an existing application</div>
+        <video src="videos/spec2cloud-bf-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -831,14 +847,9 @@
     <!-- SLIDE 29: DEMO - SQUAD BUILD APP -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: Squad Building an App from Scratch</div>
-        <div class="demo-subtitle">Watch a team of AI agents architect, code, test, and deploy — together</div>
+        <video src="videos/squad-app-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -846,14 +857,9 @@
     <!-- SLIDE 30: DEMO - SQUAD PODCAST -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: Squad as a Podcast Production Team</div>
-        <div class="demo-subtitle">Researcher • Writer • Editor • Producer — all AI agents working in harmony</div>
+        <video src="videos/squad-podcast-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -912,14 +918,9 @@
     <!-- SLIDE 35: DEMO - MODERNIZATION CLI -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <div class="demo-placeholder">
-        <div class="play-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
+      <div class="demo-video-container">
         <div class="demo-title">Demo: GitHub Copilot Modernization CLI</div>
-        <div class="demo-subtitle">Modernizing a .NET application — from legacy to cloud-native</div>
+        <video src="videos/ghcp-mod-cli-demo.mp4" autoplay muted playsinline controls></video>
       </div>
     </section>
 
@@ -997,5 +998,29 @@
   </div>
 
   <script src="../../assets/js/slides.js"></script>
+  <script>
+    // Auto-play videos when their slide becomes active, pause when leaving
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('.slide').forEach(slide => {
+        const video = slide.querySelector('video');
+        if (!video) return;
+        if (slide.classList.contains('active')) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.querySelector('.slides-container');
+      if (container) {
+        observer.observe(container, { attributes: true, subtree: true, attributeFilter: ['class'] });
+      }
+      // Handle initial active slide
+      const activeVideo = document.querySelector('.slide.active video');
+      if (activeVideo) activeVideo.play().catch(() => {});
+    });
+  </script>
 </body>
 </html>
