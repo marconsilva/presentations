@@ -115,27 +115,26 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1rem 2rem;
+      padding: 0;
       box-sizing: border-box;
     }
 
     .demo-video-container .demo-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: var(--slide-accent);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
       text-align: center;
       flex-shrink: 0;
     }
 
     .demo-video-container video {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 12px;
-      border: 2px solid rgba(0, 212, 255, 0.3);
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       background: #000;
-      flex-shrink: 1;
+      flex: 1;
+      min-height: 0;
     }
 
     /* Glow effects */
@@ -1000,26 +999,29 @@
   <script src="../../assets/js/slides.js"></script>
   <script>
     // Auto-play videos when their slide becomes active, pause when leaving
-    const observer = new MutationObserver(() => {
+    function handleVideoSlides() {
       document.querySelectorAll('.slide').forEach(slide => {
         const video = slide.querySelector('video');
         if (!video) return;
         if (slide.classList.contains('active')) {
-          video.currentTime = 0;
           video.play().catch(() => {});
         } else {
           video.pause();
         }
       });
-    });
+    }
+
+    // Observe class changes on all slides directly
     document.addEventListener('DOMContentLoaded', () => {
-      const container = document.querySelector('.slides-container');
-      if (container) {
-        observer.observe(container, { attributes: true, subtree: true, attributeFilter: ['class'] });
-      }
-      // Handle initial active slide
-      const activeVideo = document.querySelector('.slide.active video');
-      if (activeVideo) activeVideo.play().catch(() => {});
+      const slides = document.querySelectorAll('.slide');
+      const observer = new MutationObserver(handleVideoSlides);
+      slides.forEach(slide => {
+        if (slide.querySelector('video')) {
+          observer.observe(slide, { attributes: true, attributeFilter: ['class'] });
+        }
+      });
+      // Handle initial load (e.g. navigating directly to #14)
+      setTimeout(handleVideoSlides, 500);
     });
   </script>
 </body>
