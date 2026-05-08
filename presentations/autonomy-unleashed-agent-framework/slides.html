@@ -381,9 +381,9 @@
         </div>
       </div>
       <div style="position: absolute; bottom: 2rem; left: 3rem; font-size: 0.35rem; color: #8b949e; text-align: left; line-height: 1.8;">
-        <p>1. The Business Value of Migrating and Modernizing to Microsoft Azure – IDC</p>
-        <p>2. The Total Economic Impact™ Of Microsoft Azure App Innovation - A commissioned study by Forrester Consulting, 2024.</p>
-        <p>3. The Total Economic Impact™ Of Microsoft Azure AI - A commissioned study by Forrester Consulting, 2024.</p>
+        <p style="font-size: 1rem;">1. The Business Value of Migrating and Modernizing to Microsoft Azure – IDC</p>
+        <p style="font-size: 1rem;">2. The Total Economic Impact™ Of Microsoft Azure App Innovation - A commissioned study by Forrester Consulting, 2024.</p>
+        <p style="font-size: 1rem;">3. The Total Economic Impact™ Of Microsoft Azure AI - A commissioned study by Forrester Consulting, 2024.</p>
       </div>
     </section>
 
@@ -425,9 +425,9 @@
         </div>
       </div>
       <div style="position: absolute; bottom: 1.5rem; left: 3rem; font-size: 0.32rem; color: #8b949e; text-align: left; line-height: 1.8;">
-        <p>1. The Total Economic Impact™ Of Migration For AI-Readiness June 2024, commissioned by Microsoft</p>
-        <p>2. Asda seamlessly modernized its Scan &amp; Go shopping app using Azure | Microsoft Customer Stories</p>
-        <p>3. SAS - Scandinavian Airlines boosts operational efficiency with Azure modernization | Microsoft Customer Stories</p>
+        <p style="font-size: 1rem;">1. The Total Economic Impact™ Of Migration For AI-Readiness June 2024, commissioned by Microsoft</p>
+        <p style="font-size: 1rem;">2. Asda seamlessly modernized its Scan &amp; Go shopping app using Azure | Microsoft Customer Stories</p>
+        <p style="font-size: 1rem;">3. SAS - Scandinavian Airlines boosts operational efficiency with Azure modernization | Microsoft Customer Stories</p>
       </div>
     </section>
 
@@ -899,56 +899,82 @@
               <stop offset="0%" style="stop-color:#00d4ff"/>
               <stop offset="100%" style="stop-color:#7b2ff7"/>
             </linearGradient>
+            <linearGradient id="ralphGradR" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff; stop-opacity:0.15"/>
+              <stop offset="100%" style="stop-color:#00d4ff; stop-opacity:0.05"/>
+            </linearGradient>
+            <linearGradient id="ralphGradA" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#4caf50; stop-opacity:0.15"/>
+              <stop offset="100%" style="stop-color:#4caf50; stop-opacity:0.05"/>
+            </linearGradient>
+            <linearGradient id="ralphGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#7b2ff7; stop-opacity:0.15"/>
+              <stop offset="100%" style="stop-color:#7b2ff7; stop-opacity:0.05"/>
+            </linearGradient>
+            <linearGradient id="ralphGradP" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ff9800; stop-opacity:0.15"/>
+              <stop offset="100%" style="stop-color:#ff9800; stop-opacity:0.05"/>
+            </linearGradient>
+            <linearGradient id="ralphGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#e91e63; stop-opacity:0.15"/>
+              <stop offset="100%" style="stop-color:#e91e63; stop-opacity:0.05"/>
+            </linearGradient>
+            <filter id="glowCyan" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+            <filter id="glowCenter" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+            <!-- Arrow markers -->
+            <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 Z" fill="#00d4ff" opacity="0.8"/>
+            </marker>
+            <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 Z" fill="#7b2ff7" opacity="0.8"/>
+            </marker>
           </defs>
+
           <!-- Central circle -->
-          <circle cx="350" cy="275" r="70" fill="rgba(123,47,247,0.08)" stroke="url(#ralphGrad1)" stroke-width="3"/>
+          <circle cx="350" cy="275" r="72" fill="rgba(123,47,247,0.08)" stroke="url(#ralphGrad1)" stroke-width="3.5" filter="url(#glowCenter)"/>
           <text x="350" y="265" text-anchor="middle" fill="#f0f6fc" font-size="22" font-weight="bold">RALPH</text>
-          <text x="350" y="295" text-anchor="middle" fill="#8b949e" font-size="16">Continuous Loop</text>
+          <text x="350" y="295" text-anchor="middle" fill="#8b949e" font-size="14">Continuous Loop</text>
 
           <!-- R - Reason (top) -->
-          <circle cx="350" cy="70" r="55" fill="#0d1440" stroke="#00d4ff" stroke-width="2.5"/>
-          <text x="350" y="60" text-anchor="middle" font-size="24" fill="#00d4ff">R</text>
+          <circle cx="350" cy="70" r="58" fill="url(#ralphGradR)" stroke="#00d4ff" stroke-width="2.5" filter="url(#glowCyan)"/>
+          <text x="350" y="58" text-anchor="middle" font-size="30">🧠</text>
           <text x="350" y="90" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="bold">Reason</text>
 
           <!-- A - Act (top-right) -->
-          <circle cx="590" cy="175" r="55" fill="#0d1440" stroke="#00d4ff" stroke-width="2.5"/>
-          <text x="590" y="165" text-anchor="middle" font-size="24" fill="#00d4ff">A</text>
+          <circle cx="590" cy="175" r="58" fill="url(#ralphGradA)" stroke="#4caf50" stroke-width="2.5" filter="url(#glowCyan)"/>
+          <text x="590" y="163" text-anchor="middle" font-size="30">⚡</text>
           <text x="590" y="195" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="bold">Act</text>
 
           <!-- L - Learn (bottom-right) -->
-          <circle cx="510" cy="420" r="55" fill="#0d1440" stroke="#7b2ff7" stroke-width="2.5"/>
-          <text x="510" y="410" text-anchor="middle" font-size="24" fill="#7b2ff7">L</text>
+          <circle cx="510" cy="420" r="58" fill="url(#ralphGradL)" stroke="#7b2ff7" stroke-width="2.5" filter="url(#glowCyan)"/>
+          <text x="510" y="408" text-anchor="middle" font-size="30">📚</text>
           <text x="510" y="440" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="bold">Learn</text>
 
           <!-- P - Plan (bottom-left) -->
-          <circle cx="190" cy="420" r="55" fill="#0d1440" stroke="#7b2ff7" stroke-width="2.5"/>
-          <text x="190" y="410" text-anchor="middle" font-size="24" fill="#7b2ff7">P</text>
+          <circle cx="190" cy="420" r="58" fill="url(#ralphGradP)" stroke="#ff9800" stroke-width="2.5" filter="url(#glowCyan)"/>
+          <text x="190" y="408" text-anchor="middle" font-size="30">📋</text>
           <text x="190" y="440" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="bold">Plan</text>
 
           <!-- H - Hypothesize (top-left) -->
-          <circle cx="110" cy="175" r="55" fill="#0d1440" stroke="#00d4ff" stroke-width="2.5"/>
-          <text x="110" y="165" text-anchor="middle" font-size="24" fill="#00d4ff">H</text>
+          <circle cx="110" cy="175" r="58" fill="url(#ralphGradH)" stroke="#e91e63" stroke-width="2.5" filter="url(#glowCyan)"/>
+          <text x="110" y="163" text-anchor="middle" font-size="30">💡</text>
           <text x="110" y="195" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="bold">Hypothesize</text>
 
           <!-- Connecting arrows (clockwise: R→A→L→P→H→R) -->
-          <path d="M 395 90 C 460 90, 530 120, 545 140" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
-          <path d="M 610 225 C 610 300, 570 360, 545 380" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
-          <path d="M 460 440 C 380 460, 280 460, 240 435" stroke="#7b2ff7" stroke-width="2" fill="none" marker-end="url(#arrowPurple)"/>
-          <path d="M 155 380 C 130 320, 110 250, 115 225" stroke="#7b2ff7" stroke-width="2" fill="none" marker-end="url(#arrowPurple)"/>
-          <path d="M 140 130 C 190 90, 270 65, 300 65" stroke="#00d4ff" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
-
-          <!-- Arrow markers -->
-          <defs>
-            <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-              <path d="M 0 0 L 8 4 L 0 8 Z" fill="#00d4ff"/>
-            </marker>
-            <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-              <path d="M 0 0 L 8 4 L 0 8 Z" fill="#7b2ff7"/>
-            </marker>
-          </defs>
+          <path d="M 395 90 C 460 90, 530 120, 545 140" stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.7" marker-end="url(#arrowCyan)"/>
+          <path d="M 610 225 C 610 300, 570 360, 545 380" stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.7" marker-end="url(#arrowCyan)"/>
+          <path d="M 460 440 C 380 460, 280 460, 240 435" stroke="#7b2ff7" stroke-width="2.5" fill="none" opacity="0.7" marker-end="url(#arrowPurple)"/>
+          <path d="M 155 380 C 130 320, 110 250, 115 225" stroke="#7b2ff7" stroke-width="2.5" fill="none" opacity="0.7" marker-end="url(#arrowPurple)"/>
+          <path d="M 140 130 C 190 90, 270 65, 300 65" stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.7" marker-end="url(#arrowCyan)"/>
 
           <!-- Legend -->
-          <text x="350" y="525" text-anchor="middle" fill="#8b949e" font-size="15">Reason → Act → Learn → Plan → Hypothesize → Repeat</text>
+          <text x="350" y="525" text-anchor="middle" fill="#8b949e" font-size="15">🧠 Reason → ⚡ Act → 📚 Learn → 📋 Plan → 💡 Hypothesize → Repeat</text>
         </svg>
       </div>
     </section>
@@ -1185,11 +1211,11 @@
     <section class="slide layout-center">
       <h2 style="margin-bottom: 2rem; text-align: center;">Key Takeaways</h2>
       <ul class="keynote-list" style="text-align: center; list-style: none; padding: 0;">
-        <li style="text-align: center;"><strong class="gradient-text">Agentic AI</strong> is the next frontier — not just tools, but collaborators</li>
-        <li style="text-align: center;"><strong class="gradient-text">Grounding</strong> is what makes agents reliable and focused</li>
-        <li style="text-align: center;"><strong class="gradient-text">Spec-driven development</strong> is the professional evolution of "vibe coding"</li>
-        <li style="text-align: center;"><strong class="gradient-text">Multi-agent teams</strong> solve problems no single agent can</li>
-        <li style="text-align: center;"><strong class="gradient-text">Modernization</strong> is the killer use case — and it's here now</li>
+        <li style="text-align: left;"><strong class="gradient-text">Agentic AI</strong> is the next frontier — not just tools, but collaborators</li>
+        <li style="text-align: left;"><strong class="gradient-text">Grounding</strong> is what makes agents reliable and focused</li>
+        <li style="text-align: left;"><strong class="gradient-text">Spec-driven development</strong> is the professional evolution of "vibe coding"</li>
+        <li style="text-align: left;"><strong class="gradient-text">Multi-agent teams</strong> solve problems no single agent can</li>
+        <li style="text-align: left;"><strong class="gradient-text">Modernization</strong> is the killer use case — and it's here now</li>
       </ul>
     </section>
 
