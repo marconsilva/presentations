@@ -777,126 +777,67 @@
     <!-- SLIDE 18: WHAT IS SQUAD -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <h2 style="margin-bottom: 2rem;">What is Squad?</h2>
+      <h2 style="margin-bottom: 1.5rem;">What is Squad?</h2>
       <div style="max-width: 750px; text-align: left; margin: 0 auto;">
-        <p style="font-size: 1.3rem; color: #c8d4e8; line-height: 1.8; margin-bottom: 1.5rem;">
-          Squad transforms a single AI into an <strong style="color: #00d4ff;">always-on engineering crew</strong> with structured agentic ceremonies.
+        <p style="font-size: 1.2rem; color: #c8d4e8; line-height: 1.8; margin-bottom: 1rem;">
+          <strong style="color: #00d4ff;">Squad</strong> is an open-source framework by <strong style="color: #f0f6fc;">Brady Gaster</strong> that turns GitHub Copilot into a <strong style="color: #00d4ff;">persistent, multi-agent engineering team</strong> living in your repository.
+        </p>
+        <p style="font-size: 1.1rem; color: #8b949e; line-height: 1.8; margin-bottom: 1.5rem;" class="fragment">
+          Describe what you're building. Squad coordinates specialist agents that grow with your code. You spend less time prompting, more time deciding.
         </p>
         <div class="grid grid-2" style="gap: 1rem; margin-top: 1rem;">
-          <div class="glow-box fragment" style="padding: 1.2rem; text-align: center;">
-            <p style="font-size: 1.5rem; margin-bottom: 0.3rem;">📋</p>
-            <p style="color: #00d4ff; font-weight: 600;">Planning</p>
-            <p style="color: #8b949e; font-size: 0.9rem;">Break work into tasks</p>
+          <div class="glow-box fragment" style="padding: 1rem; text-align: center;">
+            <p style="font-size: 1.3rem; margin-bottom: 0.3rem;">🐙</p>
+            <p style="color: #00d4ff; font-weight: 600;">GitHub-Native</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">Lives as <code>.squad/</code> in your repo — commit, share, clone</p>
           </div>
-          <div class="glow-box fragment" style="padding: 1.2rem; text-align: center;">
-            <p style="font-size: 1.5rem; margin-bottom: 0.3rem;">👥</p>
-            <p style="color: #00d4ff; font-weight: 600;">Collaboration</p>
-            <p style="color: #8b949e; font-size: 0.9rem;">Agents work in parallel</p>
+          <div class="glow-box fragment" style="padding: 1rem; text-align: center;">
+            <p style="font-size: 1.3rem; margin-bottom: 0.3rem;">🧠</p>
+            <p style="color: #00d4ff; font-weight: 600;">Persistent Memory</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">Agents remember decisions and conventions across sessions</p>
           </div>
-          <div class="glow-box fragment" style="padding: 1.2rem; text-align: center;">
-            <p style="font-size: 1.5rem; margin-bottom: 0.3rem;">🔍</p>
-            <p style="color: #00d4ff; font-weight: 600;">Review</p>
-            <p style="color: #8b949e; font-size: 0.9rem;">Peer review by agents</p>
+          <div class="glow-box fragment" style="padding: 1rem; text-align: center;">
+            <p style="font-size: 1.3rem; margin-bottom: 0.3rem;">🛡️</p>
+            <p style="color: #00d4ff; font-weight: 600;">Built-in Governance</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">File-write guards, reviewer lockout, escalation points</p>
           </div>
-          <div class="glow-box fragment" style="padding: 1.2rem; text-align: center;">
-            <p style="font-size: 1.5rem; margin-bottom: 0.3rem;">🚦</p>
-            <p style="color: #00d4ff; font-weight: 600;">Merge Gates</p>
-            <p style="color: #8b949e; font-size: 0.9rem;">Quality before merge</p>
+          <div class="glow-box fragment" style="padding: 1rem; text-align: center;">
+            <p style="font-size: 1.3rem; margin-bottom: 0.3rem;">⚡</p>
+            <p style="color: #00d4ff; font-weight: 600;">SDK-First</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">TypeScript config (<code>squad.config.ts</code>) — typed and testable</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============================================ -->
-    <!-- SLIDE 19: SQUAD ARCHITECTURE DIAGRAM -->
+    <!-- SLIDE 19: THREE COMMANDS TO A TEAM -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <h2 style="margin-bottom: 1rem;">Squad Architecture</h2>
-      <div class="diagram">
-        <svg viewBox="0 0 850 400" xmlns="http://www.w3.org/2000/svg">
-          <!-- Orchestrator -->
-          <rect x="300" y="10" width="250" height="60" rx="12" fill="#0d1530" stroke="#7b2ff7" stroke-width="2.5"/>
-          <text x="425" y="35" text-anchor="middle" fill="#7b2ff7" font-size="14" font-weight="bold">🧠 Orchestrator (RALPH)</text>
-          <text x="425" y="55" text-anchor="middle" fill="#8b949e" font-size="12">Plans, assigns, reviews</text>
-
-          <!-- Agent 1: Architect -->
-          <rect x="30" y="130" width="180" height="80" rx="10" fill="#0d1530" stroke="#00d4ff" stroke-width="2"/>
-          <text x="120" y="160" text-anchor="middle" fill="#00d4ff" font-size="13" font-weight="bold">🏗️ Architect Agent</text>
-          <text x="120" y="182" text-anchor="middle" fill="#8b949e" font-size="11">System design, APIs</text>
-          <text x="120" y="198" text-anchor="middle" fill="#8b949e" font-size="11">Technology choices</text>
-
-          <!-- Agent 2: Developer -->
-          <rect x="240" y="130" width="180" height="80" rx="10" fill="#0d1530" stroke="#4caf50" stroke-width="2"/>
-          <text x="330" y="160" text-anchor="middle" fill="#4caf50" font-size="13" font-weight="bold">💻 Developer Agent</text>
-          <text x="330" y="182" text-anchor="middle" fill="#8b949e" font-size="11">Implementation</text>
-          <text x="330" y="198" text-anchor="middle" fill="#8b949e" font-size="11">Feature coding</text>
-
-          <!-- Agent 3: Tester -->
-          <rect x="450" y="130" width="180" height="80" rx="10" fill="#0d1530" stroke="#ff9800" stroke-width="2"/>
-          <text x="540" y="160" text-anchor="middle" fill="#ff9800" font-size="13" font-weight="bold">🧪 Tester Agent</text>
-          <text x="540" y="182" text-anchor="middle" fill="#8b949e" font-size="11">Unit &amp; integration</text>
-          <text x="540" y="198" text-anchor="middle" fill="#8b949e" font-size="11">Test generation</text>
-
-          <!-- Agent 4: Reviewer -->
-          <rect x="660" y="130" width="160" height="80" rx="10" fill="#0d1530" stroke="#e91e63" stroke-width="2"/>
-          <text x="740" y="160" text-anchor="middle" fill="#e91e63" font-size="13" font-weight="bold">🔍 Reviewer Agent</text>
-          <text x="740" y="182" text-anchor="middle" fill="#8b949e" font-size="11">Code review</text>
-          <text x="740" y="198" text-anchor="middle" fill="#8b949e" font-size="11">Quality gates</text>
-
-          <!-- Connecting lines from orchestrator -->
-          <line x1="350" y1="70" x2="120" y2="130" stroke="rgba(123,47,247,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
-          <line x1="400" y1="70" x2="330" y2="130" stroke="rgba(123,47,247,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
-          <line x1="475" y1="70" x2="540" y2="130" stroke="rgba(123,47,247,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
-          <line x1="520" y1="70" x2="740" y2="130" stroke="rgba(123,47,247,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-          <!-- Repository -->
-          <rect x="275" y="280" width="300" height="70" rx="12" fill="#0d1530" stroke="rgba(0,212,255,0.4)" stroke-width="2"/>
-          <text x="425" y="310" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="bold">📁 Repository</text>
-          <text x="425" y="332" text-anchor="middle" fill="#8b949e" font-size="12">PRs, Issues, Branches, CI/CD</text>
-
-          <!-- Lines to repo -->
-          <line x1="120" y1="210" x2="350" y2="280" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="330" y1="210" x2="400" y2="280" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="540" y1="210" x2="450" y2="280" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="740" y1="210" x2="500" y2="280" stroke="rgba(0,212,255,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
-        </svg>
-      </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SLIDE 20: AGENTIC CEREMONIES -->
-    <!-- ============================================ -->
-    <section class="slide layout-center">
-      <h2 style="margin-bottom: 2rem;">Agentic Ceremonies</h2>
-      <div style="max-width: 700px; margin: 0 auto; text-align: left;">
-        <p style="font-size: 1.1rem; color: #8b949e; margin-bottom: 1.5rem;">Just like human teams, agent teams follow structured workflows:</p>
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <div class="glow-box fragment" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;">
-            <span style="font-size: 1.5rem;">1️⃣</span>
-            <div>
-              <p style="font-weight: 600; color: #f0f6fc;">Sprint Planning</p>
-              <p style="color: #8b949e; font-size: 0.9rem;">Orchestrator breaks spec into tasks, assigns to agents</p>
+      <h2 style="margin-bottom: 2rem;">Three Commands to a Full Team</h2>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="glow-box fragment" style="padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem;">
+            <span style="font-size: 2rem; color: #00d4ff; font-weight: 800; min-width: 2.5rem;">1</span>
+            <div style="flex: 1;">
+              <p style="font-weight: 600; color: #f0f6fc; margin-bottom: 0.3rem;">Install</p>
+              <pre style="margin: 0; padding: 0.6rem 1rem; font-size: 0.85rem; border: none; background: rgba(0,0,0,0.3);"><code>npm i -g @bradygaster/squad-cli</code></pre>
             </div>
           </div>
-          <div class="glow-box fragment" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;">
-            <span style="font-size: 1.5rem;">2️⃣</span>
-            <div>
-              <p style="font-weight: 600; color: #f0f6fc;">Parallel Execution</p>
-              <p style="color: #8b949e; font-size: 0.9rem;">Multiple agents work simultaneously on different branches</p>
+          <div class="glow-box fragment" style="padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem;">
+            <span style="font-size: 2rem; color: #00d4ff; font-weight: 800; min-width: 2.5rem;">2</span>
+            <div style="flex: 1;">
+              <p style="font-weight: 600; color: #f0f6fc; margin-bottom: 0.3rem;">Initialize</p>
+              <pre style="margin: 0; padding: 0.6rem 1rem; font-size: 0.85rem; border: none; background: rgba(0,0,0,0.3);"><code>squad init</code></pre>
+              <p style="color: #8b949e; font-size: 0.8rem; margin-top: 0.3rem;">Scans your repo → proposes a team tailored to your stack</p>
             </div>
           </div>
-          <div class="glow-box fragment" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;">
-            <span style="font-size: 1.5rem;">3️⃣</span>
-            <div>
-              <p style="font-weight: 600; color: #f0f6fc;">Code Review</p>
-              <p style="color: #8b949e; font-size: 0.9rem;">Reviewer agent evaluates PRs, requests changes if needed</p>
-            </div>
-          </div>
-          <div class="glow-box fragment" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;">
-            <span style="font-size: 1.5rem;">4️⃣</span>
-            <div>
-              <p style="font-weight: 600; color: #f0f6fc;">Merge &amp; Deploy</p>
-              <p style="color: #8b949e; font-size: 0.9rem;">Quality gates pass → auto-merge → CI/CD deploys</p>
+          <div class="glow-box fragment" style="padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1.2rem;">
+            <span style="font-size: 2rem; color: #00d4ff; font-weight: 800; min-width: 2.5rem;">3</span>
+            <div style="flex: 1;">
+              <p style="font-weight: 600; color: #f0f6fc; margin-bottom: 0.3rem;">Build</p>
+              <pre style="margin: 0; padding: 0.6rem 1rem; font-size: 0.85rem; border: none; background: rgba(0,0,0,0.3);"><code>copilot --agent squad</code></pre>
+              <p style="color: #8b949e; font-size: 0.8rem; margin-top: 0.3rem;">Talk to your team — they build, test, and prepare changes for review</p>
             </div>
           </div>
         </div>
@@ -904,23 +845,198 @@
     </section>
 
     <!-- ============================================ -->
-    <!-- SLIDE 21: SQUAD VS SINGLE AGENT -->
+    <!-- SLIDE 20: HOW SQUAD FORMS A TEAM -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <h2 style="margin-bottom: 2rem;">Why Multi-Agent Beats Single-Agent</h2>
+      <h2 style="margin-bottom: 1.5rem;">How Squad Forms Your Team</h2>
+      <div style="max-width: 750px; margin: 0 auto; text-align: left;">
+        <p style="font-size: 1.1rem; color: #8b949e; margin-bottom: 1.5rem;">Squad analyses your repository and proposes a roster of 3–7 specialist agents:</p>
+        <div class="diagram">
+          <svg viewBox="0 0 800 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Step 1 -->
+            <rect x="10" y="20" width="160" height="60" rx="8" fill="#0d1530" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="90" y="45" text-anchor="middle" fill="#00d4ff" font-size="12" font-weight="bold">🔍 Discovery</text>
+            <text x="90" y="63" text-anchor="middle" fill="#8b949e" font-size="10">Scan repo &amp; stack</text>
+            <!-- Arrow -->
+            <path d="M 175 50 L 205 50" stroke="#00d4ff" stroke-width="1.5" fill="none" marker-end="url(#arrow1)"/>
+            <!-- Step 2 -->
+            <rect x="210" y="20" width="160" height="60" rx="8" fill="#0d1530" stroke="#7b2ff7" stroke-width="1.5"/>
+            <text x="290" y="45" text-anchor="middle" fill="#7b2ff7" font-size="12" font-weight="bold">📋 Proposal</text>
+            <text x="290" y="63" text-anchor="middle" fill="#8b949e" font-size="10">3–7 member roster</text>
+            <!-- Arrow -->
+            <path d="M 375 50 L 405 50" stroke="#7b2ff7" stroke-width="1.5" fill="none" marker-end="url(#arrow2)"/>
+            <!-- Step 3 -->
+            <rect x="410" y="20" width="160" height="60" rx="8" fill="#0d1530" stroke="#4caf50" stroke-width="1.5"/>
+            <text x="490" y="45" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold">✅ Confirmation</text>
+            <text x="490" y="63" text-anchor="middle" fill="#8b949e" font-size="10">Accept / tweak roles</text>
+            <!-- Arrow -->
+            <path d="M 575 50 L 605 50" stroke="#4caf50" stroke-width="1.5" fill="none" marker-end="url(#arrow3)"/>
+            <!-- Step 4 -->
+            <rect x="610" y="20" width="170" height="60" rx="8" fill="#0d1530" stroke="#ff9800" stroke-width="1.5"/>
+            <text x="695" y="45" text-anchor="middle" fill="#ff9800" font-size="12" font-weight="bold">🚀 Creation</text>
+            <text x="695" y="63" text-anchor="middle" fill="#8b949e" font-size="10">Write .squad/ &amp; install</text>
+
+            <defs>
+              <marker id="arrow2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#7b2ff7"/></marker>
+              <marker id="arrow3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#4caf50"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <p style="color: #c8d4e8; font-size: 1rem; margin-bottom: 0.5rem;" class="fragment"><strong style="color: #00d4ff;">Default roles detected:</strong></p>
+          <p style="color: #8b949e; font-size: 0.95rem; line-height: 1.8;" class="fragment">
+            🏗️ <strong>Lead</strong> (always) · 💻 <strong>Core Dev</strong> (always) · 🧪 <strong>Tester</strong> (if tests detected) · ⚛️ <strong>Frontend</strong> (if React/Vue found) · 🔧 <strong>Backend</strong> (if APIs found) · 📋 <strong>Scribe</strong> (always — silent memory logger)
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 21: .SQUAD/ DIRECTORY STRUCTURE -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">The .squad/ Directory — Your Team's Brain</h2>
+      <div style="max-width: 750px; margin: 0 auto;">
+        <pre style="font-size: 0.85rem; line-height: 1.7;"><code>.squad/
+├── team.md                 <span class="code-comment"># Team roster &amp; roles</span>
+├── routing.md              <span class="code-comment"># Work routing rules</span>
+├── decisions.md            <span class="code-comment"># Persistent team memory</span>
+├── ceremonies.md           <span class="code-comment"># Design reviews, retros</span>
+├── agents/
+│   ├── hicks/
+│   │   ├── charter.md     <span class="code-comment"># Identity, skills, voice</span>
+│   │   └── context.md     <span class="code-comment"># Cross-session learnings</span>
+│   ├── ripley/
+│   └── dallas/
+├── skills/                 <span class="code-comment"># Reusable capabilities</span>
+└── casting/                <span class="code-comment"># Team formation history</span></code></pre>
+        <p style="color: #00d4ff; font-size: 1rem; margin-top: 1rem; text-align: center;" class="fragment">
+          <strong>Commit it to version control.</strong> Anyone who clones gets the full team with all their knowledge.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 22: PARALLEL FAN-OUT -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">Parallel Fan-Out — The Launch Table</h2>
+      <div style="max-width: 750px; margin: 0 auto; text-align: left;">
+        <p style="font-size: 1.1rem; color: #8b949e; margin-bottom: 1rem;">Say <strong style="color: #f0f6fc;">"Team, build the recipe listing page"</strong> and agents fan out:</p>
+        <div style="display: flex; flex-direction: column; gap: 0.7rem;">
+          <div class="glow-box fragment" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; border-color: rgba(123,47,247,0.3);">
+            <span style="font-size: 1.2rem;">🏗️</span>
+            <span style="color: #7b2ff7; font-weight: 600; min-width: 5rem;">Hicks</span>
+            <span style="color: #c8d4e8; font-size: 0.95rem;">Defining API contract, pagination strategy</span>
+          </div>
+          <div class="glow-box fragment" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; border-color: rgba(0,212,255,0.3);">
+            <span style="font-size: 1.2rem;">⚛️</span>
+            <span style="color: #00d4ff; font-weight: 600; min-width: 5rem;">Ripley</span>
+            <span style="color: #c8d4e8; font-size: 0.95rem;">Building React component with data fetching</span>
+          </div>
+          <div class="glow-box fragment" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; border-color: rgba(76,175,80,0.3);">
+            <span style="font-size: 1.2rem;">🔧</span>
+            <span style="color: #4caf50; font-weight: 600; min-width: 5rem;">Dallas</span>
+            <span style="color: #c8d4e8; font-size: 0.95rem;">Creating API endpoint, connecting to database</span>
+          </div>
+          <div class="glow-box fragment" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; border-color: rgba(255,152,0,0.3);">
+            <span style="font-size: 1.2rem;">🧪</span>
+            <span style="color: #ff9800; font-weight: 600; min-width: 5rem;">Lambert</span>
+            <span style="color: #c8d4e8; font-size: 0.95rem;">Writing test cases <em>from requirements</em> — proactively</span>
+          </div>
+          <div class="glow-box fragment" style="padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; border-color: rgba(139,148,158,0.3);">
+            <span style="font-size: 1.2rem;">📋</span>
+            <span style="color: #8b949e; font-weight: 600; min-width: 5rem;">Scribe</span>
+            <span style="color: #8b949e; font-size: 0.95rem;">Logging decisions, merging context (silent)</span>
+          </div>
+        </div>
+        <p style="color: #00d4ff; font-size: 1rem; margin-top: 1.2rem; text-align: center;" class="fragment">All agents work simultaneously in separate context windows.</p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 23: WORK ROUTING & REVIEWER PROTOCOL -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">Routing &amp; Reviewer Protocol</h2>
+      <div style="max-width: 750px; margin: 0 auto; text-align: left;">
+        <p style="font-size: 1.05rem; color: #8b949e; margin-bottom: 1.2rem;">Work gets to the right agent automatically (first match wins):</p>
+        <table class="comparison-table" style="margin-bottom: 1.5rem;">
+          <tr class="fragment">
+            <th style="min-width: 8rem;">Strategy</th>
+            <th>Example</th>
+          </tr>
+          <tr class="fragment">
+            <td style="color: #00d4ff;">Named</td>
+            <td><code>"Dallas, fix the login bug"</code></td>
+          </tr>
+          <tr class="fragment">
+            <td style="color: #7b2ff7;">Domain</td>
+            <td><code>src/api/**</code> → Backend agent</td>
+          </tr>
+          <tr class="fragment">
+            <td style="color: #4caf50;">Skill-aware</td>
+            <td>Auth expertise → Lead or Backend</td>
+          </tr>
+        </table>
+        <div class="glow-box fragment" style="padding: 1rem 1.5rem; border-color: rgba(233,30,99,0.3); background: rgba(233,30,99,0.03);">
+          <p style="color: #e91e63; font-weight: 600; margin-bottom: 0.3rem;">🔒 Reviewer Lockout</p>
+          <p style="color: #c8d4e8; font-size: 0.9rem;">If a reviewer rejects code, the author agent is <strong>locked out</strong> — no self-revision. Work is reassigned or escalated to you. This prevents endless fix-retry loops.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 24: CEREMONIES & PERSISTENT MEMORY -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 1.5rem;">Ceremonies &amp; Persistent Memory</h2>
+      <div style="max-width: 750px; margin: 0 auto; text-align: left;">
+        <div class="grid grid-2" style="gap: 1.2rem; margin-bottom: 1.5rem;">
+          <div class="glow-box fragment" style="padding: 1.2rem;">
+            <p style="color: #7b2ff7; font-weight: 600; margin-bottom: 0.5rem;">🎨 Design Review</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">Auto-triggers when 2+ agents modify shared systems. Lead facilitates discussion on interfaces and risks.</p>
+          </div>
+          <div class="glow-box fragment" style="padding: 1.2rem;">
+            <p style="color: #ff9800; font-weight: 600; margin-bottom: 0.5rem;">🔄 Retrospective</p>
+            <p style="color: #8b949e; font-size: 0.85rem;">Auto-triggers on build failures or reviewer rejections. Root-cause analysis → decisions written for future.</p>
+          </div>
+        </div>
+        <div class="fragment" style="margin-top: 1rem;">
+          <p style="color: #f0f6fc; font-weight: 600; margin-bottom: 0.8rem;">📌 Decisions accumulate over time:</p>
+          <pre style="font-size: 0.8rem; line-height: 1.6; padding: 1rem;"><code><span class="code-comment">### 2025-07-15: Cursor-based pagination</span>
+<span class="code-keyword">By:</span> Hicks | <span class="code-keyword">Why:</span> Scales better than offset for growing datasets
+
+<span class="code-comment">### 2025-07-15: React Query for data fetching</span>
+<span class="code-keyword">By:</span> Ripley | <span class="code-keyword">Why:</span> Built-in caching and loading states
+
+<span class="code-comment">### Directive: Always use Zod for API validation</span>
+<span class="code-keyword">By:</span> You | <span class="code-keyword">Sticky:</span> Every agent reads this before working</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SLIDE 25: WHY SQUAD WORKS -->
+    <!-- ============================================ -->
+    <section class="slide layout-center">
+      <h2 style="margin-bottom: 2rem;">Why Squad Works</h2>
       <div style="max-width: 700px; text-align: left; margin: 0 auto;">
         <ul class="keynote-list">
-          <li class="fragment"><strong style="color: #00d4ff;">Specialization</strong> — each agent masters its domain</li>
-          <li class="fragment"><strong style="color: #00d4ff;">Parallelism</strong> — work happens concurrently</li>
-          <li class="fragment"><strong style="color: #00d4ff;">Checks &amp; Balances</strong> — agents review each other</li>
-          <li class="fragment"><strong style="color: #00d4ff;">Scalability</strong> — add agents as the project grows</li>
-          <li class="fragment"><strong style="color: #00d4ff;">Resilience</strong> — one agent's failure doesn't block others</li>
+          <li class="fragment"><strong style="color: #00d4ff;">Human-directed</strong> — you set direction, review results, keep final decision</li>
+          <li class="fragment"><strong style="color: #00d4ff;">Specialization</strong> — each agent has a charter, voice, and expertise</li>
+          <li class="fragment"><strong style="color: #00d4ff;">Parallel by default</strong> — say "team" and agents fan out concurrently</li>
+          <li class="fragment"><strong style="color: #00d4ff;">Self-aligning</strong> — accumulated decisions keep agents consistent</li>
+          <li class="fragment"><strong style="color: #00d4ff;">Inspectable</strong> — everything is markdown files in your repo</li>
         </ul>
+        <p class="fragment" style="font-size: 1.1rem; color: #8b949e; margin-top: 1.5rem; text-align: center;">
+          <em>"Responsible AI, explicitly"</em> — agents extend your team, not replace it.
+        </p>
       </div>
     </section>
 
     <!-- ============================================ -->
-    <!-- SLIDE 22: DEMO - SQUAD BUILDING SOFTWARE -->
+    <!-- SLIDE 26: DEMO - SQUAD BUILDING SOFTWARE -->
     <!-- ============================================ -->
     <section class="slide layout-center">
       <div class="demo-video-container">
@@ -930,16 +1046,17 @@
     </section>
 
     <!-- ============================================ -->
-    <!-- SLIDE 23: SQUAD TAKEAWAYS -->
+    <!-- SLIDE 27: SQUAD TAKEAWAYS -->
     <!-- ============================================ -->
     <section class="slide layout-center">
-      <h2 style="margin-bottom: 2rem;">Squad: Key Insights</h2>
+      <h2 style="margin-bottom: 2rem;">Squad: Key Takeaways</h2>
       <div style="max-width: 700px; text-align: left; margin: 0 auto;">
         <ul class="keynote-list">
-          <li class="fragment">Agents follow the same git workflow as humans</li>
-          <li class="fragment">PRs, reviews, and CI/CD — not a separate system</li>
-          <li class="fragment">Human oversight at merge gates — <strong style="color: #7b2ff7;">trust but verify</strong></li>
-          <li class="fragment">The team scales with the backlog, not headcount</li>
+          <li class="fragment">Install in seconds — <code>npm i -g @bradygaster/squad-cli</code></li>
+          <li class="fragment"><code>.squad/</code> is version-controlled — clone the repo, get the team</li>
+          <li class="fragment">Agents grow smarter every session via persistent decisions</li>
+          <li class="fragment">Governance is enforced in code — not suggestions in prompts</li>
+          <li class="fragment">MIT open source — <a href="https://github.com/bradygaster/squad" style="color: #00d4ff;">github.com/bradygaster/squad</a></li>
         </ul>
       </div>
     </section>
