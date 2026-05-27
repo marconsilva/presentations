@@ -28,12 +28,16 @@ const fs = require('fs');
 
   const slidesPath = path.resolve(__dirname, 'presentations/autonomy-unleashed-agent-framework/slides.html');
   const indexPath = path.resolve(__dirname, 'presentations/autonomy-unleashed-agent-framework/index.html');
+  const slidesPath2 = path.resolve(__dirname, 'presentations/age-of-coding-agents/slides.html');
+  const indexPath2 = path.resolve(__dirname, 'presentations/age-of-coding-agents/index.html');
   const homePath = path.resolve(__dirname, 'index.html');
 
   const pages = [
     { name: 'Homepage', path: homePath },
     { name: 'Landing Page', path: indexPath },
     { name: 'Slides', path: slidesPath },
+    { name: 'Landing Page (Age of Coding Agents)', path: indexPath2 },
+    { name: 'Slides', path: slidesPath2 },
   ];
 
   for (const p of pages) {
