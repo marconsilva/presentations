@@ -16,7 +16,21 @@
   </header>
 
   <main class="presentations-section">
-    <h2 class="section-title">All Presentations</h2>
+    <div class="section-header">
+      <h2 class="section-title">All Presentations</h2>
+      <button id="filter-btn" class="filter-btn" aria-label="Filter by tags">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+        <span>Filter</span>
+        <span id="filter-count" class="filter-count" hidden>0</span>
+      </button>
+    </div>
+    <div id="filter-popup" class="filter-popup" hidden>
+      <div class="filter-popup-header">
+        <h3>Filter by Tags</h3>
+        <button id="filter-clear" class="filter-clear-btn">Clear all</button>
+      </div>
+      <div id="filter-tags" class="filter-tags"></div>
+    </div>
     <div id="presentations-grid" class="presentations-grid">
       <div class="empty-state">
         <p>Loading presentations...</p>
