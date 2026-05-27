@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Modernization Lab: Hands-On Legacy Transformation with GitHub Copilot | Presentations</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #0a1a0a;
+      --bg-card: #112813;
+      --text: #f0f6fc;
+      --text-muted: #9fb3a8;
+      --accent: #22c55e;
+      --border: rgba(34, 197, 94, 0.22);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: radial-gradient(circle at top, rgba(34, 197, 94, 0.08), transparent 30%), var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    h1 {
+      font-size: 2.9rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .abstract {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.32rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(34, 197, 94, 0.32);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #05210d;
+    }
+
+    .section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .panel {
+      padding: 1.3rem 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .highlights {
+      list-style: none;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .highlights li {
+      padding-left: 1.6rem;
+      position: relative;
+      color: var(--text-muted);
+    }
+
+    .highlights li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .events-list {
+      list-style: none;
+    }
+
+    .events-list li {
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .event-name { font-weight: 700; }
+    .event-date { font-size: 0.9rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">&#8592; All Presentations</a>
+
+    <h1>Agentic Modernization Lab: Hands-On Legacy Transformation with GitHub Copilot</h1>
+
+    <div class="tags">
+      <span class="tag">Workshop</span>
+      <span class="tag">GitHub Copilot</span>
+      <span class="tag">Modernization</span>
+      <span class="tag">.NET</span>
+      <span class="tag">Lab</span>
+    </div>
+
+    <p class="abstract">Hands-on lab where participants modernize a legacy .NET Framework application using Copilot CLI agent mode: codebase analysis, dependency mapping, migration strategy, automated refactoring, test generation, validation.</p>
+
+    <div class="cta-buttons">
+      <a href="./slides.html" class="btn btn-primary">&#9654; View Slides</a>
+    </div>
+
+    <div class="section">
+      <h2>What You'll Do</h2>
+      <div class="panel">
+        <ul class="highlights">
+          <li>Analyze a legacy solution with an agent-driven discovery workflow</li>
+          <li>Map dependencies, hotspots, and migration risks before touching code</li>
+          <li>Generate a phased strategy for refactoring, testing, and validation</li>
+          <li>Use Copilot to accelerate upgrades while keeping human review in the loop</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Presented At</h2>
+      <ul class="events-list">
+        <li>
+          <span class="event-name">Half-day workshop / lab</span>
+          <span class="event-date">Marco Antonio Silva</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

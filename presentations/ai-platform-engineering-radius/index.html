@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI + Platform Engineering: Building Developer Platforms with Radius and Intelligent Agents | Presentations</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #0a1520;
+      --bg-card: #102236;
+      --text: #f0f6fc;
+      --text-muted: #9fb4c8;
+      --accent: #0ea5e9;
+      --border: rgba(14, 165, 233, 0.22);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font);
+      background: radial-gradient(circle at top, rgba(14, 165, 233, 0.12), transparent 30%), var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+    .back-link:hover { color: var(--text); }
+    .eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .speaker {
+      font-size: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    .abstract {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+      max-width: 760px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.8rem;
+    }
+    .meta span, .tag {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(16, 34, 54, 0.9);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .tag {
+      color: var(--accent);
+      background: rgba(14, 165, 233, 0.12);
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.4rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28); }
+    .btn-primary { background: var(--accent); color: #03131d; }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .section {
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(16, 34, 54, 0.82);
+    }
+    .section h2 {
+      color: var(--accent);
+      font-size: 1.25rem;
+      margin-bottom: 0.85rem;
+    }
+    .highlights {
+      list-style: none;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .highlights li {
+      color: var(--text-muted);
+      padding-left: 1.4rem;
+      position: relative;
+    }
+    .highlights li::before {
+      content: '•';
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">&larr; All Presentations</a>
+
+    <div class="eyebrow">Conference Session · 45–60 min</div>
+    <h1>AI + Platform Engineering: Building Developer Platforms with Radius and Intelligent Agents</h1>
+    <p class="speaker">Marco Antonio Silva · Senior Global Black Belt &mdash; Microsoft</p>
+
+    <div class="meta">
+      <span>Golden paths for humans and agents</span>
+      <span>Self-service infrastructure</span>
+      <span>Cloud-native platform APIs</span>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Platform Engineering</span>
+      <span class="tag">Radius</span>
+      <span class="tag">AI</span>
+      <span class="tag">Cloud-Native</span>
+      <span class="tag">Agents</span>
+    </div>
+
+    <p class="abstract">Platform Engineering builds golden paths for developers. AI agents are the new consumers and builders of those paths. This session explores how Radius, Microsoft&apos;s open-source cloud-native platform, provides agent-friendly infrastructure with self-service, recipes, environments, and application-centric abstractions that help teams move from tickets and scripts to intelligent platform APIs.</p>
+
+    <div class="cta-buttons">
+      <a href="./slides.html" class="btn btn-primary">&#9654; View Slides</a>
+      <a href="https://github.com/radius-project/radius" class="btn btn-secondary">&#128187; Radius Repository</a>
+    </div>
+
+    <div class="section">
+      <h2>What this session covers</h2>
+      <ul class="highlights">
+        <li>Why AI changes the target user for internal developer platforms</li>
+        <li>How Radius maps platform engineering concepts into portable APIs and resources</li>
+        <li>What an agent-friendly platform needs to safely deploy and operate AI workloads</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

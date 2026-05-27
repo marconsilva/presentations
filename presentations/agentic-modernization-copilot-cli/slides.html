@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Modernization: Transforming Legacy Applications with GitHub Copilot CLI</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0f0a0a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #ef4444;
+      --slide-secondary: #1a1010;
+      --slide-highlight: #f59e0b;
+    }
+
+    .slide {
+      position: absolute;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.08), transparent 30%),
+        radial-gradient(circle at left center, rgba(245, 158, 11, 0.06), transparent 26%),
+        var(--slide-bg);
+    }
+
+    .slide.layout-top,
+    .slide.layout-split {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .slide.layout-top p,
+    .slide.layout-top ul,
+    .slide.layout-top ol,
+    .slide.layout-split p,
+    .slide.layout-split ul,
+    .slide.layout-split ol {
+      max-width: 100%;
+    }
+
+    .slide.layout-center p,
+    .slide.layout-center ul {
+      max-width: 88%;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #ffb4b4;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: rgba(240, 246, 252, 0.84);
+      max-width: 900px;
+    }
+
+    .author strong,
+    .accent {
+      color: var(--slide-accent);
+    }
+
+    .lead {
+      font-size: 1.55rem;
+      max-width: 980px;
+      color: rgba(240, 246, 252, 0.92);
+    }
+
+    .muted {
+      color: rgba(240, 246, 252, 0.68);
+    }
+
+    .grid {
+      max-width: 100%;
+    }
+
+    .grid-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 1.5rem;
+      height: 100%;
+    }
+
+    .grid-item h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-card {
+      padding: 1.6rem;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(239, 68, 68, 0.18);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--slide-highlight);
+      margin-bottom: 0.6rem;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .process-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .process-step {
+      position: relative;
+      padding: 1.3rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      min-height: 200px;
+    }
+
+    .process-step::after {
+      content: '→';
+      position: absolute;
+      top: 50%;
+      right: -0.8rem;
+      transform: translateY(-50%);
+      color: var(--slide-highlight);
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .process-step:last-child::after {
+      content: '';
+    }
+
+    .process-step h3 {
+      margin-bottom: 0.75rem;
+      color: var(--slide-accent);
+    }
+
+    .process-step p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(240, 246, 252, 0.78);
+    }
+
+    .diagram-shell {
+      width: 100%;
+      padding: 1.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .diagram-shell svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .check-list,
+    .decision-list,
+    .agenda-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .check-list li,
+    .decision-list li,
+    .agenda-list li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .check-list li::before,
+    .agenda-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--slide-highlight);
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .decision-list li::before {
+      content: '↳';
+      position: absolute;
+      left: 0;
+      color: var(--slide-accent);
+      font-weight: 800;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #ffd2d2;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .demo-placeholder {
+      width: 100%;
+      max-width: 980px;
+      min-height: 430px;
+      border-radius: 24px;
+      border: 2px dashed rgba(239, 68, 68, 0.4);
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.08), rgba(255, 255, 255, 0.03));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .demo-play {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--slide-accent), var(--slide-highlight));
+      font-size: 2rem;
+      color: white;
+      box-shadow: 0 0 40px rgba(239, 68, 68, 0.22);
+    }
+
+    .quote {
+      font-size: 2rem;
+      line-height: 1.5;
+      max-width: 980px;
+      text-align: center;
+    }
+
+    .quote strong {
+      color: var(--slide-highlight);
+    }
+
+    .two-column-note {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.5rem;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .comparison .grid-item {
+      min-height: 320px;
+    }
+
+    .comparison h3 {
+      margin-bottom: 1rem;
+    }
+
+    .mini-label {
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      color: var(--slide-highlight);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .slide.slide-section {
+      background: linear-gradient(135deg, #1a1010 0%, #2b1111 55%, #4a1b10 100%);
+    }
+
+    .slide.slide-section h2 {
+      color: white;
+      font-size: 3.2rem;
+    }
+
+    .slide.slide-section p {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 1200px) {
+      .kpi-row,
+      .process-flow,
+      .comparison,
+      .two-column-note {
+        grid-template-columns: 1fr;
+      }
+
+      .process-step::after {
+        content: '';
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <section class="slide slide-title layout-center" id="title">
+      <div class="eyebrow">Conference Session · 45-60 min</div>
+      <h1>Agentic Modernization</h1>
+      <p class="subtitle">Transforming Legacy Applications with GitHub Copilot CLI</p>
+      <p class="author">Marco Antonio Silva · <strong>Senior Global Black Belt — Microsoft</strong></p>
+    </section>
+
+    <section class="slide layout-top" id="challenge-scale">
+      <div class="eyebrow">The challenge</div>
+      <h2>Legacy modernization breaks at enterprise scale</h2>
+      <p class="lead">A single application is manageable. A portfolio of <span class="accent">150+ legacy applications</span> turns discovery, prioritization, and execution into a coordination problem.</p>
+      <div class="kpi-row">
+        <div class="stat-card fragment">
+          <div class="stat-number">150+</div>
+          <p>Applications with different versions, frameworks, and support models.</p>
+        </div>
+        <div class="stat-card fragment">
+          <div class="stat-number">10x</div>
+          <p>More analysis effort than teams planned because context is buried in code and tribal knowledge.</p>
+        </div>
+        <div class="stat-card fragment">
+          <div class="stat-number">0</div>
+          <p>Organizations can afford zero uncontrolled outages during migration.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="why-failures-happen">
+      <div>
+        <div class="eyebrow">Reality check</div>
+        <h2>Why modernization programs stall</h2>
+        <ul class="check-list">
+          <li class="fragment">Inventory is incomplete: hidden integrations, scheduled jobs, and one-off scripts appear late.</li>
+          <li class="fragment">Architecture decisions are made without enough evidence from the codebase.</li>
+          <li class="fragment">Refactoring competes with business demand, so teams never get sustained execution capacity.</li>
+          <li class="fragment">Validation is manual, slow, and inconsistent across application teams.</li>
+        </ul>
+      </div>
+      <div class="diagram-shell fragment">
+        <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modernization bottlenecks diagram">
+          <rect x="20" y="30" width="140" height="74" rx="16" fill="#2b1111" stroke="#ef4444" stroke-width="2"/>
+          <text x="90" y="62" fill="#f0f6fc" font-size="22" text-anchor="middle">Analysis</text>
+          <text x="90" y="88" fill="#f59e0b" font-size="16" text-anchor="middle">too much manual work</text>
+          <rect x="190" y="143" width="140" height="74" rx="16" fill="#2b1111" stroke="#ef4444" stroke-width="2"/>
+          <text x="260" y="176" fill="#f0f6fc" font-size="22" text-anchor="middle">Planning</text>
+          <text x="260" y="201" fill="#f59e0b" font-size="16" text-anchor="middle">not enough evidence</text>
+          <rect x="360" y="255" width="140" height="74" rx="16" fill="#2b1111" stroke="#ef4444" stroke-width="2"/>
+          <text x="430" y="287" fill="#f0f6fc" font-size="22" text-anchor="middle">Execution</text>
+          <text x="430" y="313" fill="#f59e0b" font-size="16" text-anchor="middle">capacity bottleneck</text>
+          <line x1="160" y1="104" x2="190" y2="143" stroke="#f59e0b" stroke-width="4"/>
+          <line x1="330" y1="217" x2="360" y2="255" stroke="#f59e0b" stroke-width="4"/>
+          <circle cx="110" cy="270" r="64" fill="#1a1010" stroke="#f0f6fc" stroke-opacity="0.15"/>
+          <text x="110" y="262" fill="#f0f6fc" font-size="20" text-anchor="middle">Delayed</text>
+          <text x="110" y="288" fill="#ef4444" font-size="20" text-anchor="middle">value</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="portfolio-signals">
+      <div class="eyebrow">Enterprise pattern</div>
+      <h2>The portfolio tells you where modernization really hurts</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3>Version sprawl</h3>
+          <p>.NET Framework, mixed .NET versions, different ORM choices, inconsistent packaging.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Operational drift</h3>
+          <p>Apps that look similar on paper have different SLAs, deployment paths, and approval gates.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Knowledge silos</h3>
+          <p>The most critical migration logic often lives with one architect, one ops lead, or one vendor.</p>
+        </div>
+      </div>
+      <div class="callout warning fragment">Modernization fails less because of technology choice and more because <strong>teams cannot process enough context fast enough</strong>.</div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="agentic-shift">
+      <h2>From manual factory to agentic factory</h2>
+      <p>Let agents absorb the repetitive analysis and refactoring load so humans can govern outcomes.</p>
+    </section>
+
+    <section class="slide layout-top" id="agent-mode-overview">
+      <div class="eyebrow">GitHub Copilot CLI</div>
+      <h2>Agent mode changes the modernization operating model</h2>
+      <p class="lead">Instead of asking for isolated code suggestions, teams can delegate multi-step modernization work to an agent that explores, plans, edits, runs commands, and reports back.</p>
+      <div class="process-flow">
+        <div class="process-step fragment">
+          <h3>Understands</h3>
+          <p>Reads the repository, traces dependencies, summarizes architecture, and finds hotspots.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Acts</h3>
+          <p>Creates patches, updates configs, rewrites code, and applies repeatable changes across files.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Verifies</h3>
+          <p>Runs builds, tests, and validation scripts using the same repo rules your team already trusts.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Explains</h3>
+          <p>Documents rationale, trade-offs, and remaining human decisions before the change is merged.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="agent-vs-assistant">
+      <div>
+        <div class="eyebrow">What is new</div>
+        <h2>From autocomplete to autonomous execution</h2>
+        <div class="comparison">
+          <div class="grid-item fragment">
+            <span class="mini-label">Traditional assistant</span>
+            <h3>Suggests</h3>
+            <ul class="agenda-list">
+              <li>Answers a local coding question</li>
+              <li>Produces snippets in one turn</li>
+              <li>Leaves orchestration to the human</li>
+            </ul>
+          </div>
+          <div class="grid-item fragment">
+            <span class="mini-label">Copilot CLI agent mode</span>
+            <h3>Completes workflows</h3>
+            <ul class="agenda-list">
+              <li>Searches and understands whole repositories</li>
+              <li>Executes edits and commands in sequence</li>
+              <li>Reports progress and validation results</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="grid-item fragment">
+        <h3>Modernization impact</h3>
+        <p>For legacy portfolios, the step change is not “better code generation.” It is being able to run <span class="accent">analysis, planning, and execution loops continuously</span> across dozens of applications.</p>
+        <div class="pill-row">
+          <span class="pill">Discovery</span>
+          <span class="pill">Migration plans</span>
+          <span class="pill">Refactoring</span>
+          <span class="pill">Validation</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="workflow-overview">
+      <div class="eyebrow">Core workflow</div>
+      <h2>Scan → Plan → Execute → Validate</h2>
+      <div class="diagram-shell fragment">
+        <svg viewBox="0 0 1120 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agentic workflow diagram">
+          <defs>
+            <linearGradient id="workflowAccent" x1="0" x2="1">
+              <stop offset="0%" stop-color="#ef4444"/>
+              <stop offset="100%" stop-color="#f59e0b"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="90" width="220" height="130" rx="24" fill="#1a1010" stroke="url(#workflowAccent)" stroke-width="3"/>
+          <rect x="310" y="90" width="220" height="130" rx="24" fill="#1a1010" stroke="url(#workflowAccent)" stroke-width="3"/>
+          <rect x="590" y="90" width="220" height="130" rx="24" fill="#1a1010" stroke="url(#workflowAccent)" stroke-width="3"/>
+          <rect x="870" y="90" width="220" height="130" rx="24" fill="#1a1010" stroke="url(#workflowAccent)" stroke-width="3"/>
+          <text x="140" y="140" fill="#f0f6fc" font-size="34" text-anchor="middle">Scan</text>
+          <text x="140" y="175" fill="#f59e0b" font-size="18" text-anchor="middle">inventory, dependencies, risk</text>
+          <text x="420" y="140" fill="#f0f6fc" font-size="34" text-anchor="middle">Plan</text>
+          <text x="420" y="175" fill="#f59e0b" font-size="18" text-anchor="middle">target state, backlog, sequence</text>
+          <text x="700" y="140" fill="#f0f6fc" font-size="34" text-anchor="middle">Execute</text>
+          <text x="700" y="175" fill="#f59e0b" font-size="18" text-anchor="middle">refactor, upgrade, decompose</text>
+          <text x="980" y="140" fill="#f0f6fc" font-size="34" text-anchor="middle">Validate</text>
+          <text x="980" y="175" fill="#f59e0b" font-size="18" text-anchor="middle">tests, telemetry, controls</text>
+          <line x1="250" y1="155" x2="310" y2="155" stroke="#f59e0b" stroke-width="5"/>
+          <line x1="530" y1="155" x2="590" y2="155" stroke="#f59e0b" stroke-width="5"/>
+          <line x1="810" y1="155" x2="870" y2="155" stroke="#f59e0b" stroke-width="5"/>
+          <path d="M980 225 C980 280 140 280 140 225" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="10 8"/>
+          <text x="560" y="304" fill="#f0f6fc" font-size="20" text-anchor="middle">Continuous agent loop with human checkpoints</text>
+        </svg>
+      </div>
+      <div class="pill-row fragment">
+        <span class="pill">Repeatable</span>
+        <span class="pill">Auditable</span>
+        <span class="pill">Portfolio-scalable</span>
+        <span class="pill">Human-governed</span>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="analysis-capabilities">
+      <div class="eyebrow">Code analysis</div>
+      <h2>What the agent can discover in minutes</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>Architecture signals</h3>
+          <ul class="agenda-list">
+            <li>Entry points, service layers, repositories, and shared libraries</li>
+            <li>Dependency maps between apps, APIs, data stores, and jobs</li>
+            <li>Framework versions, package drift, and unsupported libraries</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Modernization blockers</h3>
+          <ul class="agenda-list">
+            <li>Hard-coded infrastructure assumptions</li>
+            <li>Synchronous coupling and hidden side effects</li>
+            <li>Low-test areas and high-complexity modules</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info fragment">Agents are especially strong at turning a large codebase into <strong>structured modernization evidence</strong> rather than vague intuition.</div>
+    </section>
+
+    <section class="slide layout-split" id="scan-outputs">
+      <div>
+        <div class="eyebrow">Discovery outputs</div>
+        <h2>The first deliverable is not code — it is clarity</h2>
+        <ul class="check-list">
+          <li class="fragment">Application inventory with stack, owners, dependencies, and business criticality.</li>
+          <li class="fragment">Risk heatmap showing apps that are brittle, poorly tested, or deeply integrated.</li>
+          <li class="fragment">Candidate modernization waves grouped by complexity and dependency order.</li>
+        </ul>
+      </div>
+      <div class="diagram-shell fragment">
+        <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Portfolio heatmap diagram">
+          <rect x="50" y="50" width="110" height="70" rx="14" fill="#1f7a1f" fill-opacity="0.25" stroke="#6ee7b7"/>
+          <rect x="180" y="50" width="110" height="70" rx="14" fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b"/>
+          <rect x="310" y="50" width="110" height="70" rx="14" fill="#ef4444" fill-opacity="0.25" stroke="#ef4444"/>
+          <rect x="50" y="145" width="110" height="70" rx="14" fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b"/>
+          <rect x="180" y="145" width="110" height="70" rx="14" fill="#ef4444" fill-opacity="0.25" stroke="#ef4444"/>
+          <rect x="310" y="145" width="110" height="70" rx="14" fill="#ef4444" fill-opacity="0.25" stroke="#ef4444"/>
+          <rect x="50" y="240" width="110" height="70" rx="14" fill="#1f7a1f" fill-opacity="0.25" stroke="#6ee7b7"/>
+          <rect x="180" y="240" width="110" height="70" rx="14" fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b"/>
+          <rect x="310" y="240" width="110" height="70" rx="14" fill="#1f7a1f" fill-opacity="0.25" stroke="#6ee7b7"/>
+          <text x="235" y="30" fill="#f0f6fc" font-size="22" text-anchor="middle">Complexity →</text>
+          <text x="18" y="195" fill="#f0f6fc" font-size="22" transform="rotate(-90 18 195)">Criticality →</text>
+          <text x="105" y="90" fill="#f0f6fc" font-size="18" text-anchor="middle">Wave 1</text>
+          <text x="235" y="90" fill="#f0f6fc" font-size="18" text-anchor="middle">Wave 2</text>
+          <text x="365" y="90" fill="#f0f6fc" font-size="18" text-anchor="middle">Special case</text>
+          <text x="235" y="338" fill="#f59e0b" font-size="18" text-anchor="middle">Agent produces the sorting logic. Humans approve the sequence.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="strategy-generation">
+      <div class="eyebrow">Migration strategy</div>
+      <h2>The agent can draft multiple modernization paths</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3>Upgrade in place</h3>
+          <p>Best when the architecture is acceptable and the main issue is framework, dependency, or hosting obsolescence.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Modular extraction</h3>
+          <p>Best when specific capabilities can be isolated behind APIs without destabilizing the whole system.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Replatform or replace</h3>
+          <p>Best when technical debt, runtime constraints, or vendor dependencies make incremental change uneconomical.</p>
+        </div>
+      </div>
+      <div class="callout fragment">The key is not one perfect answer. The key is producing <strong>option sets with evidence, trade-offs, and sequencing</strong>.</div>
+    </section>
+
+    <section class="slide layout-split" id="strategy-artifacts">
+      <div>
+        <div class="eyebrow">Planning outputs</div>
+        <h2>From architecture recommendation to executable backlog</h2>
+        <ul class="decision-list">
+          <li class="fragment">Target-state proposal: runtime, hosting model, service boundaries, and platform dependencies.</li>
+          <li class="fragment">Increment backlog: what to change first, what can run in parallel, and what must wait.</li>
+          <li class="fragment">Risk notes: test debt, data migration exposure, compliance touchpoints, rollback options.</li>
+          <li class="fragment">Effort bands: quick wins, medium complexity, and specialist interventions.</li>
+        </ul>
+      </div>
+      <div class="grid-item fragment">
+        <h3>Why this matters</h3>
+        <p>Enterprise programs fail when plans stay at PowerPoint level. Copilot CLI can connect the plan to the actual repository structure and turn strategy into a work queue teams can execute.</p>
+        <div class="pill-row">
+          <span class="pill">Backlog generation</span>
+          <span class="pill">Dependency ordering</span>
+          <span class="pill">Architecture notes</span>
+          <span class="pill">Risk scoring</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="human-checkpoints">
+      <div class="eyebrow">Human decision points</div>
+      <h2>Keep humans in the loop for decisions with lasting business impact</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>Agent should propose</h3>
+          <ul class="agenda-list">
+            <li>Candidate architecture patterns</li>
+            <li>Refactoring order and dependency sequencing</li>
+            <li>Low-risk quick wins and code cleanup opportunities</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Humans should approve</h3>
+          <ul class="agenda-list">
+            <li>Domain boundaries and product-level trade-offs</li>
+            <li>Budget, timing, and regulatory implications</li>
+            <li>Any change that alters operational ownership or customer behavior</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="automated-refactoring">
+      <div class="eyebrow">Automated execution</div>
+      <h2>What autonomous refactoring looks like in practice</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>Code transformations</h3>
+          <ul class="agenda-list">
+            <li>Update target frameworks, package references, and build settings</li>
+            <li>Rewrite deprecated APIs, configuration models, and hosting patterns</li>
+            <li>Introduce adapters, abstractions, and seams for later decomposition</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Repo operations</h3>
+          <ul class="agenda-list">
+            <li>Edit multiple files consistently</li>
+            <li>Run builds and existing validation commands</li>
+            <li>Summarize exactly what changed and what still needs review</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info fragment">Think of the agent as a modernization engineer that never gets tired of repetitive change sets.</div>
+    </section>
+
+    <section class="slide layout-split" id="refactor-examples">
+      <div>
+        <div class="eyebrow">Common .NET changes</div>
+        <h2>Typical refactoring tasks delegated to the agent</h2>
+        <ul class="check-list">
+          <li class="fragment">Move from legacy config files to modern configuration patterns.</li>
+          <li class="fragment">Replace obsolete packages and align dependency versions.</li>
+          <li class="fragment">Create service registration and dependency injection seams.</li>
+          <li class="fragment">Extract cross-cutting concerns: logging, auth, and resilience policies.</li>
+        </ul>
+      </div>
+      <div class="grid-item fragment">
+        <h3>High leverage principle</h3>
+        <p>Any task that is <strong>pattern-based, repeated, and verifiable</strong> is a strong candidate for agentic execution.</p>
+        <div class="pill-row">
+          <span class="pill">Package upgrades</span>
+          <span class="pill">Namespace cleanup</span>
+          <span class="pill">Config migration</span>
+          <span class="pill">API wrappers</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="validation-loop">
+      <div class="eyebrow">Validation</div>
+      <h2>Make the agent prove the change worked</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3>Build and tests</h3>
+          <p>Compile, run existing tests, and capture failures with precise file-level context.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Policy checks</h3>
+          <p>Enforce repo rules, quality gates, security checks, and approved tooling pathways.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Change review</h3>
+          <p>Summarize blast radius, unresolved questions, and rollout considerations for human reviewers.</p>
+        </div>
+      </div>
+      <div class="callout warning fragment">Agentic modernization needs a strong validation loop. Without it, you only accelerate uncertainty.</div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="real-world-section">
+      <h2>Patterns from 150+ application programs</h2>
+      <p>Across large estates, the same modernization playbook appears again and again.</p>
+    </section>
+
+    <section class="slide layout-top" id="pattern-one">
+      <div class="eyebrow">Real-world pattern 1</div>
+      <h2>Start with applications that teach the portfolio</h2>
+      <div class="two-column-note">
+        <div class="grid-item fragment">
+          <h3>Pick exemplars</h3>
+          <p>Choose a small set of representative apps: one low-risk internal tool, one medium-complexity line-of-business app, and one highly integrated critical workload.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Why it works</h3>
+          <p>The first wave builds reusable prompts, rules, migration checklists, and validation patterns for everything that follows.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="pattern-two">
+      <div class="eyebrow">Real-world pattern 2</div>
+      <h2>Modernize by dependency waves, not org charts</h2>
+      <p class="lead">Teams are usually organized by reporting lines. Legacy dependencies are not. Agents make it easier to map the real dependency graph and create modernization waves that reflect how systems actually interact.</p>
+      <div class="pill-row fragment">
+        <span class="pill">Shared libraries first</span>
+        <span class="pill">Data contracts second</span>
+        <span class="pill">Edge integrations third</span>
+        <span class="pill">UI churn last</span>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="pattern-three">
+      <div class="eyebrow">Real-world pattern 3</div>
+      <h2>The winning pattern is rarely “rewrite everything”</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3>Contain</h3>
+          <p>Stabilize risky areas with tests, observability, and interfaces.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Extract</h3>
+          <p>Lift out capabilities where business value and technical isolation align.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Retire</h3>
+          <p>Turn off what the business no longer needs instead of modernizing everything.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="trust-boundary">
+      <div>
+        <div class="eyebrow">Trust model</div>
+        <h2>Where to trust the agent — and where not to</h2>
+        <ul class="decision-list">
+          <li class="fragment"><strong>Trust more:</strong> repetitive code edits, repo-wide discovery, upgrade mechanics, and evidence gathering.</li>
+          <li class="fragment"><strong>Trust with review:</strong> architectural recommendations, migration sequencing, and interface extraction.</li>
+          <li class="fragment"><strong>Keep human-owned:</strong> domain decisions, production cutovers, policy exceptions, and risk acceptance.</li>
+        </ul>
+      </div>
+      <div class="grid-item fragment">
+        <h3>Rule of thumb</h3>
+        <p>If the work is explainable, testable, and reversible, let the agent do more of it. If the work changes business semantics or operational accountability, keep the human firmly in control.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="governance">
+      <div class="eyebrow">Governance</div>
+      <h2>Agentic modernization must be auditable by design</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>What leaders need</h3>
+          <ul class="agenda-list">
+            <li>Traceable prompts, actions, and change summaries</li>
+            <li>Clear approval points before high-risk actions</li>
+            <li>Portfolio metrics: lead time, defect rate, reuse, and throughput</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>What teams need</h3>
+          <ul class="agenda-list">
+            <li>Reusable instructions and coding standards</li>
+            <li>Validated commands and environment assumptions</li>
+            <li>Confidence that the agent will stop at policy boundaries</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="extensions">
+      <div class="eyebrow">Team customization</div>
+      <h2>Custom Copilot CLI extensions encode modernization rules</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3>Rule packs</h3>
+          <p>Inject team-specific instructions for security, architecture, naming, and required validation steps.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Command wrappers</h3>
+          <p>Expose approved modernization commands so every agent run uses the same build, test, and scan flow.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Portfolio templates</h3>
+          <p>Standardize prompts, outputs, and evidence formats across dozens of application teams.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="extension-examples">
+      <div>
+        <div class="eyebrow">Examples</div>
+        <h2>What teams usually encode once and reuse everywhere</h2>
+        <ul class="check-list">
+          <li class="fragment">“Never change auth or secrets handling without a human approval checkpoint.”</li>
+          <li class="fragment">“Always run build, unit tests, and architecture validation before reporting success.”</li>
+          <li class="fragment">“When touching .NET config, generate migration notes for operations teams.”</li>
+        </ul>
+      </div>
+      <div class="grid-item fragment">
+        <h3>Outcome</h3>
+        <p>The best modernization programs treat Copilot CLI as a platform capability, not a one-off assistant. Team rules become reusable assets that improve every subsequent migration wave.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="demo-placeholder">
+      <div class="eyebrow">Demo</div>
+      <h2>Demo placeholder: modernizing a legacy .NET application</h2>
+      <div class="demo-placeholder fragment">
+        <div class="demo-play">▶</div>
+        <p class="lead">Legacy ASP.NET application → agent-led analysis → migration proposal → refactoring → validation</p>
+        <p class="muted">Suggested live sequence: inventory the app, identify blockers, generate the migration plan, apply the first refactor, run validation, review diffs.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="methodology">
+      <div class="eyebrow">Repeatable methodology</div>
+      <h2>A practical modernization loop teams can run every week</h2>
+      <div class="process-flow">
+        <div class="process-step fragment">
+          <h3>1. Triage</h3>
+          <p>Select the next application or dependency wave based on risk and value.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>2. Analyze</h3>
+          <p>Generate architecture notes, blockers, and candidate strategies.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>3. Execute</h3>
+          <p>Delegate approved refactoring tasks and keep the human on decision gates.</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>4. Learn</h3>
+          <p>Capture new rules, patterns, and validation checks for the next wave.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="operating-model">
+      <div>
+        <div class="eyebrow">Operating model</div>
+        <h2>How enterprise teams scale this beyond one pilot</h2>
+        <ul class="decision-list">
+          <li class="fragment">Platform team defines shared prompts, rules, and validation pathways.</li>
+          <li class="fragment">App teams own domain decisions and approve high-impact changes.</li>
+          <li class="fragment">A modernization control tower tracks throughput, blockers, and reusable patterns.</li>
+        </ul>
+      </div>
+      <div class="grid-item fragment">
+        <h3>Success metric</h3>
+        <p>Not “how many demos ran well,” but how many applications moved forward with less analysis time, fewer surprises, and more predictable delivery.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="closing-message">
+      <p class="quote">Modernization becomes tractable when teams stop treating it as a sequence of hero projects and start running it as an <strong>agentic, evidence-driven factory</strong>.</p>
+    </section>
+
+    <section class="slide slide-title layout-center" id="thank-you">
+      <h1>Thank You</h1>
+      <p class="subtitle">Agentic Modernization: Transforming Legacy Applications with GitHub Copilot CLI</p>
+      <p class="author">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+    </section>
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

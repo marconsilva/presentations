@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec-Driven Development with GitHub Copilot &amp; Spec2Cloud: From Idea to Cloud — Green &amp; Brownfield</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a1628;
+      --slide-text: #f0f6fc;
+      --slide-accent: #2dd4bf;
+      --slide-secondary: #0d2847;
+      --slide-highlight: #0ea5e9;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(45, 212, 191, 0.08), transparent 35%), radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.08), transparent 40%);
+      pointer-events: none;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--slide-text), var(--slide-accent), var(--slide-highlight));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .slide p.full,
+    .slide ul.full,
+    .slide ol.full,
+    .slide .full {
+      max-width: 100%;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--slide-accent);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .big-statement {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.25;
+      max-width: 88%;
+      margin: 0 auto;
+    }
+
+    .subtitle-strong {
+      font-size: 1.3rem;
+      color: rgba(240, 246, 252, 0.78);
+    }
+
+    .role {
+      font-size: 1rem;
+      color: rgba(240, 246, 252, 0.65);
+      margin-top: 0.4rem;
+    }
+
+    .grid-item {
+      background: rgba(13, 40, 71, 0.82);
+      border: 1px solid rgba(45, 212, 191, 0.18);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+    }
+
+    .grid-item h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .label {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: var(--slide-accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .diagram {
+      width: 100%;
+      max-width: 950px;
+      margin: 1rem auto 0;
+      background: rgba(13, 40, 71, 0.45);
+    }
+
+    .diagram svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .diagram text {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .agenda {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 1rem;
+    }
+
+    .agenda-block {
+      background: rgba(13, 40, 71, 0.82);
+      border: 1px solid rgba(45, 212, 191, 0.18);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .agenda-block h3 {
+      color: var(--slide-accent);
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .agenda-block ul {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 100%;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 1.5rem;
+    }
+
+    .flow-step {
+      min-width: 140px;
+      flex: 1 1 140px;
+      background: rgba(13, 40, 71, 0.82);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .flow-step strong {
+      display: block;
+      color: var(--slide-accent);
+      margin-bottom: 0.35rem;
+      font-size: 1rem;
+    }
+
+    .flow-arrow {
+      align-self: center;
+      font-size: 1.6rem;
+      color: var(--slide-highlight);
+      font-weight: 700;
+    }
+
+    .code-card {
+      width: 100%;
+      max-width: 980px;
+      background: #07111f;
+      border: 1px solid rgba(45, 212, 191, 0.22);
+      border-radius: 16px;
+      padding: 1.2rem 1.4rem;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    .code-card pre {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      max-width: 100%;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .muted {
+      color: #8b949e;
+    }
+
+    .kpi {
+      text-align: center;
+    }
+
+    .kpi .number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--slide-accent);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      max-width: 100%;
+    }
+
+    .checklist li {
+      position: relative;
+      padding-left: 1.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .checklist li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--slide-accent);
+      font-weight: 700;
+    }
+
+    .warning-list li::before {
+      content: '⚠';
+      color: #fbbf24;
+    }
+
+    .exercise-card {
+      width: 100%;
+      max-width: 1000px;
+      padding: 1.8rem;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(13, 40, 71, 0.95), rgba(10, 22, 40, 0.95));
+      border: 1px solid rgba(45, 212, 191, 0.22);
+    }
+
+    .exercise-card h3 {
+      color: var(--slide-accent);
+      font-size: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .exercise-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .exercise-meta span {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.14);
+      border: 1px solid rgba(14, 165, 233, 0.28);
+      font-size: 0.9rem;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 930px;
+      margin-top: 1rem;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid var(--slide-accent);
+      border-radius: 0 12px 12px 0;
+      background: rgba(13, 40, 71, 0.7);
+    }
+
+    .timeline-item .time {
+      color: var(--slide-accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .split-panel {
+      background: rgba(13, 40, 71, 0.78);
+      border: 1px solid rgba(45, 212, 191, 0.18);
+      border-radius: 18px;
+      padding: 1.6rem;
+      height: 100%;
+    }
+
+    .split-panel ul {
+      max-width: 100%;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .slide.slide-section {
+      background: linear-gradient(135deg, #0d2847 0%, #0a1628 55%, #0ea5e9 100%);
+    }
+
+    .slide.slide-section h2 {
+      font-size: 3.2rem;
+      color: white;
+    }
+
+    .section-note {
+      color: rgba(240, 246, 252, 0.85);
+      font-size: 1.25rem;
+      max-width: 760px;
+    }
+
+    .reference-steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      max-width: 980px;
+    }
+
+    .reference-steps li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1rem;
+      align-items: start;
+      background: rgba(13, 40, 71, 0.76);
+      border: 1px solid rgba(45, 212, 191, 0.16);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .reference-steps li::before {
+      content: counter(step);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--slide-accent), var(--slide-highlight));
+      color: #062035;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .tiny {
+      font-size: 0.95rem !important;
+    }
+
+    @media (max-width: 900px) {
+      .agenda,
+      .timeline-item,
+      .reference-steps li {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <section class="slide slide-title layout-center" id="title">
+      <p class="eyebrow">Full-day hands-on workshop</p>
+      <h1 class="gradient-text">Spec-Driven Development with GitHub Copilot &amp; Spec2Cloud</h1>
+      <p class="subtitle">From Idea to Cloud — Green &amp; Brownfield</p>
+      <p class="author">Marco Antonio Silva</p>
+      <p class="role">Senior Global Black Belt — Microsoft</p>
+    </section>
+
+    <section class="slide layout-center" id="promise">
+      <h2>What You Will Do Today</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>Morning</h3>
+          <p class="full">Author a cloud-native contract from scratch.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Midday</h3>
+          <p class="full">Generate implementation, tests, and deployment assets.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Afternoon</h3>
+          <p class="full">Extract specs from legacy systems and modernize safely.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="what-is-sdd">
+      <p class="eyebrow">Foundations</p>
+      <h2>What Is Spec-Driven Development?</h2>
+      <p class="full subtitle-strong">A workflow where the specification is the primary source of truth for behavior, interfaces, tests, and deployment intent.</p>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>Contract</h3>
+          <p class="full">Define API shape, rules, examples, and outcomes before code exists.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Generation</h3>
+          <p class="full">Use Copilot and Spec2Cloud to scaffold code, tests, and cloud artifacts.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Validation</h3>
+          <p class="full">Continuously compare implementation against the living spec.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="why-spec-first">
+      <h2>Why Spec-First?</h2>
+      <p class="big-statement">Because architecture debates are cheaper in YAML than in production.</p>
+      <div class="flow">
+        <div class="flow-step fragment"><strong>Clarity</strong><span>Shared language across product, dev, ops, and QA</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Safety</strong><span>Validate behavior before implementation drift begins</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Speed</strong><span>Generate repeatable assets instead of hand-coding everything</span></div>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="philosophy-diagram">
+      <h2>The Spec-First Philosophy</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spec-first philosophy diagram">
+          <rect x="60" y="140" width="200" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="160" y="185" text-anchor="middle" fill="#f0f6fc" font-size="28" font-weight="700">Intent</text>
+          <text x="160" y="215" text-anchor="middle" fill="#8b949e" font-size="18">Business goals</text>
+          <text x="160" y="240" text-anchor="middle" fill="#8b949e" font-size="18">User outcomes</text>
+
+          <rect x="400" y="95" width="200" height="200" rx="24" fill="#2dd4bf" fill-opacity="0.12" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="500" y="155" text-anchor="middle" fill="#2dd4bf" font-size="32" font-weight="800">Spec</text>
+          <text x="500" y="190" text-anchor="middle" fill="#f0f6fc" font-size="20">OpenAPI / rules</text>
+          <text x="500" y="220" text-anchor="middle" fill="#f0f6fc" font-size="20">Examples / policies</text>
+          <text x="500" y="250" text-anchor="middle" fill="#f0f6fc" font-size="20">Non-functional intent</text>
+
+          <rect x="740" y="140" width="200" height="110" rx="18" fill="#0d2847" stroke="#0ea5e9" stroke-width="3"/>
+          <text x="840" y="185" text-anchor="middle" fill="#f0f6fc" font-size="28" font-weight="700">Runtime</text>
+          <text x="840" y="215" text-anchor="middle" fill="#8b949e" font-size="18">Code, tests, infra</text>
+          <text x="840" y="240" text-anchor="middle" fill="#8b949e" font-size="18">Deployment, monitoring</text>
+
+          <path d="M260 195 L400 195" stroke="#2dd4bf" stroke-width="4" marker-end="url(#arrow)"/>
+          <path d="M600 195 L740 195" stroke="#0ea5e9" stroke-width="4" marker-end="url(#arrow)"/>
+          <path d="M840 260 C840 340 500 360 500 305" stroke="#f0f6fc" stroke-opacity="0.4" stroke-width="3" fill="none" stroke-dasharray="8 8" marker-end="url(#arrowMuted)"/>
+          <text x="680" y="360" fill="#8b949e" font-size="18">Validate implementation against the contract</text>
+
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <polygon points="0 0, 10 5, 0 10" fill="#2dd4bf"/>
+            </marker>
+            <marker id="arrowMuted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <polygon points="0 0, 10 5, 0 10" fill="#cbd5e1"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="contract-before-code">
+      <div class="split-panel">
+        <p class="label">Traditional path</p>
+        <h2 style="font-size: 2rem;">Code First</h2>
+        <ul class="full">
+          <li class="fragment">Endpoints appear before naming is aligned.</li>
+          <li class="fragment">Tests chase implementation details.</li>
+          <li class="fragment">Infra decisions get bolted on at the end.</li>
+          <li class="fragment">Documentation becomes archaeology.</li>
+        </ul>
+      </div>
+      <div class="split-panel">
+        <p class="label">Spec-first path</p>
+        <h2 style="font-size: 2rem;">Contract Before Code</h2>
+        <ul class="full">
+          <li class="fragment">Design behavior while change is cheap.</li>
+          <li class="fragment">Prompt Copilot with a precise target.</li>
+          <li class="fragment">Generate assets from one source of truth.</li>
+          <li class="fragment">Govern change through spec reviews.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="agenda">
+      <p class="eyebrow">Workshop map</p>
+      <h2>Full-Day Agenda</h2>
+      <div class="agenda">
+        <div class="agenda-block fragment">
+          <h3>Morning — Greenfield</h3>
+          <ul class="full">
+            <li>Spec-Driven Development overview</li>
+            <li>OpenAPI authoring with Copilot</li>
+            <li>Generate code, tests, infra, deployment</li>
+            <li>Deploy a new cloud-native service</li>
+          </ul>
+        </div>
+        <div class="agenda-block fragment">
+          <h3>Afternoon — Brownfield</h3>
+          <ul class="full">
+            <li>Analyze legacy behaviors and gaps</li>
+            <li>Reverse-engineer contracts from code</li>
+            <li>Create modernization specs</li>
+            <li>Execute modernization with Spec2Cloud</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item fragment"><div class="time">09:00</div><div><strong>Context + patterns</strong><p class="full tiny">Why spec-first changes how teams build and review software.</p></div></div>
+        <div class="timeline-item fragment"><div class="time">10:30</div><div><strong>Hands-on greenfield lab</strong><p class="full tiny">Write the contract and generate a working baseline.</p></div></div>
+        <div class="timeline-item fragment"><div class="time">13:30</div><div><strong>Hands-on brownfield lab</strong><p class="full tiny">Extract contracts from legacy code and modernize safely.</p></div></div>
+        <div class="timeline-item fragment"><div class="time">16:30</div><div><strong>Take-home method</strong><p class="full tiny">Reusable process for new builds and modernization work.</p></div></div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="greenfield-section">
+      <h2>MORNING: GREENFIELD</h2>
+      <p class="section-note">Start from idea, define the contract first, then let automation assemble the first production-ready path.</p>
+    </section>
+
+    <section class="slide layout-center" id="greenfield-goal">
+      <h2>Greenfield Outcome</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment kpi">
+          <div class="number">1</div>
+          <p class="full">OpenAPI contract for a cloud-native service</p>
+        </div>
+        <div class="grid-item fragment kpi">
+          <div class="number">4</div>
+          <p class="full">Generated asset classes: code, tests, infra, deployment</p>
+        </div>
+        <div class="grid-item fragment kpi">
+          <div class="number">0</div>
+          <p class="full">Guesswork about endpoint shape after implementation starts</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="openapi-with-copilot">
+      <p class="eyebrow">Authoring</p>
+      <h2>OpenAPI Spec Authoring with Copilot</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Prompting pattern</h3>
+          <ul class="full tiny">
+            <li>Describe domain, actors, operations, and constraints.</li>
+            <li>Ask for resource model, paths, status codes, and examples.</li>
+            <li>Iterate on vocabulary before accepting generated YAML.</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Copilot's role</h3>
+          <ul class="full tiny">
+            <li>Accelerates first draft creation.</li>
+            <li>Surfaces edge cases and missing responses.</li>
+            <li>Helps normalize naming, schemas, and examples.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-card fragment" style="margin-top: 1.2rem;">
+        <pre><code># Prompt Copilot
+Create an OpenAPI 3.1 spec for a work-item service.
+Include CRUD operations, pagination, auth headers,
+error responses, and examples for create/update flows.</code></pre>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="spec-structure">
+      <p class="eyebrow">Structure</p>
+      <h2>Spec Structure That Scales</h2>
+      <div class="flow">
+        <div class="flow-step fragment"><strong>Info</strong><span>Purpose, version, ownership</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Paths</strong><span>Resources, verbs, status codes</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Schemas</strong><span>Canonical request and response models</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Security</strong><span>Auth, scopes, policies</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Examples</strong><span>Happy path + edge cases</span></div>
+      </div>
+      <p class="fragment subtitle-strong" style="margin-top: 1.5rem;">If a consumer cannot build against the contract alone, the spec is incomplete.</p>
+    </section>
+
+    <section class="slide layout-top" id="spec-best-practices">
+      <p class="eyebrow">Quality</p>
+      <h2>Spec Best Practices</h2>
+      <div class="grid grid-2" style="margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Design for readers</h3>
+          <ul class="checklist full tiny">
+            <li>Name resources by business capability, not table names.</li>
+            <li>Use explicit status codes and error payloads.</li>
+            <li>Model pagination, filtering, and idempotency early.</li>
+            <li>Keep examples realistic enough for test fixtures.</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Design for generators</h3>
+          <ul class="checklist full tiny">
+            <li>Prefer reusable schemas over copy-paste payloads.</li>
+            <li>Constrain enums, formats, and required fields.</li>
+            <li>Define auth and headers once, then reference them.</li>
+            <li>Capture non-functional intent in extensions or notes.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="exercise-1">
+      <p class="eyebrow">Hands-on Exercise 1</p>
+      <div class="exercise-card">
+        <h3>Write Your First Spec</h3>
+        <p class="full">Working in pairs, define the first version of an API contract for a cloud-native service your team could actually build.</p>
+        <div class="exercise-meta">
+          <span>Duration: 30 min</span>
+          <span>Tooling: Copilot + editor</span>
+          <span>Output: OpenAPI 3.1 YAML</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Choose one bounded context and 2-3 core resources.</li>
+          <li class="fragment">Generate a first draft with Copilot, then refine names and rules.</li>
+          <li class="fragment">Add at least one validation rule, one auth requirement, and one example.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="exercise-1-done">
+      <h2>Exercise 1 Success Criteria</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment"><h3>Consumer-ready</h3><p class="full">Another team can call the API from the spec alone.</p></div>
+        <div class="grid-item fragment"><h3>Generator-ready</h3><p class="full">Schemas and operations are explicit enough to scaffold code.</p></div>
+        <div class="grid-item fragment"><h3>Review-ready</h3><p class="full">Questions are visible in the contract instead of hidden in code.</p></div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="pipeline">
+      <p class="eyebrow">Automation path</p>
+      <h2>Spec2Cloud Pipeline</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spec2Cloud pipeline diagram">
+          <defs>
+            <linearGradient id="pipe" x1="0" x2="1">
+              <stop offset="0%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#0ea5e9"/>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="120" width="150" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="115" y="168" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Spec</text>
+          <text x="115" y="198" text-anchor="middle" fill="#f0f6fc" font-size="18">OpenAPI</text>
+
+          <rect x="250" y="120" width="150" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="325" y="168" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Code</text>
+          <text x="325" y="198" text-anchor="middle" fill="#f0f6fc" font-size="18">Handlers / SDK</text>
+
+          <rect x="460" y="120" width="150" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="535" y="168" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Tests</text>
+          <text x="535" y="198" text-anchor="middle" fill="#f0f6fc" font-size="18">Contract / smoke</text>
+
+          <rect x="670" y="120" width="150" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="745" y="168" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Infra</text>
+          <text x="745" y="198" text-anchor="middle" fill="#f0f6fc" font-size="18">IaC / policy</text>
+
+          <rect x="880" y="120" width="150" height="110" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="955" y="168" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Deploy</text>
+          <text x="955" y="198" text-anchor="middle" fill="#f0f6fc" font-size="18">Cloud runtime</text>
+
+          <rect x="1040" y="120" width="120" height="110" rx="18" fill="#0d2847" stroke="#0ea5e9" stroke-width="3"/>
+          <text x="1100" y="165" text-anchor="middle" fill="#0ea5e9" font-size="22" font-weight="800">Validate</text>
+          <text x="1100" y="195" text-anchor="middle" fill="#f0f6fc" font-size="16">drift + compliance</text>
+
+          <path d="M190 175 H250 M400 175 H460 M610 175 H670 M820 175 H880 M1030 175 H1040" stroke="url(#pipe)" stroke-width="8" fill="none" marker-end="url(#arrowPipe)"/>
+          <defs>
+            <marker id="arrowPipe" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+              <polygon points="0 0, 12 6, 0 12" fill="#0ea5e9"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <p class="fragment subtitle-strong">The contract does not stop at code generation; it drives quality gates and deployment intent.</p>
+    </section>
+
+    <section class="slide layout-top" id="exercise-2">
+      <p class="eyebrow">Hands-on Exercise 2</p>
+      <div class="exercise-card">
+        <h3>Generate the Implementation</h3>
+        <p class="full">Use Spec2Cloud to turn your contract into a runnable service baseline and inspect what was created automatically.</p>
+        <div class="exercise-meta">
+          <span>Duration: 35 min</span>
+          <span>Focus: generation review</span>
+          <span>Output: app scaffold</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Generate handlers, DTOs, and contract tests from your spec.</li>
+          <li class="fragment">Use Copilot to complete business logic while keeping the contract untouched.</li>
+          <li class="fragment">Compare generated code back to the spec and flag gaps or ambiguities.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="generated-assets">
+      <h2>What Gets Generated?</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment"><h3>Application layer</h3><p class="full">Routes, request/response models, client SDKs, validation stubs.</p></div>
+        <div class="grid-item fragment"><h3>Quality layer</h3><p class="full">Contract tests, smoke tests, example payload fixtures, lint rules.</p></div>
+        <div class="grid-item fragment"><h3>Platform layer</h3><p class="full">Environment config, infra templates, secrets references, pipelines.</p></div>
+        <div class="grid-item fragment"><h3>Ops layer</h3><p class="full">Deployable manifests, observability hooks, drift checks, rollback metadata.</p></div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="exercise-3">
+      <p class="eyebrow">Hands-on Exercise 3</p>
+      <div class="exercise-card">
+        <h3>Deploy to Cloud</h3>
+        <p class="full">Push the generated app through the pipeline and validate that the runtime behavior still matches the contract.</p>
+        <div class="exercise-meta">
+          <span>Duration: 30 min</span>
+          <span>Focus: deployment + validation</span>
+          <span>Output: live endpoint</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Provision the target environment from generated infrastructure artifacts.</li>
+          <li class="fragment">Deploy the service and run contract tests against the live endpoint.</li>
+          <li class="fragment">Document one spec change that would trigger a safe redeploy.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="greenfield-debrief">
+      <h2>Greenfield Debrief</h2>
+      <p class="big-statement">The spec becomes the design review, the generator prompt, and the deployment contract.</p>
+      <p class="fragment subtitle-strong">You are not replacing engineering judgment — you are giving it a stronger starting point.</p>
+    </section>
+
+    <section class="slide slide-section layout-center" id="brownfield-section">
+      <h2>AFTERNOON: BROWNFIELD</h2>
+      <p class="section-note">Now use the same method on systems that already exist, where the contract is hidden inside legacy code and tribal knowledge.</p>
+    </section>
+
+    <section class="slide layout-center" id="brownfield-challenge">
+      <h2>The Brownfield Challenge</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment"><h3>Unknown behavior</h3><p class="full">Real API behavior differs from outdated docs.</p></div>
+        <div class="grid-item fragment"><h3>Hidden coupling</h3><p class="full">Change one endpoint and three downstream consumers break.</p></div>
+        <div class="grid-item fragment"><h3>Fear tax</h3><p class="full">Teams avoid modernization because they cannot see the contract.</p></div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="legacy-symptoms">
+      <p class="eyebrow">Reality check</p>
+      <h2>How Legacy Apps Reveal Missing Specs</h2>
+      <div class="grid grid-2" style="margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Symptoms</h3>
+          <ul class="warning-list checklist full tiny">
+            <li>Controllers contain business rules and transport logic mixed together.</li>
+            <li>Swagger docs lag behind what production actually returns.</li>
+            <li>Only end-to-end tests know the truth.</li>
+            <li>Infra setup lives in scripts nobody wants to touch.</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Opportunity</h3>
+          <ul class="checklist full tiny">
+            <li>Mine logs, tests, and code for current behavior.</li>
+            <li>Capture current contract before changing internals.</li>
+            <li>Create a modernization target with explicit deltas.</li>
+            <li>Refactor behind a stable spec boundary.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="reverse-engineering">
+      <p class="eyebrow">Recovery</p>
+      <h2>Reverse-Engineering Specs from Legacy Code</h2>
+      <div class="flow">
+        <div class="flow-step fragment"><strong>Read</strong><span>Controllers, routes, tests, logs</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Infer</strong><span>Operations, payloads, errors, auth</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Codify</strong><span>Current-state spec</span></div>
+        <div class="flow-arrow fragment">→</div>
+        <div class="flow-step fragment"><strong>Improve</strong><span>Target-state spec</span></div>
+      </div>
+      <p class="fragment subtitle-strong" style="margin-top: 1.5rem;">First document what the system does, then decide what it should do.</p>
+    </section>
+
+    <section class="slide layout-split" id="copilot-analysis">
+      <div class="split-panel">
+        <p class="eyebrow">Copilot assist</p>
+        <h2 style="font-size: 2rem;">Using Copilot to Analyze Legacy Code</h2>
+        <ul class="full tiny">
+          <li class="fragment">Summarize route behavior, inputs, and outputs.</li>
+          <li class="fragment">Trace shared models across handlers and tests.</li>
+          <li class="fragment">Draft OpenAPI snippets from implementation patterns.</li>
+        </ul>
+      </div>
+      <div class="split-panel">
+        <div class="code-card" style="margin: 0; max-width: 100%;">
+          <pre><code># Prompt Copilot
+Inspect these controllers and tests.
+Infer the current API contract, including
+required fields, response codes, auth rules,
+and undocumented edge cases for 409 and 422.</code></pre>
+        </div>
+        <p class="fragment tiny muted" style="margin-top: 1rem;">Copilot accelerates extraction, but the team still approves the recovered contract.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="brownfield-workflow">
+      <h2>Brownfield Analysis Workflow</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1100 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brownfield workflow diagram">
+          <rect x="60" y="70" width="220" height="90" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="170" y="110" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Legacy app</text>
+          <text x="170" y="138" text-anchor="middle" fill="#f0f6fc" font-size="18">code, tests, logs</text>
+
+          <rect x="430" y="70" width="240" height="90" rx="18" fill="#0d2847" stroke="#0ea5e9" stroke-width="3"/>
+          <text x="550" y="110" text-anchor="middle" fill="#0ea5e9" font-size="28" font-weight="800">Recovered spec</text>
+          <text x="550" y="138" text-anchor="middle" fill="#f0f6fc" font-size="18">current-state contract</text>
+
+          <rect x="820" y="70" width="220" height="90" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="930" y="110" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Target spec</text>
+          <text x="930" y="138" text-anchor="middle" fill="#f0f6fc" font-size="18">modernized contract</text>
+
+          <rect x="430" y="250" width="240" height="90" rx="18" fill="#0d2847" stroke="#2dd4bf" stroke-width="3"/>
+          <text x="550" y="292" text-anchor="middle" fill="#2dd4bf" font-size="28" font-weight="800">Spec2Cloud</text>
+          <text x="550" y="320" text-anchor="middle" fill="#f0f6fc" font-size="18">generate migration path</text>
+
+          <path d="M280 115 H430" stroke="#2dd4bf" stroke-width="5" fill="none" marker-end="url(#arrowBrown)"/>
+          <path d="M670 115 H820" stroke="#0ea5e9" stroke-width="5" fill="none" marker-end="url(#arrowBrown2)"/>
+          <path d="M930 160 C930 220 700 250 670 250" stroke="#2dd4bf" stroke-width="4" fill="none" marker-end="url(#arrowBrown)"/>
+          <path d="M550 250 V160" stroke="#f0f6fc" stroke-opacity="0.45" stroke-width="4" stroke-dasharray="10 8" marker-end="url(#arrowBack)"/>
+          <text x="700" y="225" fill="#8b949e" font-size="18">generate code, tests, infra, rollout</text>
+          <text x="570" y="205" fill="#8b949e" font-size="18">validate parity</text>
+
+          <defs>
+            <marker id="arrowBrown" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#2dd4bf"/></marker>
+            <marker id="arrowBrown2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#0ea5e9"/></marker>
+            <marker id="arrowBack" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#cbd5e1"/></marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="exercise-4">
+      <p class="eyebrow">Hands-on Exercise 4</p>
+      <div class="exercise-card">
+        <h3>Analyze a Legacy App</h3>
+        <p class="full">Inspect an existing service and capture what is true today before you attempt any modernization.</p>
+        <div class="exercise-meta">
+          <span>Duration: 30 min</span>
+          <span>Focus: discovery</span>
+          <span>Output: behavior inventory</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Identify endpoints, payload shapes, status codes, and auth assumptions.</li>
+          <li class="fragment">Cross-check source code against tests and observed runtime behavior.</li>
+          <li class="fragment">Document three ambiguities the team must resolve before changing internals.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="exercise-5">
+      <p class="eyebrow">Hands-on Exercise 5</p>
+      <div class="exercise-card">
+        <h3>Generate a Modernization Spec</h3>
+        <p class="full">Turn current-state behavior into a reviewed contract, then evolve it into the target API your team wants to support.</p>
+        <div class="exercise-meta">
+          <span>Duration: 35 min</span>
+          <span>Focus: current → target</span>
+          <span>Output: modernization spec</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Create a baseline recovered spec for the legacy API.</li>
+          <li class="fragment">Propose target improvements such as naming, pagination, validation, or auth clarity.</li>
+          <li class="fragment">Mark backward-compatible versus breaking changes explicitly.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="modernization-with-spec2cloud">
+      <p class="eyebrow">Modernization</p>
+      <h2>Spec2Cloud for Brownfield Modernization</h2>
+      <div class="grid grid-2" style="margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Parallel tracks</h3>
+          <ul class="checklist full tiny">
+            <li>Preserve the current contract while generating a cleaner target.</li>
+            <li>Produce adapters, tests, and rollout scaffolding from specs.</li>
+            <li>Use contract tests to prove parity before cutover.</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Controlled change</h3>
+          <ul class="checklist full tiny">
+            <li>Deprecate endpoints with explicit versioning guidance.</li>
+            <li>Validate migrations in lower environments automatically.</li>
+            <li>Ship modernization as governed increments, not rewrites.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="exercise-6">
+      <p class="eyebrow">Hands-on Exercise 6</p>
+      <div class="exercise-card">
+        <h3>Execute the Modernization</h3>
+        <p class="full">Use the target spec to generate the modernization path and prove that behavior is intentional, traceable, and deployable.</p>
+        <div class="exercise-meta">
+          <span>Duration: 35 min</span>
+          <span>Focus: safe execution</span>
+          <span>Output: modernization plan</span>
+        </div>
+        <ul class="checklist full">
+          <li class="fragment">Generate updated implementation stubs, tests, and rollout artifacts.</li>
+          <li class="fragment">Validate parity for unchanged behavior and explicit deltas for new behavior.</li>
+          <li class="fragment">Define a release sequence: shadow, canary, or cutover.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="effective-specs">
+      <p class="eyebrow">Craft</p>
+      <h2>Best Practices for Writing Effective Specs</h2>
+      <div class="grid grid-3" style="margin-top: 1rem;">
+        <div class="grid-item fragment"><h3>Precise</h3><p class="full tiny">Constrain types, validation rules, and error semantics clearly.</p></div>
+        <div class="grid-item fragment"><h3>Observable</h3><p class="full tiny">Include examples and behaviors that can be tested automatically.</p></div>
+        <div class="grid-item fragment"><h3>Portable</h3><p class="full tiny">Separate business contract from cloud-specific implementation details.</p></div>
+        <div class="grid-item fragment"><h3>Reviewable</h3><p class="full tiny">Treat specs like code: PRs, comments, versioning, ownership.</p></div>
+        <div class="grid-item fragment"><h3>Evolvable</h3><p class="full tiny">Document backward compatibility and deprecation paths.</p></div>
+        <div class="grid-item fragment"><h3>Operational</h3><p class="full tiny">Let the contract feed tests, infra, deployment, and governance.</p></div>
+      </div>
+    </section>
+
+    <section class="slide layout-center" id="anti-patterns">
+      <h2>Anti-Patterns to Avoid</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment"><h3>Spec as documentation only</h3><p class="full">If it does not influence generation or validation, it will drift.</p></div>
+        <div class="grid-item fragment"><h3>Copilot without constraints</h3><p class="full">AI is faster when the contract narrows the solution space.</p></div>
+        <div class="grid-item fragment"><h3>Big-bang modernization</h3><p class="full">Recover the current contract before chasing the ideal future state.</p></div>
+        <div class="grid-item fragment"><h3>Cloud intent as an afterthought</h3><p class="full">Non-functional requirements belong near the spec, not in a late ticket.</p></div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="method-reference">
+      <p class="eyebrow">Take-home</p>
+      <h2>Methodology Reference</h2>
+      <ol class="reference-steps">
+        <li class="fragment"><div><strong>Frame the capability</strong><p class="full tiny">Define the user outcome, business rules, and quality constraints.</p></div></li>
+        <li class="fragment"><div><strong>Author or recover the spec</strong><p class="full tiny">Use Copilot to accelerate drafting, then review and tighten it.</p></div></li>
+        <li class="fragment"><div><strong>Generate from the contract</strong><p class="full tiny">Create code, tests, and cloud assets with Spec2Cloud.</p></div></li>
+        <li class="fragment"><div><strong>Validate continuously</strong><p class="full tiny">Run contract checks locally, in CI, and against deployed environments.</p></div></li>
+        <li class="fragment"><div><strong>Evolve intentionally</strong><p class="full tiny">Version the contract, deprecate clearly, and modernize behind stable boundaries.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <h1 class="gradient-text">Thank You</h1>
+      <p class="subtitle">Q&amp;A</p>
+      <p class="author">Marco Antonio Silva</p>
+      <p class="role">Spec-Driven Development with GitHub Copilot &amp; Spec2Cloud</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

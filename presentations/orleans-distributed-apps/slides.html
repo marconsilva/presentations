@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orleans: Building Distributed Applications with Virtual Actors</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --slide-bg: #0f1729;
+      --slide-text: #f0f6fc;
+      --slide-accent: #fbbf24;
+      --slide-secondary: #1e293b;
+      --slide-highlight: #3b82f6;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.1), transparent 34%);
+      pointer-events: none;
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+    .slide p, .slide ul, .slide ol { max-width: 860px; }
+    .slide h1, .slide h2, .slide h3 { letter-spacing: -0.02em; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.9rem; color: #fbbf24; margin-bottom: 1rem; }
+    .lead { font-size: 1.5rem; color: rgba(240, 246, 252, 0.82); }
+    .muted { color: rgba(240, 246, 252, 0.72); }
+    .pill-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
+    .pill { padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.12); color: #fbbf24; font-size: 0.95rem; font-weight: 600; }
+    .stat { font-size: 3rem; font-weight: 800; color: #fbbf24; line-height: 1; margin-bottom: 0.75rem; }
+    .grid-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 18px; }
+    .grid-item p { max-width: none; font-size: 1.05rem; margin-bottom: 0; }
+    .grid-item h3 { color: #fbbf24; }
+    .callout { max-width: 900px; }
+    .checklist { list-style: none; padding: 0; max-width: 820px; }
+    .checklist li { padding-left: 1.8rem; position: relative; margin-bottom: 0.8rem; }
+    .checklist li::before { content: '▸'; position: absolute; left: 0; color: #fbbf24; font-weight: 800; }
+    .two-col-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 2rem; width: 100%; max-width: 900px; margin-top: 1rem; }
+    .two-col-list div { padding: 1rem 1.2rem; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+    .two-col-list h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+    .two-col-list p { max-width: none; font-size: 1rem; margin-bottom: 0; }
+    .timeline { display: grid; gap: 1rem; width: 100%; max-width: 900px; }
+    .timeline-item { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; align-items: start; padding: 1rem 1.2rem; border-radius: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+    .timeline-item strong { color: #fbbf24; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .timeline-item p { max-width: none; margin-bottom: 0; font-size: 1.05rem; }
+    .diagram { width: 100%; max-width: 900px; border: 1px solid rgba(255,255,255,0.10); }
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .quote { max-width: 900px; padding: 1.6rem 2rem; border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(251, 191, 36, 0.12)); border: 1px solid rgba(251, 191, 36, 0.24); }
+    .quote p { font-size: 1.6rem; max-width: none; margin-bottom: 0.7rem; }
+    .quote .attribution { font-size: 1rem; color: rgba(240, 246, 252, 0.72); }
+    .icon-card { text-align: left; }
+    .icon-card .icon { font-size: 1.8rem; margin-bottom: 0.6rem; display: block; }
+    .mini { font-size: 0.98rem !important; }
+    .slide.slide-section { background: linear-gradient(135deg, #1e293b, #3b82f6); }
+    .slide.slide-section p { color: rgba(240, 246, 252, 0.82); }
+    .slide.slide-title .author { opacity: 0.75; }
+
+    @media (max-width: 900px) {
+      .slide.layout-split { flex-direction: column; gap: 1.5rem; overflow-y: auto; }
+      .two-col-list, .timeline-item { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <section class="slide slide-title layout-center" id="title">
+  <p class="eyebrow">Marco Antonio Silva</p>
+  <h1>Orleans</h1>
+  <p class="subtitle">Building Distributed Applications with Virtual Actors</p>
+  <p class="author">Senior Global Black Belt — Microsoft</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>The Distributed Systems Problem</h2>
+  <p class="lead">As soon as work spreads across machines, complexity stops being optional.</p>
+  <div class="pill-row">
+    <span class="pill">Coordination</span>
+    <span class="pill">State</span>
+    <span class="pill">Failure</span>
+    <span class="pill">Concurrency</span>
+  </div>
+</section>
+
+<section class="slide layout-top">
+  <h2>The Coordination Tax</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Where is the state?</h3><p>Each request may hit a different process on a different node.</p></div>
+    <div class="grid-item fragment"><h3>Who owns retries?</h3><p>Clients, queues, services, and databases all have opinions.</p></div>
+    <div class="grid-item fragment"><h3>What happens on failure?</h3><p>Timeouts, partial writes, duplicates, and split-brain behaviors.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Why Orleans Exists</h2>
+  <p class="lead">Orleans turns distributed systems concerns into a programming model centered on virtual actors called grains.</p>
+  <ul>
+    <li class="fragment">You address a grain by identity.</li>
+    <li class="fragment">The runtime activates it when needed.</li>
+    <li class="fragment">The platform manages placement, messaging, and recovery.</li>
+  </ul>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Virtual Actor Model</h2>
+  <p>Think in identities and behaviors, not server instances.</p>
+</section>
+
+<section class="slide layout-split">
+  <div>
+    <h2>What is a Virtual Actor?</h2>
+    <ul>
+      <li class="fragment">A grain represents an entity: user, cart, game room, device, ledger.</li>
+      <li class="fragment">The actor is virtual because it need not be always active in memory.</li>
+      <li class="fragment">Orleans makes activation and location transparent.</li>
+    </ul>
+  </div>
+  <div>
+    <div class="diagram">
+      <svg viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="110" cy="160" r="65" fill="#1e293b" stroke="#fbbf24" stroke-width="3"/>
+        <text x="110" y="155" text-anchor="middle" fill="#f0f6fc" font-size="20" font-weight="700">Grain</text>
+        <text x="110" y="182" text-anchor="middle" fill="#f0f6fc" font-size="16">order/42</text>
+        <rect x="220" y="70" width="240" height="70" rx="16" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+        <text x="340" y="110" text-anchor="middle" fill="#f0f6fc" font-size="18">Activation in silo A</text>
+        <rect x="220" y="190" width="240" height="70" rx="16" fill="#1e293b" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8 6"/>
+        <text x="340" y="230" text-anchor="middle" fill="#f0f6fc" font-size="18">Can move transparently</text>
+        <line x1="175" y1="160" x2="220" y2="105" stroke="#fbbf24" stroke-width="3"/>
+        <line x1="175" y1="160" x2="220" y2="225" stroke="#fbbf24" stroke-width="3"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Grain Types</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Stateless</h3><p>Pure compute, fan-out work, request aggregation.</p></div>
+    <div class="grid-item fragment"><h3>Stateful</h3><p>Domain entities with durable state and behavior.</p></div>
+    <div class="grid-item fragment"><h3>Reentrant</h3><p>Specialized actors that can interleave requests safely.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Identity and Addressing</h2>
+  <p class="lead">A grain reference is enough. No service discovery, no endpoint juggling, no shard routing in your business code.</p>
+  <pre><code>var cart = client.GetGrain&lt;IShoppingCartGrain&gt;(customerId);
+  await cart.AddItem(productId, quantity);</code></pre>
+</section>
+
+<section class="slide layout-center">
+  <h2>Grain Lifecycle</h2>
+  <div class="timeline">
+    <div class="timeline-item fragment"><strong>Lookup</strong><p>A caller asks for a grain by interface and key.</p></div>
+    <div class="timeline-item fragment"><strong>Activation</strong><p>Orleans places the grain on a silo and loads state if needed.</p></div>
+    <div class="timeline-item fragment"><strong>Deactivation</strong><p>Idle grains can be removed from memory while identity remains stable.</p></div>
+  </div>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Managing State</h2>
+  <p>State is explicit in code, but operationally managed by the runtime.</p>
+</section>
+
+<section class="slide layout-split">
+  <div>
+    <h2>Persistent State</h2>
+    <ul>
+      <li class="fragment">Store grain state via configured providers.</li>
+      <li class="fragment">Keep state shapes simple and domain-oriented.</li>
+      <li class="fragment">Persist on meaningful transitions, not every method call.</li>
+    </ul>
+  </div>
+  <div>
+    <pre><code>public class AccountGrain : Grain&lt;AccountState&gt;
+    {
+        public async Task Credit(decimal amount)
+        {
+            State.Balance += amount;
+            await WriteStateAsync();
+        }
+    }</code></pre>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Streams</h2>
+  <p class="lead">Streams let grains publish and subscribe to events without tight coupling.</p>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Ingress</h3><p>Devices, queues, or APIs push events into the system.</p></div>
+    <div class="grid-item fragment"><h3>Processing</h3><p>Interested grains react based on identity and state.</p></div>
+    <div class="grid-item fragment"><h3>Egress</h3><p>Notifications, projections, and downstream workflows continue the flow.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Timers and Reminders</h2>
+  <div class="two-col-list">
+    <div class="fragment"><h3>Timers</h3><p>In-memory scheduling while the grain is active.</p></div>
+    <div class="fragment"><h3>Reminders</h3><p>Durable scheduling that survives deactivation and silo restarts.</p></div>
+  </div>
+  <p class="fragment mini muted">Use reminders for “wake me up later” workflows like renewals, retries, and SLAs.</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>Communication Patterns</h2>
+  <ul class="checklist">
+    <li class="fragment">Request/response for direct interactions.</li>
+    <li class="fragment">Streams for fan-out and event propagation.</li>
+    <li class="fragment">Observer patterns for pushing updates to clients.</li>
+  </ul>
+</section>
+
+<section class="slide layout-center">
+  <h2>Reentrancy: Use Carefully</h2>
+  <p class="lead">Single-threaded execution per grain is a huge simplifier — reentrancy is an optimization tool, not the default.</p>
+  <div class="callout info">Enable reentrancy only when you understand call cycles, waiting patterns, and the consistency trade-offs.</div>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Clusters and Silos</h2>
+  <p>Orleans is a distributed runtime, not just a library.</p>
+</section>
+
+<section class="slide layout-split">
+  <div>
+    <h2>Cluster Management</h2>
+    <ul>
+      <li class="fragment">Silos host grain activations and communicate across the cluster.</li>
+      <li class="fragment">Membership keeps nodes aware of each other.</li>
+      <li class="fragment">Placement decides where activations run.</li>
+    </ul>
+  </div>
+  <div>
+    <div class="grid grid-2">
+      <div class="grid-item fragment"><h3>Silo A</h3><p>order/42, user/7</p></div>
+      <div class="grid-item fragment"><h3>Silo B</h3><p>cart/77, room/eu-12</p></div>
+      <div class="grid-item fragment"><h3>Silo C</h3><p>device/301, ledger/20</p></div>
+      <div class="grid-item fragment"><h3>Gateway</h3><p>Entry point for clients and external services.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Placement and Activation Strategy</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Balance</h3><p>Spread activations to avoid hot silos.</p></div>
+    <div class="grid-item fragment"><h3>Locality</h3><p>Keep related work close when it reduces latency.</p></div>
+    <div class="grid-item fragment"><h3>Elasticity</h3><p>Add silos and let the runtime absorb new capacity.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>The Dashboard Matters</h2>
+  <p class="lead">Orleans Dashboard gives fast feedback when you need to understand activations, throughput, and cluster health.</p>
+  <ul>
+    <li class="fragment">Who is hot?</li>
+    <li class="fragment">Where are failures happening?</li>
+    <li class="fragment">How balanced is the cluster?</li>
+  </ul>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Production Patterns</h2>
+  <p>The programming model is easy. The operational choices still matter.</p>
+</section>
+
+<section class="slide layout-top">
+  <h2>Resilience Patterns</h2>
+  <div class="grid grid-2">
+    <div class="grid-item fragment"><h3>Idempotent methods</h3><p>Design for retries and duplicates.</p></div>
+    <div class="grid-item fragment"><h3>State snapshots</h3><p>Persist stable checkpoints before expensive fan-out.</p></div>
+    <div class="grid-item fragment"><h3>Backpressure</h3><p>Protect downstream systems and hot grains.</p></div>
+    <div class="grid-item fragment"><h3>Observability</h3><p>Correlate grain identity, request IDs, and external dependencies.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Versioning and Deployment</h2>
+  <ul class="checklist">
+    <li class="fragment">Treat grain contracts like APIs: version with intent.</li>
+    <li class="fragment">Be deliberate about state schema evolution.</li>
+    <li class="fragment">Roll out changes with compatibility windows when clusters are mixed-version.</li>
+  </ul>
+</section>
+
+<section class="slide layout-center">
+  <h2>Real-World Example: Gaming</h2>
+  <p class="lead">Game rooms, lobbies, players, and tournaments map naturally to grains with identity and isolated behavior.</p>
+  <div class="pill-row">
+    <span class="pill">Room grains</span>
+    <span class="pill">Player grains</span>
+    <span class="pill">Matchmaking</span>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Real-World Example: IoT</h2>
+  <p class="lead">Each device can be modeled as a grain handling telemetry, commands, and durable state over time.</p>
+  <ul>
+    <li class="fragment">Identity-first routing</li>
+    <li class="fragment">Event-driven stream processing</li>
+    <li class="fragment">Reminder-based maintenance windows</li>
+  </ul>
+</section>
+
+<section class="slide layout-center">
+  <h2>Real-World Example: Finance</h2>
+  <p class="lead">Accounts, portfolios, limits, and workflow states benefit from isolated concurrency and explicit state transitions.</p>
+  <div class="callout warning">Use careful persistence and auditing patterns where regulatory requirements demand deterministic records.</div>
+</section>
+
+<section class="slide layout-center">
+  <h2>When Orleans is a Great Fit</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Entity-rich domains</h3><p>Many IDs with behavior and evolving state.</p></div>
+    <div class="grid-item fragment"><h3>High concurrency</h3><p>Lots of independent operations in parallel.</p></div>
+    <div class="grid-item fragment"><h3>Elastic scale</h3><p>Systems that need runtime-managed placement and activation.</p></div>
+  </div>
+</section>
+
+<section class="slide slide-title layout-center" id="end">
+  <h1>Thank You</h1>
+  <p class="subtitle">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+  <p class="author">Questions? Let’s continue the conversation.</p>
+</section>
+  </div>
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Modernization Lab: Hands-On Legacy Transformation with GitHub Copilot</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a1a0a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #22c55e;
+      --slide-secondary: #0d2810;
+      --slide-highlight: #f59e0b;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.08), transparent 32%);
+      pointer-events: none;
+    }
+
+    .slide > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-section {
+      background: linear-gradient(135deg, #0d2810 0%, #12351a 100%) !important;
+    }
+
+    .slide-section h2 {
+      background: linear-gradient(135deg, #22c55e, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle-strong {
+      font-size: 1.25rem;
+      color: #c7f9d7;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      font-size: 1.7rem;
+      max-width: 900px;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .pill {
+      border: 1px solid rgba(34, 197, 94, 0.32);
+      background: rgba(34, 197, 94, 0.12);
+      color: #9ff0bb;
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .grid-item,
+    .card,
+    .metric,
+    .checkpoint,
+    .note-box,
+    .code-block,
+    .timeline-step {
+      background: rgba(13, 40, 16, 0.82);
+      border: 1px solid rgba(34, 197, 94, 0.18);
+      border-radius: 16px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .grid-item {
+      padding: 1.5rem;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .grid-item h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .grid-item p,
+    .metric p,
+    .checkpoint p,
+    .note-box p,
+    .timeline-step p {
+      max-width: 100%;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 980px;
+      margin-top: 1.5rem;
+    }
+
+    .metric {
+      padding: 1.4rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2.7rem;
+      font-weight: 800;
+      color: var(--slide-highlight);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .metric-label {
+      font-size: 1rem;
+      color: #c2d6c7;
+    }
+
+    .code-block {
+      width: 100%;
+      max-width: 960px;
+      padding: 1.35rem 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      text-align: left;
+      color: #d7ffe3;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .code-block .comment { color: #86a08d; }
+    .code-block .accent { color: #7cf0a2; }
+    .code-block .warn { color: #fbbf24; }
+
+    .checklist,
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 920px;
+    }
+
+    .checklist li,
+    .step-list li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.9rem;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .checklist li::before,
+    .step-list li::before {
+      position: absolute;
+      left: 0;
+      color: var(--slide-accent);
+      font-weight: 800;
+    }
+
+    .checklist li::before { content: '✓'; }
+    .step-list li::before { content: '→'; }
+
+    .note-box,
+    .checkpoint {
+      padding: 1.3rem 1.5rem;
+      max-width: 950px;
+    }
+
+    .checkpoint {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.1);
+    }
+
+    .checkpoint h2,
+    .note-box h2 {
+      margin-bottom: 0.7rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0.8rem;
+      width: 100%;
+      max-width: 1080px;
+      margin-top: 1.25rem;
+    }
+
+    .workflow-step {
+      padding: 1rem;
+      border-radius: 14px;
+      background: rgba(13, 40, 16, 0.82);
+      border: 1px solid rgba(34, 197, 94, 0.18);
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .timeline {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .timeline-step {
+      padding: 1.2rem 1.4rem;
+      border-left: 5px solid var(--slide-highlight);
+      text-align: left;
+    }
+
+    .timeline-step h3 {
+      margin-bottom: 0.45rem;
+      color: var(--slide-highlight);
+    }
+
+    .diagram {
+      width: 100%;
+      max-width: 980px;
+      padding: 1.25rem;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .diagram text {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .small {
+      font-size: 1rem;
+      color: #c2d6c7;
+    }
+
+    .two-col-text {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 980px;
+      align-items: start;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <section class="slide slide-title layout-center" id="title">
+      <h1>Agentic Modernization Lab</h1>
+      <p class="subtitle">Hands-On Legacy Transformation with GitHub Copilot</p>
+      <p class="author">Marco Antonio Silva, Senior Global Black Belt &#8212; Microsoft</p>
+      <div class="pill-row">
+        <span class="pill">Half-day workshop</span>
+        <span class="pill">Lab setup: IDE + SDK + Copilot CLI</span>
+        <span class="pill">Target: legacy .NET Framework app</span>
+      </div>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Lab Setup &amp; Prerequisites</h2>
+      <div class="grid grid-3" style="width: 100%; max-width: 1080px; margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Environment</h3>
+          <p>Windows machine, Visual Studio or VS Code, .NET SDK, Git, and access to the sample repo.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>AI Tooling</h3>
+          <p>GitHub Copilot enabled, Copilot CLI agent mode available, and terminal access for guided prompts.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Mindset</h3>
+          <p>Treat the agent as a modernization teammate: explore, propose, execute, verify, and review.</p>
+        </div>
+      </div>
+      <div class="note-box fragment" style="margin-top: 1.25rem;">
+        <h2>Success Criteria</h2>
+        <p>By the end of the lab, participants have a migration plan, upgraded slices of the app, added tests, and a verified modernization workflow they can repeat.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Workshop Flow</h2>
+      <p class="lead">We are not asking Copilot for one giant rewrite. We are building a controlled modernization loop.</p>
+      <div class="workflow">
+        <div class="workflow-step fragment">1. Analyze</div>
+        <div class="workflow-step fragment">2. Map</div>
+        <div class="workflow-step fragment">3. Strategize</div>
+        <div class="workflow-step fragment">4. Refactor</div>
+        <div class="workflow-step fragment">5. Test</div>
+        <div class="workflow-step fragment">6. Verify</div>
+      </div>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>The Legacy Application</h2>
+        <ul class="step-list">
+          <li class="fragment">ASP.NET MVC on .NET Framework with tightly coupled controllers and services</li>
+          <li class="fragment">Direct database access mixed with UI concerns and business logic</li>
+          <li class="fragment">Aging NuGet packages, partial test coverage, and manual deployment scripts</li>
+          <li class="fragment">Business pressure: modernize fast without breaking the customer workflow</li>
+        </ul>
+      </div>
+      <div>
+        <div class="diagram fragment">
+          <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+            <rect x="170" y="20" width="180" height="56" rx="12" fill="#22c55e" opacity="0.9"/>
+            <text x="260" y="54" text-anchor="middle" fill="#05210d" font-size="18" font-weight="700">Web UI</text>
+            <rect x="40" y="132" width="140" height="56" rx="12" fill="#12351a" stroke="#22c55e"/>
+            <text x="110" y="166" text-anchor="middle" fill="#f0f6fc" font-size="16">Controllers</text>
+            <rect x="190" y="132" width="140" height="56" rx="12" fill="#12351a" stroke="#22c55e"/>
+            <text x="260" y="166" text-anchor="middle" fill="#f0f6fc" font-size="16">Services</text>
+            <rect x="340" y="132" width="140" height="56" rx="12" fill="#12351a" stroke="#22c55e"/>
+            <text x="410" y="166" text-anchor="middle" fill="#f0f6fc" font-size="16">Helpers</text>
+            <rect x="120" y="250" width="280" height="62" rx="12" fill="#0d2810" stroke="#f59e0b" stroke-width="2"/>
+            <text x="260" y="286" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">SQL Server + Shared Schemas</text>
+            <line x1="260" y1="76" x2="110" y2="132" stroke="#22c55e" stroke-width="3"/>
+            <line x1="260" y1="76" x2="260" y2="132" stroke="#22c55e" stroke-width="3"/>
+            <line x1="260" y1="76" x2="410" y2="132" stroke="#22c55e" stroke-width="3"/>
+            <line x1="110" y1="188" x2="180" y2="250" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="260" y1="188" x2="260" y2="250" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="410" y1="188" x2="340" y2="250" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Why This App Needs Modernization</h2>
+      <div class="metric-grid">
+        <div class="metric fragment">
+          <div class="metric-value">4.8 min</div>
+          <div class="metric-label">average build + deploy feedback loop</div>
+        </div>
+        <div class="metric fragment">
+          <div class="metric-value">0.0</div>
+          <div class="metric-label">confidence in hidden dependencies</div>
+        </div>
+        <div class="metric fragment">
+          <div class="metric-value">High</div>
+          <div class="metric-label">risk of regressions from manual edits</div>
+        </div>
+      </div>
+      <p class="small fragment" style="margin-top: 1rem;">Legacy modernization stalls when teams cannot see impact, prioritize safely, or validate quickly.</p>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 1</h2>
+      <p class="subtitle-strong">Codebase analysis with agent</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Codebase Analysis with Copilot</h2>
+      <div class="two-col-text">
+        <div>
+          <ul class="step-list">
+            <li class="fragment">Ask the agent to inventory projects, frameworks, packages, and architectural seams</li>
+            <li class="fragment">Identify outdated dependencies, dead code, and areas with no tests</li>
+            <li class="fragment">Summarize business-critical paths before touching implementation</li>
+          </ul>
+        </div>
+        <div class="code-block fragment"><span class="comment">Example agent prompt</span>
+Analyze this legacy .NET solution for modernization.
+Summarize:
+- project structure and target frameworks
+- risky dependencies and coupling points
+- test coverage gaps
+- recommended first modernization slice</div>
+      </div>
+      <div class="note-box fragment" style="margin-top: 1.2rem;">
+        <h2>Human Review Rule</h2>
+        <p>The agent accelerates discovery, but participants confirm findings against the actual solution structure and business context.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>What a Good Analysis Produces</h2>
+        <div class="grid grid-2" style="width: 100%;">
+          <div class="grid-item fragment">
+            <h3>Structural Map</h3>
+            <p>Projects, layers, shared utilities, and integration boundaries.</p>
+          </div>
+          <div class="grid-item fragment">
+            <h3>Hotspots</h3>
+            <p>Files with high churn, high complexity, or broad dependency reach.</p>
+          </div>
+          <div class="grid-item fragment">
+            <h3>Constraints</h3>
+            <p>Vendor SDKs, unsupported packages, old APIs, and deployment assumptions.</p>
+          </div>
+          <div class="grid-item fragment">
+            <h3>First Slice</h3>
+            <p>A bounded area suitable for incremental modernization with low blast radius.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="diagram fragment">
+          <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="24" width="460" height="64" rx="14" fill="#12351a" stroke="#22c55e"/>
+            <text x="260" y="52" text-anchor="middle" fill="#22c55e" font-size="20" font-weight="700">Agent discovery report</text>
+            <text x="260" y="74" text-anchor="middle" fill="#f0f6fc" font-size="14">projects • frameworks • hotspots • test gaps</text>
+            <rect x="52" y="126" width="178" height="70" rx="12" fill="#0d2810" stroke="#22c55e"/>
+            <text x="141" y="158" text-anchor="middle" fill="#f0f6fc" font-size="16">Orders module</text>
+            <text x="141" y="178" text-anchor="middle" fill="#9ff0bb" font-size="13">good first slice</text>
+            <rect x="290" y="126" width="178" height="70" rx="12" fill="#0d2810" stroke="#f59e0b" stroke-width="2"/>
+            <text x="379" y="158" text-anchor="middle" fill="#f0f6fc" font-size="16">Billing adapter</text>
+            <text x="379" y="178" text-anchor="middle" fill="#ffd48a" font-size="13">high external risk</text>
+            <rect x="52" y="236" width="178" height="70" rx="12" fill="#0d2810" stroke="#22c55e"/>
+            <text x="141" y="268" text-anchor="middle" fill="#f0f6fc" font-size="16">Shared domain</text>
+            <text x="141" y="288" text-anchor="middle" fill="#9ff0bb" font-size="13">extract contracts</text>
+            <rect x="290" y="236" width="178" height="70" rx="12" fill="#0d2810" stroke="#f59e0b" stroke-width="2"/>
+            <text x="379" y="268" text-anchor="middle" fill="#f0f6fc" font-size="16">Legacy tests</text>
+            <text x="379" y="288" text-anchor="middle" fill="#ffd48a" font-size="13">needs stabilization</text>
+            <line x1="260" y1="88" x2="141" y2="126" stroke="#22c55e" stroke-width="2"/>
+            <line x1="260" y1="88" x2="379" y2="126" stroke="#22c55e" stroke-width="2"/>
+            <line x1="141" y1="196" x2="141" y2="236" stroke="#22c55e" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="379" y1="196" x2="379" y2="236" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <div class="checkpoint">
+        <h2>Exercise Checkpoint #1</h2>
+        <p>Participants compare agent findings with the repo: Which modules are the safest first move, and which dependencies immediately constrain the migration path?</p>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 2</h2>
+      <p class="subtitle-strong">Dependency mapping and risk assessment</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Map Dependencies Before Refactoring</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 940 380" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="150" width="160" height="62" rx="12" fill="#12351a" stroke="#22c55e"/>
+          <text x="120" y="186" text-anchor="middle" fill="#f0f6fc" font-size="18">MVC UI</text>
+          <rect x="260" y="60" width="180" height="62" rx="12" fill="#12351a" stroke="#22c55e"/>
+          <text x="350" y="96" text-anchor="middle" fill="#f0f6fc" font-size="18">Order Service</text>
+          <rect x="260" y="240" width="180" height="62" rx="12" fill="#12351a" stroke="#22c55e"/>
+          <text x="350" y="276" text-anchor="middle" fill="#f0f6fc" font-size="18">Reporting</text>
+          <rect x="500" y="60" width="180" height="62" rx="12" fill="#0d2810" stroke="#f59e0b" stroke-width="2"/>
+          <text x="590" y="96" text-anchor="middle" fill="#f0f6fc" font-size="18">Payment SDK</text>
+          <rect x="500" y="240" width="180" height="62" rx="12" fill="#12351a" stroke="#22c55e"/>
+          <text x="590" y="276" text-anchor="middle" fill="#f0f6fc" font-size="18">Data Access</text>
+          <rect x="740" y="150" width="160" height="62" rx="12" fill="#0d2810" stroke="#f59e0b" stroke-width="2"/>
+          <text x="820" y="186" text-anchor="middle" fill="#f0f6fc" font-size="18">Shared Database</text>
+          <line x1="200" y1="180" x2="260" y2="100" stroke="#22c55e" stroke-width="3"/>
+          <line x1="200" y1="180" x2="260" y2="270" stroke="#22c55e" stroke-width="3"/>
+          <line x1="440" y1="100" x2="500" y2="100" stroke="#f59e0b" stroke-width="3"/>
+          <line x1="440" y1="270" x2="500" y2="270" stroke="#22c55e" stroke-width="3"/>
+          <line x1="680" y1="100" x2="740" y2="180" stroke="#f59e0b" stroke-width="3"/>
+          <line x1="680" y1="270" x2="740" y2="180" stroke="#22c55e" stroke-width="3"/>
+          <text x="590" y="36" text-anchor="middle" fill="#ffd48a" font-size="14">external dependency risk</text>
+          <text x="820" y="234" text-anchor="middle" fill="#ffd48a" font-size="14">shared-state risk</text>
+        </svg>
+      </div>
+      <p class="small">The agent helps surface hidden coupling, but the team decides which dependencies can be isolated, wrapped, or deferred.</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Risk Assessment Matrix</h2>
+      <div class="grid grid-2" style="width: 100%; max-width: 980px; margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Low Complexity / High Value</h3>
+          <p>Controller cleanup, package updates, and extraction of DTO contracts.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>High Complexity / High Value</h3>
+          <p>Authentication flow, billing integrations, and schema-dependent services.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Low Complexity / Low Value</h3>
+          <p>Cosmetic cleanup that does not reduce coupling or unlock migration.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>High Complexity / Low Value</h3>
+          <p>Large rewrites without test safety nets or measurable business gain.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <div class="checkpoint">
+        <h2>Exercise Checkpoint #2</h2>
+        <p>Teams tag each dependency as isolate now, wrap for later, or leave in place. The goal is to reduce blast radius before changing frameworks or runtime behavior.</p>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 3</h2>
+      <p class="subtitle-strong">Migration strategy generation</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Generate a Migration Strategy</h2>
+      <div class="two-col-text">
+        <div class="code-block fragment"><span class="comment">Prompt the agent for a plan, not a rewrite</span>
+Create a phased modernization strategy for this app.
+Include:
+- quick wins for week 1
+- compatibility constraints
+- recommended extraction order
+- validation gates after each phase
+- rollback considerations</div>
+        <div>
+          <ul class="step-list">
+            <li class="fragment">A strong strategy explains sequence, dependencies, and validation points</li>
+            <li class="fragment">It aligns technical work with a bounded modernization slice</li>
+            <li class="fragment">It keeps the team shipping while reducing long-term platform debt</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Phased Roadmap</h2>
+      <div class="timeline">
+        <div class="timeline-step fragment">
+          <h3>Phase 1 — Stabilize</h3>
+          <p>Inventory packages, introduce adapters, document seams, and freeze risky areas behind tests.</p>
+        </div>
+        <div class="timeline-step fragment">
+          <h3>Phase 2 — Extract</h3>
+          <p>Move shared business rules and contracts into portable libraries with cleaner boundaries.</p>
+        </div>
+        <div class="timeline-step fragment">
+          <h3>Phase 3 — Upgrade</h3>
+          <p>Modernize selected projects, update dependencies, and refactor APIs incrementally.</p>
+        </div>
+        <div class="timeline-step fragment">
+          <h3>Phase 4 — Validate &amp; Expand</h3>
+          <p>Run regression checks, capture learnings, and repeat the loop for the next modernization slice.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 4</h2>
+      <p class="subtitle-strong">Automated refactoring execution</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Refactor with the Agent, Not Around It</h2>
+        <ul class="step-list">
+          <li class="fragment">Ask for bounded edits: one project, one seam, one architectural objective</li>
+          <li class="fragment">Preserve behavior first, then improve readability, testability, and portability</li>
+          <li class="fragment">Review generated diffs like production code, especially around legacy edge cases</li>
+        </ul>
+      </div>
+      <div>
+        <div class="grid grid-2" style="width: 100%;">
+          <div class="grid-item fragment">
+            <h3>Good Targets</h3>
+            <p>Configuration wrappers, repository interfaces, service extraction, null-handling cleanup.</p>
+          </div>
+          <div class="grid-item fragment">
+            <h3>Watch Closely</h3>
+            <p>Reflection, serialization, payment flows, date logic, and custom middleware behavior.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Example Refactoring Moves</h2>
+      <div class="grid grid-3" style="width: 100%; max-width: 1080px; margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Extract Service</h3>
+          <p>Move business rules out of MVC controllers into focused application services.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Wrap Dependency</h3>
+          <p>Introduce an adapter around a legacy SDK before replacing or upgrading it.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Separate Data Access</h3>
+          <p>Reduce direct SQL calls in UI code and funnel access through stable interfaces.</p>
+        </div>
+      </div>
+      <div class="code-block fragment" style="margin-top: 1.2rem;"><span class="comment">Refactoring outcome</span>
+Controller -> thin orchestration
+Service    -> business rules
+Adapter    -> external dependency boundary
+Tests      -> describe expected behavior before and after migration</div>
+    </section>
+
+    <section class="slide layout-center">
+      <div class="checkpoint">
+        <h2>Exercise Checkpoint #3</h2>
+        <p>Pause after the first automated refactor. Review the diff, identify any unexpected behavior changes, and decide whether the next change should be extraction, cleanup, or rollback.</p>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 5</h2>
+      <p class="subtitle-strong">Test generation</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Generate Tests to Create Safety</h2>
+        <ul class="checklist">
+          <li class="fragment">Start with characterization tests for fragile legacy behavior</li>
+          <li class="fragment">Add focused unit tests around extracted services and adapters</li>
+          <li class="fragment">Use agent-generated scenarios to cover happy path, edge path, and failure path</li>
+        </ul>
+      </div>
+      <div>
+        <div class="code-block fragment"><span class="comment">Example testing prompt</span>
+Generate tests for the extracted order service.
+Cover:
+- valid order submission
+- invalid discount rules
+- downstream payment failure
+- behavior parity with the legacy controller</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Step 6</h2>
+      <p class="subtitle-strong">Validation and verification</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Validate Every Modernization Slice</h2>
+      <div class="grid grid-3" style="width: 100%; max-width: 1080px; margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>Build Validation</h3>
+          <p>Compile, restore, and confirm new boundaries do not break existing projects.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Behavior Validation</h3>
+          <p>Run regression tests and compare outputs on key user journeys.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Operational Validation</h3>
+          <p>Check logs, performance, startup assumptions, and environment-specific settings.</p>
+        </div>
+      </div>
+      <div class="note-box fragment" style="margin-top: 1.2rem;">
+        <h2>Verification Principle</h2>
+        <p>Agent speed is only valuable when each loop ends with evidence: builds pass, tests pass, and the modernization slice still serves the business outcome.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Modernization Loop</h2>
+      <div class="diagram fragment">
+        <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="180" r="64" fill="#12351a" stroke="#22c55e" stroke-width="3"/>
+          <text x="150" y="176" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Analyze</text>
+          <text x="150" y="198" text-anchor="middle" fill="#9ff0bb" font-size="13">understand</text>
+          <circle cx="320" cy="90" r="64" fill="#12351a" stroke="#22c55e" stroke-width="3"/>
+          <text x="320" y="86" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Map</text>
+          <text x="320" y="108" text-anchor="middle" fill="#9ff0bb" font-size="13">de-risk</text>
+          <circle cx="520" cy="90" r="64" fill="#12351a" stroke="#22c55e" stroke-width="3"/>
+          <text x="520" y="86" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Plan</text>
+          <text x="520" y="108" text-anchor="middle" fill="#9ff0bb" font-size="13">sequence</text>
+          <circle cx="690" cy="180" r="64" fill="#12351a" stroke="#22c55e" stroke-width="3"/>
+          <text x="690" y="176" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Refactor</text>
+          <text x="690" y="198" text-anchor="middle" fill="#9ff0bb" font-size="13">change</text>
+          <circle cx="520" cy="270" r="64" fill="#12351a" stroke="#f59e0b" stroke-width="3"/>
+          <text x="520" y="266" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Test</text>
+          <text x="520" y="288" text-anchor="middle" fill="#ffd48a" font-size="13">protect</text>
+          <circle cx="320" cy="270" r="64" fill="#12351a" stroke="#f59e0b" stroke-width="3"/>
+          <text x="320" y="266" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Verify</text>
+          <text x="320" y="288" text-anchor="middle" fill="#ffd48a" font-size="13">prove</text>
+          <path d="M214 148 C246 124, 256 112, 278 102" fill="none" stroke="#22c55e" stroke-width="3"/>
+          <path d="M384 90 L456 90" fill="none" stroke="#22c55e" stroke-width="3"/>
+          <path d="M584 102 C620 120, 642 142, 658 154" fill="none" stroke="#22c55e" stroke-width="3"/>
+          <path d="M658 206 C642 220, 616 242, 580 258" fill="none" stroke="#f59e0b" stroke-width="3"/>
+          <path d="M456 270 L384 270" fill="none" stroke="#f59e0b" stroke-width="3"/>
+          <path d="M278 258 C244 238, 216 212, 192 200" fill="none" stroke="#f59e0b" stroke-width="3"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Wrap-Up Methodology</h2>
+      <div class="grid grid-2" style="width: 100%; max-width: 980px; margin-top: 1rem;">
+        <div class="grid-item fragment">
+          <h3>What Participants Learn</h3>
+          <p>How to use agentic workflows to reduce uncertainty, prioritize migration work, and move faster with evidence.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>What Teams Take Home</h3>
+          <p>A repeatable lab pattern for legacy transformation: analyze, map, plan, refactor, test, validate, repeat.</p>
+        </div>
+      </div>
+      <p class="lead fragment" style="margin-top: 1.2rem;">Modernization succeeds when Copilot amplifies engineering judgment instead of replacing it.</p>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You</h1>
+      <p class="subtitle">Ready to modernize your next legacy system with Copilot?</p>
+      <p class="author">Marco Antonio Silva, Senior Global Black Belt &#8212; Microsoft</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

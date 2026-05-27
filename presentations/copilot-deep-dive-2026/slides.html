@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Deep Dive: From Zero to Hero</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0d1117;
+      --slide-text: #f0f6fc;
+      --slide-accent: #58a6ff;
+      --slide-secondary: #161b22;
+      --slide-highlight: #238636;
+    }
+
+    .copilot-logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid var(--slide-accent);
+      margin-bottom: 0.5rem;
+      background: rgba(88, 166, 255, 0.05);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .timeline-item .year {
+      font-weight: 700;
+      color: var(--slide-accent);
+      min-width: 4rem;
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--slide-secondary);
+      border-radius: 12px;
+      border: 1px solid rgba(88, 166, 255, 0.2);
+    }
+
+    .stat-box .number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--slide-accent);
+    }
+
+    .stat-box .label {
+      font-size: 0.9rem;
+      color: var(--slide-text);
+      opacity: 0.8;
+    }
+
+    .demo-banner {
+      background: linear-gradient(135deg, var(--slide-highlight), #2ea043);
+      padding: 2rem 3rem;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .demo-banner .subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    .ide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--slide-secondary);
+      border-radius: 8px;
+      border: 1px solid rgba(88, 166, 255, 0.2);
+      font-weight: 500;
+    }
+
+    .prompt-example {
+      background: var(--slide-secondary);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin: 0.5rem 0;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.9rem;
+    }
+
+    .prompt-example .prefix {
+      color: var(--slide-accent);
+      font-weight: 700;
+    }
+
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--slide-secondary);
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .workflow-step .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--slide-accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .key-point {
+      padding: 0.75rem 1.25rem;
+      border-left: 4px solid var(--slide-highlight);
+      background: rgba(35, 134, 54, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <!-- Slide 1: Title -->
+    <section class="slide slide-title layout-center" id="title">
+      <svg class="copilot-logo" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" fill="none" stroke="#58a6ff" stroke-width="2"/>
+        <path d="M25 35 C25 25, 55 25, 55 35 L55 45 C55 55, 25 55, 25 45 Z" fill="#58a6ff" opacity="0.2" stroke="#58a6ff" stroke-width="1.5"/>
+        <circle cx="33" cy="38" r="5" fill="#58a6ff"/>
+        <circle cx="47" cy="38" r="5" fill="#58a6ff"/>
+        <path d="M30 48 Q40 54 50 48" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h1>GitHub Copilot Deep Dive</h1>
+      <p class="subtitle">From Zero to Hero with AI-Powered Development</p>
+      <p class="author">Marco Antonio Silva<br><span style="font-size:0.8em;opacity:0.7">Senior Global Black Belt — Microsoft</span></p>
+    </section>
+
+    <!-- Slide 2: Agenda -->
+    <section class="slide layout-center">
+      <h2>Agenda — 60 Minutes</h2>
+      <ul>
+        <li class="fragment">The Copilot Toolkit in 2026</li>
+        <li class="fragment">IDE Integration &amp; Context-Aware Completions</li>
+        <li class="fragment">Prompt Engineering &amp; Custom Instructions</li>
+        <li class="fragment">Copilot Workspace &amp; Coding Agent</li>
+        <li class="fragment">Tests, Docs, Code Review</li>
+        <li class="fragment">CI/CD &amp; Team Workflows</li>
+        <li class="fragment">🔴 Live Demo: .NET App with Copilot</li>
+      </ul>
+    </section>
+
+    <!-- Slide 3: Section - Copilot Toolkit -->
+    <section class="slide slide-section layout-center">
+      <h2>The Full Copilot Toolkit in 2026</h2>
+      <p>From autocomplete to autonomous agent</p>
+    </section>
+
+    <!-- Slide 4: Evolution Timeline -->
+    <section class="slide layout-center">
+      <h2>Copilot Evolution</h2>
+      <div class="timeline-item fragment"><span class="year">2022</span> Code completions — single-line suggestions</div>
+      <div class="timeline-item fragment"><span class="year">2023</span> Copilot Chat — conversational AI in the IDE</div>
+      <div class="timeline-item fragment"><span class="year">2024</span> Multi-file edits &amp; workspace context</div>
+      <div class="timeline-item fragment"><span class="year">2025</span> Agent mode — autonomous multi-step tasks</div>
+      <div class="timeline-item fragment"><span class="year">2026</span> Coding agent — assign issues, receive PRs</div>
+    </section>
+
+    <!-- Slide 5: Toolkit Overview Diagram -->
+    <section class="slide layout-center">
+      <h2>The Toolkit at a Glance</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+          <!-- Center hub -->
+          <circle cx="400" cy="180" r="55" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+          <text x="400" y="175" text-anchor="middle" fill="#58a6ff" font-size="12" font-weight="700">GitHub</text>
+          <text x="400" y="195" text-anchor="middle" fill="#58a6ff" font-size="12" font-weight="700">Copilot</text>
+          <!-- Spokes -->
+          <line x1="345" y1="180" x2="200" y2="100" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="345" y1="180" x2="200" y2="260" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="455" y1="180" x2="600" y2="100" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="455" y1="180" x2="600" y2="260" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="400" y1="125" x2="400" y2="50" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <line x1="400" y1="235" x2="400" y2="320" stroke="#58a6ff" stroke-width="1.5" opacity="0.5"/>
+          <!-- Nodes -->
+          <rect x="120" y="75" width="140" height="50" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="190" y="105" text-anchor="middle" fill="#f0f6fc" font-size="12">Completions</text>
+          <rect x="120" y="235" width="140" height="50" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="190" y="265" text-anchor="middle" fill="#f0f6fc" font-size="12">Chat &amp; Explain</text>
+          <rect x="540" y="75" width="140" height="50" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="610" y="105" text-anchor="middle" fill="#f0f6fc" font-size="12">Coding Agent</text>
+          <rect x="540" y="235" width="140" height="50" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="610" y="265" text-anchor="middle" fill="#f0f6fc" font-size="12">Code Review</text>
+          <rect x="330" y="25" width="140" height="50" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="400" y="55" text-anchor="middle" fill="#f0f6fc" font-size="12">Agent Mode</text>
+          <rect x="330" y="295" width="140" height="50" rx="10" fill="#161b22" stroke="#238636" stroke-width="1.5"/>
+          <text x="400" y="325" text-anchor="middle" fill="#f0f6fc" font-size="12">Workspace</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 6: Impact Stats -->
+    <section class="slide layout-center">
+      <h2>Why It Matters</h2>
+      <div class="grid grid-3">
+        <div class="stat-box fragment">
+          <div class="number">55%</div>
+          <div class="label">Faster task completion</div>
+        </div>
+        <div class="stat-box fragment">
+          <div class="number">46%</div>
+          <div class="label">Code written by Copilot</div>
+        </div>
+        <div class="stat-box fragment">
+          <div class="number">75%</div>
+          <div class="label">Developers feel more fulfilled</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Section - IDE Integration -->
+    <section class="slide slide-section layout-center">
+      <h2>IDE Integration</h2>
+      <p>Your AI pair programmer, everywhere</p>
+    </section>
+
+    <!-- Slide 8: Supported IDEs -->
+    <section class="slide layout-center">
+      <h2>Available Everywhere</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <div class="ide-badge">🟦 VS Code</div>
+          <p style="margin-top:0.5rem;font-size:0.85rem;opacity:0.7">Full agent mode, inline chat, terminal</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="ide-badge">🟪 Visual Studio</div>
+          <p style="margin-top:0.5rem;font-size:0.85rem;opacity:0.7">Completions, chat, .NET optimized</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="ide-badge">🟧 JetBrains</div>
+          <p style="margin-top:0.5rem;font-size:0.85rem;opacity:0.7">IntelliJ, Rider, PyCharm, WebStorm</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Context-Aware Completions -->
+    <section class="slide layout-split">
+      <div>
+        <h2>Context-Aware Completions</h2>
+        <ul>
+          <li class="fragment">Reads open files &amp; project structure</li>
+          <li class="fragment">Understands your coding patterns</li>
+          <li class="fragment">Respects naming conventions</li>
+          <li class="fragment">Multi-file edits across solution</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 350 300" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="20" width="270" height="260" rx="12" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <rect x="60" y="50" width="230" height="30" rx="5" fill="#0d1117"/>
+          <text x="75" y="70" fill="#8b949e" font-size="11" font-family="monospace">public class OrderService</text>
+          <rect x="60" y="90" width="230" height="30" rx="5" fill="#0d1117"/>
+          <text x="75" y="110" fill="#8b949e" font-size="11" font-family="monospace">  private readonly IRepo _repo;</text>
+          <rect x="60" y="130" width="230" height="55" rx="5" fill="rgba(88,166,255,0.1)" stroke="#58a6ff" stroke-width="1" stroke-dasharray="4"/>
+          <text x="75" y="150" fill="#58a6ff" font-size="11" font-family="monospace">  public async Task&lt;Order&gt;</text>
+          <text x="75" y="168" fill="#58a6ff" font-size="11" font-family="monospace">    GetByIdAsync(int id) =&gt;</text>
+          <text x="75" y="186" fill="#58a6ff" font-size="10" font-style="italic">    ✨ Copilot suggestion</text>
+          <rect x="60" y="200" width="230" height="30" rx="5" fill="#0d1117"/>
+          <text x="75" y="220" fill="#8b949e" font-size="11" font-family="monospace">  // next method...</text>
+          <text x="175" y="260" text-anchor="middle" fill="#58a6ff" font-size="10">Tab to accept • Esc to dismiss</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 10: Multi-file Edits -->
+    <section class="slide layout-center">
+      <h2>Multi-File Edits</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+          <!-- Files -->
+          <rect x="50" y="30" width="150" height="80" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="125" y="60" text-anchor="middle" fill="#58a6ff" font-size="11" font-weight="600">Controller.cs</text>
+          <text x="125" y="85" text-anchor="middle" fill="#8b949e" font-size="10">+ new endpoint</text>
+          <rect x="275" y="30" width="150" height="80" rx="8" fill="#161b22" stroke="#238636" stroke-width="1.5"/>
+          <text x="350" y="60" text-anchor="middle" fill="#238636" font-size="11" font-weight="600">Service.cs</text>
+          <text x="350" y="85" text-anchor="middle" fill="#8b949e" font-size="10">+ business logic</text>
+          <rect x="500" y="30" width="150" height="80" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="575" y="60" text-anchor="middle" fill="#58a6ff" font-size="11" font-weight="600">Model.cs</text>
+          <text x="575" y="85" text-anchor="middle" fill="#8b949e" font-size="10">+ DTO class</text>
+          <!-- Arrow -->
+          <path d="M350 140 L350 170" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff"/></marker></defs>
+          <!-- Result -->
+          <rect x="200" y="180" width="300" height="50" rx="10" fill="rgba(35,134,54,0.15)" stroke="#238636" stroke-width="1.5"/>
+          <text x="350" y="210" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">One prompt → All files updated</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 11: Section - Prompt Engineering -->
+    <section class="slide slide-section layout-center">
+      <h2>Prompt Engineering</h2>
+      <p>Getting the best out of your AI collaborator</p>
+    </section>
+
+    <!-- Slide 12: Prompt Best Practices -->
+    <section class="slide layout-center">
+      <h2>Prompt Engineering Best Practices</h2>
+      <div class="key-point fragment">Be specific: describe inputs, outputs, constraints</div>
+      <div class="key-point fragment">Provide context: mention frameworks, patterns, conventions</div>
+      <div class="key-point fragment">Break complex tasks: one clear instruction at a time</div>
+      <div class="key-point fragment">Show examples: give a sample of expected output</div>
+      <div class="key-point fragment">Iterate: refine prompts based on results</div>
+    </section>
+
+    <!-- Slide 13: Good vs Bad Prompts -->
+    <section class="slide layout-split">
+      <div>
+        <h2>❌ Weak Prompt</h2>
+        <div class="prompt-example">
+          <span class="prefix">&gt;</span> Make a function to process orders
+        </div>
+        <p style="margin-top:1rem;font-size:0.9rem;opacity:0.7">Vague, no context, no constraints</p>
+      </div>
+      <div>
+        <h2>✅ Strong Prompt</h2>
+        <div class="prompt-example">
+          <span class="prefix">&gt;</span> Create an async method in OrderService that validates stock, calculates total with tax, saves to EF Core, and returns OrderConfirmationDto. Use the repository pattern.
+        </div>
+        <p style="margin-top:1rem;font-size:0.9rem;opacity:0.7">Specific, contextual, actionable</p>
+      </div>
+    </section>
+
+    <!-- Slide 14: Custom Instructions -->
+    <section class="slide layout-center">
+      <h2>Custom Instructions</h2>
+      <pre><code># .github/copilot-instructions.md
+
+## Code Style
+- Use C# 12 primary constructors
+- Follow Clean Architecture layers
+- Use MediatR for CQRS pattern
+
+## Testing
+- Use xUnit + FluentAssertions
+- Arrange-Act-Assert pattern
+- Mock with NSubstitute
+
+## Naming
+- Async suffix on async methods
+- I-prefix on interfaces</code></pre>
+    </section>
+
+    <!-- Slide 15: Custom Instructions Benefits -->
+    <section class="slide layout-center">
+      <h2>Why Custom Instructions Matter</h2>
+      <ul>
+        <li class="fragment">Team-wide consistency without code reviews for style</li>
+        <li class="fragment">Version-controlled in your repository</li>
+        <li class="fragment">Copilot reads them automatically on every prompt</li>
+        <li class="fragment">Reduces "fix the AI's output" iterations by 60%+</li>
+      </ul>
+    </section>
+
+    <!-- Slide 16: Section - Copilot Workspace -->
+    <section class="slide slide-section layout-center">
+      <h2>Copilot Workspace</h2>
+      <p>Plan → Implement → Validate — for larger features</p>
+    </section>
+
+    <!-- Slide 17: Workspace Flow -->
+    <section class="slide layout-center">
+      <h2>Workspace Flow</h2>
+      <div class="workflow-step fragment">
+        <div class="step-num">1</div>
+        <div><strong>Describe</strong> — natural language specification of the feature</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">2</div>
+        <div><strong>Plan</strong> — Copilot generates a step-by-step implementation plan</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">3</div>
+        <div><strong>Implement</strong> — code changes across multiple files</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">4</div>
+        <div><strong>Validate</strong> — run tests, preview changes, iterate</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">5</div>
+        <div><strong>Ship</strong> — open a PR with full context and rationale</div>
+      </div>
+    </section>
+
+    <!-- Slide 18: Section - Tests, Docs, Review -->
+    <section class="slide slide-section layout-center">
+      <h2>Tests, Docs &amp; Code Review</h2>
+      <p>Copilot across the entire development lifecycle</p>
+    </section>
+
+    <!-- Slide 19: Copilot for Tests -->
+    <section class="slide layout-split">
+      <div>
+        <h2>Copilot for Tests</h2>
+        <ul>
+          <li class="fragment">Generate unit tests from implementation</li>
+          <li class="fragment">Edge cases &amp; boundary conditions</li>
+          <li class="fragment">Integration test scaffolding</li>
+          <li class="fragment">Mutation testing suggestions</li>
+        </ul>
+      </div>
+      <div>
+        <pre><code>[Fact]
+public async Task GetOrder_ValidId_ReturnsOrder()
+{
+    // Arrange
+    var repo = Substitute.For&lt;IOrderRepo&gt;();
+    repo.GetByIdAsync(1)
+        .Returns(TestData.SampleOrder);
+    var svc = new OrderService(repo);
+
+    // Act
+    var result = await svc.GetByIdAsync(1);
+
+    // Assert
+    result.Should().NotBeNull();
+    result.Id.Should().Be(1);
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Slide 20: Copilot for Docs -->
+    <section class="slide layout-center">
+      <h2>Copilot for Documentation</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>📝 XML Docs</h3>
+          <p>Auto-generates summaries, param descriptions, return types, exceptions</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>📖 README</h3>
+          <p>Project documentation, setup guides, API references</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>📋 ADRs</h3>
+          <p>Architecture Decision Records from code context</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🔗 OpenAPI</h3>
+          <p>Swagger specs generated from controllers</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 21: Copilot Code Review -->
+    <section class="slide layout-center">
+      <h2>Copilot Code Review</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="80" width="140" height="60" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="100" y="115" text-anchor="middle" fill="#f0f6fc" font-size="12">Push PR</text>
+          <path d="M170 110 L240 110" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="240" y="60" width="180" height="100" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+          <text x="330" y="95" text-anchor="middle" fill="#58a6ff" font-size="12" font-weight="700">Copilot Review</text>
+          <text x="330" y="120" text-anchor="middle" fill="#8b949e" font-size="10">Security • Performance</text>
+          <text x="330" y="140" text-anchor="middle" fill="#8b949e" font-size="10">Bugs • Best Practices</text>
+          <path d="M420 110 L490 110" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="490" y="80" width="170" height="60" rx="10" fill="rgba(35,134,54,0.15)" stroke="#238636" stroke-width="1.5"/>
+          <text x="575" y="108" text-anchor="middle" fill="#238636" font-size="12" font-weight="600">Inline Comments</text>
+          <text x="575" y="128" text-anchor="middle" fill="#8b949e" font-size="10">+ fix suggestions</text>
+        </svg>
+      </div>
+      <p class="fragment" style="text-align:center;margin-top:1rem;opacity:0.8">Reviews in seconds, not hours. Human reviewers focus on architecture.</p>
+    </section>
+
+    <!-- Slide 22: Section - Coding Agent -->
+    <section class="slide slide-section layout-center">
+      <h2>Copilot Coding Agent</h2>
+      <p>Assign an issue. Receive a pull request.</p>
+    </section>
+
+    <!-- Slide 23: Coding Agent Flow -->
+    <section class="slide layout-center">
+      <h2>How It Works</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 750 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Step 1 -->
+          <rect x="30" y="100" width="130" height="80" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="95" y="135" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="600">GitHub Issue</text>
+          <text x="95" y="158" text-anchor="middle" fill="#8b949e" font-size="10">@copilot assign</text>
+          <!-- Arrow 1 -->
+          <path d="M160 140 L210 140" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <!-- Step 2 -->
+          <rect x="210" y="100" width="130" height="80" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="275" y="130" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="600">Agent Plans</text>
+          <text x="275" y="150" text-anchor="middle" fill="#8b949e" font-size="10">Reads codebase</text>
+          <text x="275" y="168" text-anchor="middle" fill="#8b949e" font-size="10">Creates strategy</text>
+          <!-- Arrow 2 -->
+          <path d="M340 140 L390 140" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <!-- Step 3 -->
+          <rect x="390" y="100" width="130" height="80" rx="10" fill="#161b22" stroke="#238636" stroke-width="1.5"/>
+          <text x="455" y="130" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="600">Agent Codes</text>
+          <text x="455" y="150" text-anchor="middle" fill="#8b949e" font-size="10">Writes &amp; tests</text>
+          <text x="455" y="168" text-anchor="middle" fill="#8b949e" font-size="10">Iterates on errors</text>
+          <!-- Arrow 3 -->
+          <path d="M520 140 L570 140" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <!-- Step 4 -->
+          <rect x="570" y="100" width="140" height="80" rx="10" fill="rgba(35,134,54,0.15)" stroke="#238636" stroke-width="2"/>
+          <text x="640" y="135" text-anchor="middle" fill="#238636" font-size="11" font-weight="700">Pull Request</text>
+          <text x="640" y="158" text-anchor="middle" fill="#8b949e" font-size="10">Ready for review</text>
+        </svg>
+      </div>
+      <p class="fragment" style="text-align:center;margin-top:1rem">Works on its own branch • Runs CI • Self-corrects failures</p>
+    </section>
+
+    <!-- Slide 24: Agent Capabilities -->
+    <section class="slide layout-center">
+      <h2>Coding Agent Capabilities</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>🔧 What It Can Do</h3>
+          <ul>
+            <li>Implement features end-to-end</li>
+            <li>Fix bugs from issue descriptions</li>
+            <li>Add tests for uncovered code</li>
+            <li>Refactor with confidence</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🛡️ Safety Guardrails</h3>
+          <ul>
+            <li>Runs only in sandboxed env</li>
+            <li>Respects branch protections</li>
+            <li>Human review always required</li>
+            <li>Configurable via setup steps</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 25: Section - Agent Mode -->
+    <section class="slide slide-section layout-center">
+      <h2>Agent Mode</h2>
+      <p>Autonomous multi-step tasks in your IDE</p>
+    </section>
+
+    <!-- Slide 26: Agent Mode Features -->
+    <section class="slide layout-center">
+      <h2>Agent Mode in Action</h2>
+      <ul>
+        <li class="fragment">Reads, writes, and deletes files autonomously</li>
+        <li class="fragment">Runs terminal commands (build, test, lint)</li>
+        <li class="fragment">Self-corrects based on compiler errors</li>
+        <li class="fragment">Chains multiple tools: search → edit → test → commit</li>
+        <li class="fragment">Ask permission before destructive operations</li>
+      </ul>
+      <div class="callout info fragment" style="margin-top:1.5rem">
+        <strong>💡 Pro tip:</strong> Use agent mode for scaffold + test + iterate workflows
+      </div>
+    </section>
+
+    <!-- Slide 27: Section - CI/CD -->
+    <section class="slide slide-section layout-center">
+      <h2>CI/CD Integration</h2>
+      <p>Copilot in your pipeline</p>
+    </section>
+
+    <!-- Slide 28: CI/CD with Copilot -->
+    <section class="slide layout-center">
+      <h2>Copilot in CI/CD</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment">
+          <h3>🔄 PR Automation</h3>
+          <p>Auto-review on PR open, suggest fixes, auto-merge on approval</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🧪 Test Generation</h3>
+          <p>Generate missing tests in CI, block merge if coverage drops</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>📋 Release Notes</h3>
+          <p>Auto-generate changelogs from PR descriptions and commits</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🔒 Security Scanning</h3>
+          <p>Copilot-powered vulnerability detection in workflows</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 29: Section - Team Workflows -->
+    <section class="slide slide-section layout-center">
+      <h2>Team Workflows</h2>
+      <p>Building a Copilot-augmented team</p>
+    </section>
+
+    <!-- Slide 30: Team Workflow -->
+    <section class="slide layout-center">
+      <h2>Copilot-Augmented Team</h2>
+      <div class="workflow-step fragment">
+        <div class="step-num">1</div>
+        <div><strong>Standards</strong> — copilot-instructions.md + custom instructions per repo</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">2</div>
+        <div><strong>Assign</strong> — triage issues, assign simple ones to Copilot agent</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">3</div>
+        <div><strong>Review</strong> — Copilot does first-pass review, humans verify architecture</div>
+      </div>
+      <div class="workflow-step fragment">
+        <div class="step-num">4</div>
+        <div><strong>Ship</strong> — auto-generated docs, release notes, deployment</div>
+      </div>
+    </section>
+
+    <!-- Slide 31: Metrics & ROI -->
+    <section class="slide layout-center">
+      <h2>Measuring Impact</h2>
+      <div class="grid grid-3">
+        <div class="stat-box fragment">
+          <div class="number">↓ 40%</div>
+          <div class="label">Time on boilerplate</div>
+        </div>
+        <div class="stat-box fragment">
+          <div class="number">↑ 30%</div>
+          <div class="label">PR throughput</div>
+        </div>
+        <div class="stat-box fragment">
+          <div class="number">↓ 50%</div>
+          <div class="label">Onboarding time</div>
+        </div>
+      </div>
+      <p class="fragment" style="text-align:center;margin-top:1.5rem;opacity:0.8">Track with Copilot Metrics API &amp; dashboard</p>
+    </section>
+
+    <!-- Slide 32: Demo -->
+    <section class="slide layout-center" id="demo">
+      <h2>Live Demo</h2>
+      <div class="demo-banner">
+        🔴 Building a .NET Web API with Copilot
+        <div class="subtitle">Agent mode → Tests → Code Review → Coding Agent PR</div>
+      </div>
+      <div style="margin-top:2rem;text-align:center">
+        <div class="grid grid-2" style="max-width:500px;margin:0 auto">
+          <div class="grid-item fragment">
+            <strong>Stack</strong><br>
+            <span style="font-size:0.9rem;opacity:0.8">.NET 9 • Minimal API • EF Core</span>
+          </div>
+          <div class="grid-item fragment">
+            <strong>Copilot Features</strong><br>
+            <span style="font-size:0.9rem;opacity:0.8">Agent mode, /tests, code review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 33: Key Takeaways -->
+    <section class="slide layout-center">
+      <h2>Key Takeaways</h2>
+      <div class="key-point fragment">Copilot is a development platform, not just autocomplete</div>
+      <div class="key-point fragment">Custom instructions = team-wide AI consistency</div>
+      <div class="key-point fragment">Coding Agent handles issues → PRs autonomously</div>
+      <div class="key-point fragment">Agent mode turns natural language into working code</div>
+      <div class="key-point fragment">Humans focus on architecture, AI handles implementation</div>
+    </section>
+
+    <!-- Slide 34: Resources -->
+    <section class="slide layout-center">
+      <h2>Resources</h2>
+      <ul>
+        <li class="fragment">📚 docs.github.com/copilot</li>
+        <li class="fragment">🛠️ github.com/features/copilot</li>
+        <li class="fragment">📝 .github/copilot-instructions.md spec</li>
+        <li class="fragment">🎓 GitHub Copilot Fundamentals learning path</li>
+        <li class="fragment">💬 @marconsilva on GitHub</li>
+      </ul>
+    </section>
+
+    <!-- Slide 35: Thank You -->
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You!</h1>
+      <p class="subtitle">Questions &amp; Discussion</p>
+      <p class="author">Marco Antonio Silva<br><span style="font-size:0.8em;opacity:0.7">Senior Global Black Belt — Microsoft</span></p>
+      <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.6">Slides available at this repo • Demo code on GitHub</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

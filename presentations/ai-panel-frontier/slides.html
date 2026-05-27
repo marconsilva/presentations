@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI at the Frontier: Panel Discussion on the Future of Intelligent Software</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --slide-bg: #0f0f1a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #c084fc;
+      --slide-secondary: #1a1a2e;
+      --slide-highlight: #22d3ee;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(192, 132, 252, 0.1), transparent 34%);
+      pointer-events: none;
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+    .slide p, .slide ul, .slide ol { max-width: 860px; }
+    .slide h1, .slide h2, .slide h3 { letter-spacing: -0.02em; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.9rem; color: #c084fc; margin-bottom: 1rem; }
+    .lead { font-size: 1.5rem; color: rgba(240, 246, 252, 0.82); }
+    .muted { color: rgba(240, 246, 252, 0.72); }
+    .pill-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
+    .pill { padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid rgba(192, 132, 252, 0.3); background: rgba(192, 132, 252, 0.12); color: #c084fc; font-size: 0.95rem; font-weight: 600; }
+    .stat { font-size: 3rem; font-weight: 800; color: #c084fc; line-height: 1; margin-bottom: 0.75rem; }
+    .grid-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 18px; }
+    .grid-item p { max-width: none; font-size: 1.05rem; margin-bottom: 0; }
+    .grid-item h3 { color: #c084fc; }
+    .callout { max-width: 900px; }
+    .checklist { list-style: none; padding: 0; max-width: 820px; }
+    .checklist li { padding-left: 1.8rem; position: relative; margin-bottom: 0.8rem; }
+    .checklist li::before { content: '▸'; position: absolute; left: 0; color: #c084fc; font-weight: 800; }
+    .two-col-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 2rem; width: 100%; max-width: 900px; margin-top: 1rem; }
+    .two-col-list div { padding: 1rem 1.2rem; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+    .two-col-list h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+    .two-col-list p { max-width: none; font-size: 1rem; margin-bottom: 0; }
+    .timeline { display: grid; gap: 1rem; width: 100%; max-width: 900px; }
+    .timeline-item { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; align-items: start; padding: 1rem 1.2rem; border-radius: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+    .timeline-item strong { color: #c084fc; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .timeline-item p { max-width: none; margin-bottom: 0; font-size: 1.05rem; }
+    .diagram { width: 100%; max-width: 900px; border: 1px solid rgba(255,255,255,0.10); }
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .quote { max-width: 900px; padding: 1.6rem 2rem; border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(192, 132, 252, 0.12)); border: 1px solid rgba(192, 132, 252, 0.24); }
+    .quote p { font-size: 1.6rem; max-width: none; margin-bottom: 0.7rem; }
+    .quote .attribution { font-size: 1rem; color: rgba(240, 246, 252, 0.72); }
+    .icon-card { text-align: left; }
+    .icon-card .icon { font-size: 1.8rem; margin-bottom: 0.6rem; display: block; }
+    .mini { font-size: 0.98rem !important; }
+    .slide.slide-section { background: linear-gradient(135deg, #1a1a2e, #22d3ee); }
+    .slide.slide-section p { color: rgba(240, 246, 252, 0.82); }
+    .slide.slide-title .author { opacity: 0.75; }
+
+    @media (max-width: 900px) {
+      .slide.layout-split { flex-direction: column; gap: 1.5rem; overflow-y: auto; }
+      .two-col-list, .timeline-item { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <section class="slide slide-title layout-center" id="title">
+  <p class="eyebrow">Marco Antonio Silva</p>
+  <h1>AI at the Frontier</h1>
+  <p class="subtitle">Panel Discussion on the Future of Intelligent Software</p>
+  <p class="author">Senior Global Black Belt — Microsoft</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>The AI Landscape in 2026</h2>
+  <p class="lead">AI is now embedded across products, engineering tools, operations, and enterprise workflows.</p>
+  <div class="pill-row">
+    <span class="pill">Assistants</span>
+    <span class="pill">Agents</span>
+    <span class="pill">Domain models</span>
+    <span class="pill">Evaluation</span>
+  </div>
+</section>
+
+<section class="slide layout-top">
+  <h2>Coding Agents: Where Are We Really?</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Very real</h3><p>They already handle scaffolding, analysis, tests, and repetitive fixes.</p></div>
+    <div class="grid-item fragment"><h3>Still bounded</h3><p>Context, validation, and trust remain the gating factors.</p></div>
+    <div class="grid-item fragment"><h3>High leverage</h3><p>Teams with strong review systems benefit the most.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-split">
+  <div>
+    <h2>Multi-Agent: Hype vs. Reality</h2>
+    <ul>
+      <li class="fragment">The hype: teams of autonomous agents replacing org charts.</li>
+      <li class="fragment">The reality: specialized agents work best on bounded, auditable workflows.</li>
+      <li class="fragment">Coordination design is harder than adding more agents.</li>
+    </ul>
+  </div>
+  <div>
+    <div class="quote">
+      <p>“One great agent with guardrails beats five vague agents with overlapping roles.”</p>
+      <div class="attribution">A practical framing for production systems</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>How the Developer Role Evolves</h2>
+  <div class="grid grid-2">
+    <div class="grid-item fragment"><h3>From typing</h3><p>Less value in raw code volume.</p></div>
+    <div class="grid-item fragment"><h3>To shaping</h3><p>More value in architecture, constraints, and outcome design.</p></div>
+    <div class="grid-item fragment"><h3>From doing alone</h3><p>Developers supervise machines and collaborate across domains.</p></div>
+    <div class="grid-item fragment"><h3>To proving quality</h3><p>Validation and evidence become career-defining skills.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Responsible AI Is Now a Product Requirement</h2>
+  <ul class="checklist">
+    <li class="fragment">Bias, hallucinations, and unsafe actions affect trust and adoption.</li>
+    <li class="fragment">Data boundaries, security, and governance must be explicit.</li>
+    <li class="fragment">The user experience should make confidence and limitations visible.</li>
+  </ul>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Discussion Prompt #1</h2>
+  <p>What AI capabilities are already sticky in real software teams?</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>Discussion Prompt #1</h2>
+  <div class="grid grid-3">
+    <div class="grid-item fragment"><h3>Where is ROI clear?</h3><p>Engineering, support, research, or operations?</p></div>
+    <div class="grid-item fragment"><h3>Where is trust weak?</h3><p>What still breaks too often for broad rollout?</p></div>
+    <div class="grid-item fragment"><h3>What changed in 12 months?</h3><p>Which capabilities moved from demo to habit?</p></div>
+  </div>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Discussion Prompt #2</h2>
+  <p>How should organizations decide between copilots and agents?</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>Discussion Prompt #2</h2>
+  <ul class="checklist">
+    <li class="fragment">What tasks deserve human-in-the-loop patterns?</li>
+    <li class="fragment">Which tasks are structured enough for autonomous execution?</li>
+    <li class="fragment">How do you define acceptable risk for agent actions?</li>
+  </ul>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Discussion Prompt #3</h2>
+  <p>What does “AI-native software” actually mean?</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>Discussion Prompt #3</h2>
+  <div class="grid grid-2">
+    <div class="grid-item fragment"><h3>Experience layer</h3><p>AI augments discovery, guidance, and user workflows.</p></div>
+    <div class="grid-item fragment"><h3>System layer</h3><p>AI helps the software reason, route, or automate tasks behind the scenes.</p></div>
+  </div>
+</section>
+
+<section class="slide slide-section layout-center">
+  <h2>Discussion Prompt #4</h2>
+  <p>What guardrails matter most as AI systems scale?</p>
+</section>
+
+<section class="slide layout-center">
+  <h2>Audience Q&A</h2>
+  <p class="lead">Invite questions about developer careers, product design, governance, or where the current wave may be overhyped.</p>
+  <div class="pill-row">
+    <span class="pill">Product trust</span>
+    <span class="pill">Team impact</span>
+    <span class="pill">Architecture choices</span>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Predictions for the Next Wave</h2>
+  <div class="timeline">
+    <div class="timeline-item fragment"><strong>Near term</strong><p>Agents become team members for bounded internal workflows.</p></div>
+    <div class="timeline-item fragment"><strong>Mid term</strong><p>Evaluation, policy, and observability become standard product capabilities.</p></div>
+    <div class="timeline-item fragment"><strong>Long term</strong><p>AI shifts from feature to fabric across software systems.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Resources</h2>
+  <div class="grid grid-2">
+    <div class="grid-item fragment"><h3>Follow builders</h3><p>Track practitioners shipping real systems, not just demos.</p></div>
+    <div class="grid-item fragment"><h3>Read evaluations</h3><p>Measure models and workflows in your own domain.</p></div>
+    <div class="grid-item fragment"><h3>Join communities</h3><p>Learn from product, platform, and research conversations together.</p></div>
+    <div class="grid-item fragment"><h3>Prototype responsibly</h3><p>Start small, instrument deeply, and prove value.</p></div>
+  </div>
+</section>
+
+<section class="slide layout-center">
+  <h2>Final Thought</h2>
+  <div class="quote">
+    <p>The future of intelligent software will belong to teams that combine ambition with operational discipline.</p>
+    <div class="attribution">Build boldly. Govern thoughtfully.</div>
+  </div>
+</section>
+
+<section class="slide slide-title layout-center" id="end">
+  <h1>Thank You</h1>
+  <p class="subtitle">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+  <p class="author">Questions? Let’s continue the conversation.</p>
+</section>
+  </div>
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>
