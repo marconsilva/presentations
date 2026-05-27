@@ -9,6 +9,16 @@
       "events": [
         { "name": "Conference Talk", "date": "2026", "location": "TBD" }
       ]
+    },
+    {
+      "slug": "age-of-coding-agents",
+      "title": "The Age of Coding Agents: How AI is Rewriting the Way We Build Software",
+      "abstract": "AI is no longer your autocomplete — it is your coding agent. It plans, executes, reviews, and ships code autonomously. This keynote explores the three pillars of the Coding Agent revolution: GHCP Modernization CLI, Squad multi-agent teams, and Spec2Cloud — all demonstrated live with real enterprise code.",
+      "date": "2026-05",
+      "tags": ["AI", "Coding Agents", "GitHub Copilot", "Modernization", "Multi-Agent Systems", "Spec-Driven Development", "DevOps"],
+      "events": [
+        { "name": "Keynote", "date": "2026", "location": "TBD" }
+      ]
     }
   ]
 }
