@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI + Platform Engineering: Building Developer Platforms with Radius and Intelligent Agents</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a1520;
+      --slide-text: #f0f6fc;
+      --slide-accent: #0ea5e9;
+      --slide-secondary: #0c2d48;
+      --slide-highlight: #f97316;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 35%);
+      pointer-events: none;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--slide-accent), var(--slide-highlight));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .muted { color: #9fb4c8; }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      background: rgba(14, 165, 233, 0.12);
+      color: var(--slide-accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .big-statement {
+      font-size: 2.8rem;
+      font-weight: 750;
+      line-height: 1.25;
+      max-width: 900px;
+      margin: 0 auto 1rem;
+    }
+
+    .big-number {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--slide-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .grid-item {
+      background: rgba(12, 45, 72, 0.72);
+      border: 1px solid rgba(14, 165, 233, 0.18);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+
+    .pill {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.28);
+      color: #ffd5b3;
+      font-size: 0.95rem;
+    }
+
+    .diagram {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .diagram text,
+    .code-block,
+    .mini-code {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .code-block {
+      width: 100%;
+      max-width: 860px;
+      margin: 1rem auto 0;
+      padding: 1.2rem 1.4rem;
+      background: #07111a;
+      border: 1px solid rgba(14, 165, 233, 0.18);
+      border-radius: 16px;
+      text-align: left;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #d7e7f4;
+      white-space: pre-wrap;
+    }
+
+    .mini-code {
+      background: rgba(7, 17, 26, 0.92);
+      border: 1px solid rgba(14, 165, 233, 0.18);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: left;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #d7e7f4;
+    }
+
+    .callout-strong {
+      border-left: 4px solid var(--slide-highlight);
+      background: rgba(249, 115, 22, 0.12);
+      padding: 1rem 1.2rem;
+      border-radius: 0 12px 12px 0;
+      max-width: 860px;
+      margin: 1rem auto 0;
+      font-size: 1.15rem;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric p {
+      max-width: 100%;
+      margin-bottom: 0;
+      font-size: 1rem;
+      color: #b7cad8;
+    }
+
+    .stack-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .stack-list li {
+      margin-bottom: 0.85rem;
+      padding: 0.95rem 1.1rem;
+      border-radius: 14px;
+      background: rgba(12, 45, 72, 0.68);
+      border: 1px solid rgba(14, 165, 233, 0.16);
+    }
+
+    .stack-list strong { color: var(--slide-accent); }
+
+    .comparison-label {
+      display: inline-block;
+      margin-bottom: 0.7rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .comparison-label.bad { color: #fca5a5; }
+    .comparison-label.good { color: #86efac; }
+
+    .quote {
+      max-width: 850px;
+      font-size: 2rem;
+      line-height: 1.4;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .footer-note {
+      font-size: 1rem;
+      color: #9fb4c8;
+      margin-top: 1rem;
+    }
+
+    .slide.slide-section {
+      background: linear-gradient(135deg, #0c2d48 0%, #0a1520 55%, #4a220a 100%) !important;
+    }
+
+    .slide.slide-section h2 {
+      background: linear-gradient(135deg, var(--slide-accent), var(--slide-highlight));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .slide.layout-top h2,
+    .slide.layout-top p,
+    .slide.layout-top ul { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <section class="slide slide-title layout-center" id="title">
+      <div class="eyebrow">Conference Session</div>
+      <h1>AI + Platform Engineering</h1>
+      <p class="subtitle">Building Developer Platforms with Radius and Intelligent Agents</p>
+      <p class="author">Marco Antonio Silva</p>
+      <p style="font-size: 1rem; color: #9fb4c8; margin-top: 0.5rem;">Senior Global Black Belt &mdash; Microsoft</p>
+      <div class="pill-row">
+        <span class="pill">Platform engineering principles</span>
+        <span class="pill">Agent-ready infrastructure</span>
+        <span class="pill">Radius open source</span>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Core Premise</h2>
+      <p class="big-statement">Platform engineering creates <span class="gradient-text">golden paths</span> so developers can ship outcomes instead of stitching infrastructure together.</p>
+      <p class="fragment muted">Now the platform&apos;s users are not only humans. They are increasingly autonomous systems.</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Platform Engineering Principles</h2>
+      <div class="grid grid-3" style="margin-top: 1rem;">
+        <div class="grid-item fragment metric">
+          <div class="big-number">1</div>
+          <h3>Platform as product</h3>
+          <p>Designed for usability, feedback loops, and adoption.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">2</div>
+          <h3>Golden paths</h3>
+          <p>Safe defaults for delivery, security, and operations.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">3</div>
+          <h3>Self-service</h3>
+          <p>Provision what teams need without tickets or tribal knowledge.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Why the Stakes Changed</h2>
+      <p class="quote">When software creation speeds up 10x with AI, infrastructure friction becomes the next bottleneck.</p>
+      <p class="fragment footer-note">The value of the platform is now measured by how quickly both people and agents can move through it safely.</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>AI Agents Are Platform Consumers</h2>
+        <ul>
+          <li class="fragment">They request environments, databases, queues, and model-serving endpoints.</li>
+          <li class="fragment">They build and deploy application changes through APIs and CLIs.</li>
+          <li class="fragment">They need clear contracts, predictable responses, and machine-readable guardrails.</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+          <rect x="110" y="15" width="200" height="60" rx="14" fill="#0c2d48" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="210" y="42" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">AI Agent</text>
+          <text x="210" y="63" fill="#9fb4c8" font-size="12" text-anchor="middle">planner · coder · operator</text>
+          <rect x="25" y="145" width="120" height="76" rx="14" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="85" y="182" fill="#f0f6fc" font-size="16" text-anchor="middle" font-weight="600">Platform API</text>
+          <text x="85" y="201" fill="#9fb4c8" font-size="11" text-anchor="middle">intent in</text>
+          <rect x="150" y="145" width="120" height="76" rx="14" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="210" y="182" fill="#f0f6fc" font-size="16" text-anchor="middle" font-weight="600">Radius</text>
+          <text x="210" y="201" fill="#9fb4c8" font-size="11" text-anchor="middle">app model</text>
+          <rect x="275" y="145" width="120" height="76" rx="14" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="335" y="182" fill="#f0f6fc" font-size="16" text-anchor="middle" font-weight="600">Infra</text>
+          <text x="335" y="201" fill="#9fb4c8" font-size="11" text-anchor="middle">resources out</text>
+          <line x1="210" y1="75" x2="85" y2="145" stroke="#0ea5e9" stroke-width="2"/>
+          <line x1="210" y1="75" x2="210" y2="145" stroke="#0ea5e9" stroke-width="2"/>
+          <line x1="210" y1="75" x2="335" y2="145" stroke="#0ea5e9" stroke-width="2"/>
+          <rect x="75" y="255" width="270" height="38" rx="12" fill="rgba(14,165,233,0.09)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="210" y="279" fill="#0ea5e9" font-size="14" text-anchor="middle" font-weight="700">The platform becomes a machine-usable product surface</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>What Agents Need From Platforms</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Predictability</h3>
+          <p>Stable APIs, typed resources, deterministic workflows, explicit state.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Safety</h3>
+          <p>Policy-aware actions, bounded permissions, approvals, rollback paths.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Context</h3>
+          <p>Discoverable catalogs, environment metadata, dependency graphs, events.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Abstraction</h3>
+          <p>Request a capability like cache or model endpoint, not 40 cloud knobs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Why Radius Matters</h2>
+      <p>Open-source cloud-native platform primitives that map well to both developers and agents</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Radius in One Sentence</h2>
+        <p>Radius is an <span class="gradient-text">open-source cloud-native application platform</span> from Microsoft that separates what an app needs from how the infrastructure is fulfilled.</p>
+        <div class="callout-strong fragment">That is exactly the contract platform engineering wants: application intent on one side, governed implementation on the other.</div>
+      </div>
+      <div class="grid grid-2" style="align-content: center;">
+        <div class="grid-item fragment metric">
+          <div class="big-number">Apps</div>
+          <p>Application-centric model</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">Env</div>
+          <p>Environment-specific realization</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">OSS</div>
+          <p>Open source and extensible</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">API</div>
+          <p>Composable platform surface</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>From Tickets to APIs</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="85" width="220" height="95" rx="16" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="135" y="120" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">Before</text>
+          <text x="135" y="150" fill="#9fb4c8" font-size="15" text-anchor="middle">Human asks for infra</text>
+          <text x="135" y="172" fill="#9fb4c8" font-size="15" text-anchor="middle">Platform team interprets intent</text>
+          <rect x="320" y="85" width="220" height="95" rx="16" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="430" y="120" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">With Radius</text>
+          <text x="430" y="150" fill="#9fb4c8" font-size="15" text-anchor="middle">App requests resource type</text>
+          <text x="430" y="172" fill="#9fb4c8" font-size="15" text-anchor="middle">Platform fulfills via recipes</text>
+          <rect x="615" y="85" width="220" height="95" rx="16" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="725" y="120" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">For Agents</text>
+          <text x="725" y="150" fill="#9fb4c8" font-size="15" text-anchor="middle">Machine-readable contract</text>
+          <text x="725" y="172" fill="#9fb4c8" font-size="15" text-anchor="middle">Safe automation at scale</text>
+          <line x1="245" y1="132" x2="320" y2="132" stroke="#0ea5e9" stroke-width="3" stroke-dasharray="8 5"/>
+          <line x1="540" y1="132" x2="615" y2="132" stroke="#0ea5e9" stroke-width="3" stroke-dasharray="8 5"/>
+        </svg>
+      </div>
+      <p class="fragment footer-note">Platform engineering becomes an interface design problem, not a ticket routing problem.</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Radius Core Concepts</h2>
+      <div class="grid grid-2" style="margin-top: 1rem;">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Applications</h3>
+          <p>Logical application boundary containing containers and resources.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Environments</h3>
+          <p>Landing zones that define where and how workloads are realized.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Recipes</h3>
+          <p>Templates that fulfill resource intent using concrete infrastructure.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Connections</h3>
+          <p>Bindings that inject infrastructure details back into applications.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Radius Mental Model</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
+          <rect x="280" y="20" width="300" height="72" rx="16" fill="#0c2d48" stroke="#0ea5e9" stroke-width="2.5"/>
+          <text x="430" y="52" fill="#f0f6fc" font-size="24" text-anchor="middle" font-weight="700">Application</text>
+          <text x="430" y="73" fill="#9fb4c8" font-size="13" text-anchor="middle">frontend + api + worker + resources</text>
+          <rect x="70" y="155" width="170" height="68" rx="14" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="155" y="192" fill="#f0f6fc" font-size="18" text-anchor="middle" font-weight="600">Containers</text>
+          <rect x="255" y="155" width="170" height="68" rx="14" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="340" y="192" fill="#f0f6fc" font-size="18" text-anchor="middle" font-weight="600">Connections</text>
+          <rect x="440" y="155" width="170" height="68" rx="14" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="525" y="192" fill="#f0f6fc" font-size="18" text-anchor="middle" font-weight="600">Resources</text>
+          <rect x="625" y="155" width="170" height="68" rx="14" fill="#102236" stroke="#c084fc" stroke-width="2"/>
+          <text x="710" y="192" fill="#f0f6fc" font-size="18" text-anchor="middle" font-weight="600">Policies</text>
+          <rect x="235" y="300" width="390" height="72" rx="16" fill="rgba(14,165,233,0.08)" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="430" y="332" fill="#0ea5e9" font-size="21" text-anchor="middle" font-weight="700">Environment + Recipes realize intent</text>
+          <text x="430" y="355" fill="#9fb4c8" font-size="13" text-anchor="middle">same app model · different infra implementation</text>
+          <line x1="430" y1="92" x2="155" y2="155" stroke="#7fb9d6" stroke-width="1.5"/>
+          <line x1="430" y1="92" x2="340" y2="155" stroke="#7fb9d6" stroke-width="1.5"/>
+          <line x1="430" y1="92" x2="525" y2="155" stroke="#7fb9d6" stroke-width="1.5"/>
+          <line x1="430" y1="92" x2="710" y2="155" stroke="#7fb9d6" stroke-width="1.5"/>
+          <line x1="340" y1="223" x2="430" y2="300" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <line x1="525" y1="223" x2="430" y2="300" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="6 4"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Recipes Encode the Golden Path</h2>
+        <ul>
+          <li class="fragment">Platform engineers author recipes with Terraform, Bicep, or other infrastructure templates.</li>
+          <li class="fragment">Recipes embed security, cost, topology, and compliance decisions once.</li>
+          <li class="fragment">Developers and agents consume the resource type, not the cloud-specific implementation.</li>
+        </ul>
+      </div>
+      <div class="mini-code">resource redis 'Applications.Datastores/redisCaches@2023-10-01-preview' = {
+  name: 'cache'
+  properties: {
+    application: app.id
+  }
+}
+
+// Environment decides recipe:
+// dev  -> local container
+// prod -> managed cloud cache</div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Environments Make Intent Portable</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment metric">
+          <h3>Dev</h3>
+          <p>Fast loops, local services, low cost.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <h3>Stage</h3>
+          <p>Shared infrastructure, realistic integration paths.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <h3>Prod</h3>
+          <p>HA, observability, policy, enterprise guardrails.</p>
+        </div>
+      </div>
+      <div class="callout-strong fragment">Same application definition. Different environment-level fulfillment. That is a superpower for automation.</div>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Applications Give Agents a Cohesive Unit</h2>
+        <p>Instead of scattering infra concerns across scripts, Radius gives the agent a single application object to reason over.</p>
+        <ul>
+          <li class="fragment">What components exist?</li>
+          <li class="fragment">What resources are required?</li>
+          <li class="fragment">What is connected to what?</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+          <rect x="105" y="18" width="210" height="56" rx="14" fill="#0c2d48" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="210" y="50" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">shopping-app</text>
+          <rect x="25" y="120" width="115" height="62" rx="12" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="82.5" y="156" fill="#f0f6fc" font-size="15" text-anchor="middle">frontend</text>
+          <rect x="153" y="120" width="115" height="62" rx="12" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="210.5" y="156" fill="#f0f6fc" font-size="15" text-anchor="middle">api</text>
+          <rect x="281" y="120" width="115" height="62" rx="12" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="338.5" y="156" fill="#f0f6fc" font-size="15" text-anchor="middle">worker</text>
+          <rect x="85" y="235" width="110" height="52" rx="12" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="140" y="266" fill="#f0f6fc" font-size="14" text-anchor="middle">cache</text>
+          <rect x="225" y="235" width="110" height="52" rx="12" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="280" y="266" fill="#f0f6fc" font-size="14" text-anchor="middle">database</text>
+          <line x1="210" y1="74" x2="82.5" y2="120" stroke="#8cc4de"/>
+          <line x1="210" y1="74" x2="210.5" y2="120" stroke="#8cc4de"/>
+          <line x1="210" y1="74" x2="338.5" y2="120" stroke="#8cc4de"/>
+          <line x1="210.5" y1="182" x2="140" y2="235" stroke="#0ea5e9" stroke-dasharray="5 4"/>
+          <line x1="210.5" y1="182" x2="280" y2="235" stroke="#0ea5e9" stroke-dasharray="5 4"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Connections Eliminate Manual Wiring</h2>
+      <p>Connections turn infrastructure into consumable application context.</p>
+      <div class="code-block fragment">CONNECTIONS:
+  cache:
+    host: prod-cache.internal
+    port: 6380
+    authRef: secret://cache/password
+  modelStore:
+    endpoint: https://models.internal/api
+    tokenRef: secret://models/token</div>
+      <p class="fragment footer-note">For agents, that means fewer brittle assumptions, fewer hidden steps, and less secret sprawl.</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Agents Interacting with Platform APIs</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="120" width="170" height="100" rx="16" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="115" y="155" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">Agent</text>
+          <text x="115" y="182" fill="#9fb4c8" font-size="13" text-anchor="middle">intent · plan · execute</text>
+          <rect x="260" y="120" width="170" height="100" rx="16" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="345" y="155" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">Catalog</text>
+          <text x="345" y="182" fill="#9fb4c8" font-size="13" text-anchor="middle">discover recipes, envs</text>
+          <rect x="490" y="120" width="170" height="100" rx="16" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="575" y="155" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">Radius API</text>
+          <text x="575" y="182" fill="#9fb4c8" font-size="13" text-anchor="middle">deploy and connect</text>
+          <rect x="720" y="120" width="150" height="100" rx="16" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="795" y="155" fill="#f0f6fc" font-size="22" text-anchor="middle" font-weight="700">Runtime</text>
+          <text x="795" y="182" fill="#9fb4c8" font-size="13" text-anchor="middle">workload running</text>
+          <line x1="200" y1="170" x2="260" y2="170" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrow)"/>
+          <line x1="430" y1="170" x2="490" y2="170" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrow)"/>
+          <line x1="660" y1="170" x2="720" y2="170" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrow)"/>
+          <text x="230" y="150" fill="#9fb4c8" font-size="12" text-anchor="middle">discover</text>
+          <text x="460" y="150" fill="#9fb4c8" font-size="12" text-anchor="middle">select</text>
+          <text x="690" y="150" fill="#9fb4c8" font-size="12" text-anchor="middle">provision</text>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#0ea5e9" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <p class="fragment footer-note">Good platform APIs let agents reason in capabilities, not implementation trivia.</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Reference Flow: Agent to Deployment</h2>
+        <ol>
+          <li class="fragment">Interpret the user goal.</li>
+          <li class="fragment">Discover available environments and approved resource types.</li>
+          <li class="fragment">Generate or update the app definition.</li>
+          <li class="fragment">Deploy through Radius and observe state.</li>
+          <li class="fragment">Report results with evidence and rollback options.</li>
+        </ol>
+      </div>
+      <div class="mini-code">User prompt:
+"Create a retrieval app with
+an API, a vector store, and
+staging deployment"
+
+Agent plan:
+- choose staging env
+- add containers
+- request datastore recipe
+- connect resources
+- run deployment
+- verify health</div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Self-Service for AI Workloads</h2>
+      <p>AI apps need the same platform discipline as any other cloud-native system, plus a few more capabilities</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Self-Service Infrastructure for AI Workloads</h2>
+      <div class="grid grid-3" style="margin-top: 1rem;">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Serving</h3>
+          <p>Model endpoints, inference containers, GPU-aware runtimes.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>State</h3>
+          <p>Vector stores, caches, databases, queues, artifact storage.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Operations</h3>
+          <p>Identity, secrets, observability, cost controls, scaling policy.</p>
+        </div>
+      </div>
+      <div class="callout-strong fragment">AI changes the resource mix, but the platform pattern stays the same: intent, policy, automation, feedback.</div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Agent-Friendly Platform Abstractions</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Capability-based</h3>
+          <p>Ask for vector search, eventing, or model serving as platform capabilities.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Composable</h3>
+          <p>Combine containers, resources, and connections into repeatable application patterns.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Inspectable</h3>
+          <p>Expose status, outputs, health, events, and deployment history for reasoning loops.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Portable</h3>
+          <p>Keep app definitions stable while environments swap actual infrastructure.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Intelligent Platform Capabilities</h2>
+      <ul class="stack-list">
+        <li class="fragment"><strong>Recommendation</strong> &mdash; suggest the right recipe or environment for a workload shape.</li>
+        <li class="fragment"><strong>Policy reasoning</strong> &mdash; explain why a deployment is blocked and what valid alternatives exist.</li>
+        <li class="fragment"><strong>Optimization</strong> &mdash; tune cost, resilience, or performance based on observed usage.</li>
+        <li class="fragment"><strong>Autonomous remediation</strong> &mdash; restart, scale, rotate, or roll back within bounded guardrails.</li>
+      </ul>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>What the Platform Must Expose</h2>
+        <ul>
+          <li class="fragment">Catalog of supported patterns and approved resources</li>
+          <li class="fragment">Environment metadata and placement constraints</li>
+          <li class="fragment">Execution state, events, health, and deployment history</li>
+          <li class="fragment">Policy results that are understandable by both humans and agents</li>
+        </ul>
+      </div>
+      <div>
+        <div class="grid grid-1" style="display: grid; gap: 1rem;">
+          <div class="grid-item fragment" style="text-align: left;">
+            <h3>Without this</h3>
+            <p>Agents guess.</p>
+          </div>
+          <div class="grid-item fragment" style="text-align: left;">
+            <h3>With this</h3>
+            <p>Agents can plan, act, verify, and escalate responsibly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Demo Concept: Agent Deploying via Radius</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+          <rect x="40" y="52" width="190" height="78" rx="16" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="135" y="88" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">1. Prompt</text>
+          <text x="135" y="109" fill="#9fb4c8" font-size="12" text-anchor="middle">"Deploy AI support app"</text>
+          <rect x="255" y="52" width="190" height="78" rx="16" fill="#102236" stroke="#f97316" stroke-width="2"/>
+          <text x="350" y="88" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">2. Plan</text>
+          <text x="350" y="109" fill="#9fb4c8" font-size="12" text-anchor="middle">select env + resources</text>
+          <rect x="470" y="52" width="190" height="78" rx="16" fill="#102236" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="565" y="88" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">3. Deploy</text>
+          <text x="565" y="109" fill="#9fb4c8" font-size="12" text-anchor="middle">call Radius API / CLI</text>
+          <rect x="685" y="52" width="175" height="78" rx="16" fill="#102236" stroke="#22c55e" stroke-width="2"/>
+          <text x="772.5" y="88" fill="#f0f6fc" font-size="20" text-anchor="middle" font-weight="700">4. Verify</text>
+          <text x="772.5" y="109" fill="#9fb4c8" font-size="12" text-anchor="middle">health + evidence</text>
+          <line x1="230" y1="91" x2="255" y2="91" stroke="#0ea5e9" stroke-width="3"/>
+          <line x1="445" y1="91" x2="470" y2="91" stroke="#0ea5e9" stroke-width="3"/>
+          <line x1="660" y1="91" x2="685" y2="91" stroke="#0ea5e9" stroke-width="3"/>
+          <rect x="120" y="220" width="650" height="120" rx="20" fill="rgba(14,165,233,0.07)" stroke="#0ea5e9" stroke-width="2"/>
+          <text x="445" y="258" fill="#0ea5e9" font-size="24" text-anchor="middle" font-weight="700">Live demo story</text>
+          <text x="445" y="287" fill="#f0f6fc" font-size="16" text-anchor="middle">Agent scaffolds app definition, requests cache + queue + model endpoint, deploys to staging, then reports URLs and connection state.</text>
+          <text x="445" y="315" fill="#9fb4c8" font-size="14" text-anchor="middle">Audience sees self-service, governance, and machine-readable status in one flow.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Guardrails Matter More, Not Less</h2>
+      <div class="grid grid-2">
+        <div class="grid-item fragment" style="text-align: left;">
+          <div class="comparison-label bad">Bad platform pattern</div>
+          <p>Give the agent broad cloud credentials and hope the prompt is good.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <div class="comparison-label good">Better platform pattern</div>
+          <p>Give the agent a constrained platform contract with recipes, environments, and approval boundaries.</p>
+        </div>
+      </div>
+      <div class="callout-strong fragment">The platform is the safety layer between intelligent intent and expensive infrastructure actions.</div>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Operating Model for Platform Teams</h2>
+      <div class="grid grid-3" style="margin-top: 1rem;">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Design products</h3>
+          <p>Publish application patterns, APIs, recipes, and example blueprints.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Instrument everything</h3>
+          <p>Expose state and events so humans and agents can verify outcomes.</p>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3>Close the loop</h3>
+          <p>Use platform telemetry to refine defaults, policies, and automation.</p>
+        </div>
+      </div>
+      <p class="fragment footer-note">In other words: build a platform that is usable by developers today and operable by agents tomorrow.</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Future: Platforms That Evolve Autonomously</h2>
+      <p class="big-statement">The next platform maturity step is not just self-service infrastructure. It is <span class="gradient-text">self-improving infrastructure workflows</span>.</p>
+      <div class="pill-row fragment">
+        <span class="pill">recommend better patterns</span>
+        <span class="pill">adapt recipes safely</span>
+        <span class="pill">optimize cost continuously</span>
+        <span class="pill">remediate with policy</span>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Adoption Path</h2>
+      <div class="grid grid-3">
+        <div class="grid-item fragment metric">
+          <div class="big-number">1</div>
+          <h3>Standardize</h3>
+          <p>Start with a few high-value resource types and app templates.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">2</div>
+          <h3>Instrument</h3>
+          <p>Expose status, outputs, events, and approval decisions.</p>
+        </div>
+        <div class="grid-item fragment metric">
+          <div class="big-number">3</div>
+          <h3>Automate</h3>
+          <p>Let agents consume the platform contract in bounded workflows.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Key Takeaways</h2>
+      <ul class="stack-list">
+        <li class="fragment"><strong>Platform engineering</strong> is about productizing safe delivery paths.</li>
+        <li class="fragment"><strong>AI agents</strong> are becoming first-class consumers and builders on those paths.</li>
+        <li class="fragment"><strong>Radius</strong> provides a strong contract with applications, environments, recipes, and connections.</li>
+        <li class="fragment"><strong>Agent-friendly platforms</strong> need abstractions, policy, observability, and self-service APIs.</li>
+      </ul>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You</h1>
+      <p class="subtitle">Build platforms that developers love and agents can trust.</p>
+      <p class="author">Marco Antonio Silva</p>
+      <p style="font-size: 1rem; color: #9fb4c8; margin-top: 0.5rem;">Senior Global Black Belt &mdash; Microsoft</p>
+      <div class="pill-row">
+        <span class="pill">Platform Engineering</span>
+        <span class="pill">Radius</span>
+        <span class="pill">AI Agents</span>
+      </div>
+    </section>
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

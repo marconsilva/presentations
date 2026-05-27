@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Modernization: Transforming Legacy Applications with GitHub Copilot CLI | Presentations</title>
+  <style>
+    :root {
+      --bg: #0f0a0a;
+      --bg-card: #1a1010;
+      --text: #f0f6fc;
+      --text-muted: #c7d2da;
+      --accent: #ef4444;
+      --border: rgba(239, 68, 68, 0.24);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.14), transparent 32%),
+        radial-gradient(circle at left center, rgba(245, 158, 11, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(239, 68, 68, 0.08);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #ef4444 72%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .meta-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+    }
+
+    .tag {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.12);
+      color: #ffb4b4;
+      border: 1px solid rgba(239, 68, 68, 0.22);
+    }
+
+    .abstract {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.85;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.55rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ef4444, #f59e0b);
+      color: white;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+    }
+
+    .section h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--accent);
+    }
+
+    .section p {
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 2.5rem 1.25rem; }
+      h1 { font-size: 2.3rem; }
+      .meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../../" class="back-link">← All Presentations</a>
+
+    <div class="eyebrow">Conference Session · 45-60 min</div>
+    <h1>Agentic Modernization: Transforming Legacy Applications with GitHub Copilot CLI</h1>
+
+    <div class="meta">
+      <div class="meta-card">
+        <span class="meta-label">Speaker</span>
+        <span class="meta-value">Marco Antonio Silva, Senior Global Black Belt — Microsoft</span>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">Focus</span>
+        <span class="meta-value">Modernizing legacy .NET estates with agentic analysis, planning, and execution</span>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag">GitHub Copilot</span>
+      <span class="tag">Modernization</span>
+      <span class="tag">Legacy</span>
+      <span class="tag">.NET</span>
+      <span class="tag">CLI</span>
+      <span class="tag">Enterprise</span>
+    </div>
+
+    <p class="abstract">Every organization has legacy apps — and most modernization projects fail because teams cannot keep up with analysis, planning, and execution at scale. GitHub Copilot CLI turns modernization on its head: scanning legacy code, generating migration proposals, and executing refactoring steps autonomously. This session draws on real enterprise programs modernizing 150+ applications at a European bank.</p>
+
+    <div class="cta-buttons">
+      <a href="./slides.html" class="btn btn-primary">▶ View Slides</a>
+    </div>
+
+    <div class="section">
+      <h2>Why this session matters</h2>
+      <p>See how teams can move from manual modernization backlogs to an agentic delivery model that accelerates discovery, reduces migration risk, and keeps experts focused on architecture and governance decisions.</p>
+    </div>
+  </div>
+</body>
+</html>

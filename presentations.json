@@ -3,22 +3,162 @@
     {
       "slug": "autonomy-unleashed-agent-framework",
       "title": "🚀 Autonomy Unleashed: Agent Framework and the New Age of AI Agents 🤖✨",
-      "abstract": "Step into the future of AI! In this dynamic session, we'll explore how Microsoft Agent Framework empowers a new generation of agentic AI — systems that don't just respond, but reason, plan, and act. From orchestrating complex tasks to adapting on the fly, these smart agents are changing the game across industries. Get inspired, see real-world magic, and discover how you can start building AI that truly gets things done.",
+      "abstract": "Step into the future of AI! In this dynamic session, we'll explore how Microsoft Agent Framework empowers a new generation of agentic AI — systems that don't just respond, but reason, plan, and act.",
       "date": "2026-05",
       "tags": ["AI", "Agents", "Microsoft", "Copilot", "Multi-Agent Systems", "Agentic AI"],
-      "events": [
-        { "name": "Conference Talk", "date": "2026", "location": "TBD" }
-      ]
+      "events": [{ "name": "Conference Talk", "date": "2026", "location": "TBD" }]
     },
     {
       "slug": "age-of-coding-agents",
       "title": "The Age of Coding Agents: How AI is Rewriting the Way We Build Software",
-      "abstract": "AI is no longer your autocomplete — it is your coding agent. It plans, executes, reviews, and ships code autonomously. This keynote explores the three pillars of the Coding Agent revolution: GHCP Modernization CLI, Squad multi-agent teams, and Spec2Cloud — all demonstrated live with real enterprise code.",
+      "abstract": "AI is no longer your autocomplete — it is your coding agent. This keynote explores the three pillars of the Coding Agent revolution: GHCP Modernization CLI, Squad multi-agent teams, and Spec2Cloud.",
       "date": "2026-05",
-      "tags": ["AI", "Coding Agents", "GitHub Copilot", "Modernization", "Multi-Agent Systems", "Spec-Driven Development", "DevOps"],
-      "events": [
-        { "name": "Keynote", "date": "2026", "location": "TBD" }
-      ]
+      "tags": ["AI", "Coding Agents", "GitHub Copilot", "Modernization", "Multi-Agent Systems", "Spec-Driven Development"],
+      "events": [{ "name": "Keynote", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "radius-platform-engineering",
+      "title": "Radius: The Open-Source Platform for Cloud-Native Application Development",
+      "abstract": "Radius is Microsoft's open-source platform that provides a unified application model across clouds — letting developers define what their app needs while platform engineers define how those needs are fulfilled.",
+      "date": "2026-05",
+      "tags": ["Radius", "Platform Engineering", "Cloud-Native", "Kubernetes", "Open Source", "DevOps"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "autonomy-production-aspire",
+      "title": "Autonomy in Production: Building Reliable Multi-Agent Systems with .NET Aspire",
+      "abstract": "Building multi-agent systems is exciting — running them reliably in production is the real challenge. This session explores how to take multi-agent architectures from prototype to production using .NET Aspire.",
+      "date": "2026-05",
+      "tags": [".NET Aspire", "Multi-Agent Systems", "Production", "Observability", "Cloud-Native", "AI"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "spec-driven-development-workshop",
+      "title": "Spec-Driven Development with GitHub Copilot & Spec2Cloud: From Idea to Cloud",
+      "abstract": "A full-day hands-on workshop covering the complete Spec-Driven Development workflow using GitHub Copilot and Spec2Cloud — both Greenfield and Brownfield scenarios.",
+      "date": "2026-05",
+      "tags": ["AI", "GitHub Copilot", "Spec-Driven Development", "Spec2Cloud", "Workshop", "Cloud-Native"],
+      "events": [{ "name": "Workshop", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "level-up-repo-agentic-ai",
+      "title": "Level Up your Repository with Agentic AI: Spec-Driven Development with GitHub Copilot",
+      "abstract": "Learn how to level up your repository by introducing a spec-first workflow powered by GitHub Copilot and Spec2Cloud, plus Squads for multi-agent development.",
+      "date": "2026-05",
+      "tags": ["AI", "GitHub Copilot", "Spec-Driven Development", "Squads", "Agentic AI"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "multi-agent-systems-maf-to-squads",
+      "title": "Autonomy Unleashed: Multi-Agent Systems from MAF Orchestration to Squads",
+      "abstract": "From structured orchestration with Microsoft Agent Framework to the Squads paradigm: composable, squad-based workflows where specialized agents tackle complex tasks together.",
+      "date": "2026-05",
+      "tags": ["AI", "Multi-Agent Systems", "Microsoft Agent Framework", "Squads", "Orchestration"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "copilot-deep-dive-2026",
+      "title": "GitHub Copilot Deep Dive: From Zero to Hero with AI-Powered Development",
+      "abstract": "GitHub Copilot in 2026 is an autonomous coding agent, code reviewer, test generator, and documentation writer. This demo-driven session goes from zero to hero in 60 minutes.",
+      "date": "2026-05",
+      "tags": ["GitHub Copilot", "AI", "Developer Productivity", ".NET", "DevOps"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "agentic-modernization-copilot-cli",
+      "title": "Agentic Modernization: Transforming Legacy Applications with GitHub Copilot CLI",
+      "abstract": "GitHub Copilot CLI turns modernization on its head: scanning legacy code, generating migration proposals, executing refactoring autonomously. Drawing on real enterprise programs with 150+ applications.",
+      "date": "2026-05",
+      "tags": ["GitHub Copilot", "Modernization", "Legacy Applications", ".NET", "CLI", "Enterprise"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "agentic-modernization-lab",
+      "title": "Agentic Modernization Lab: Hands-On Legacy Transformation with GitHub Copilot",
+      "abstract": "Hands-on lab where participants modernize a legacy .NET Framework application using Copilot CLI agent mode: analysis, planning, refactoring, testing, and validation.",
+      "date": "2026-05",
+      "tags": ["Workshop", "GitHub Copilot", "Modernization", ".NET", "Hands-On", "Lab"],
+      "events": [{ "name": "Workshop", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "mafspire-workshop",
+      "title": "MAFSpire: Building Production AI Agents with Microsoft Agent Framework & .NET Aspire",
+      "abstract": "Full-day workshop combining MAF for building intelligent agents and .NET Aspire for running them reliably in production with full observability.",
+      "date": "2026-05",
+      "tags": ["Workshop", "Microsoft Agent Framework", ".NET Aspire", "Multi-Agent", "Production"],
+      "events": [{ "name": "Workshop", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "ai-platform-engineering-radius",
+      "title": "AI + Platform Engineering: Building Developer Platforms with Radius and Intelligent Agents",
+      "abstract": "How intelligent agents can both consume and extend developer platforms, with Radius providing the foundation for agent-friendly infrastructure.",
+      "date": "2026-05",
+      "tags": ["Platform Engineering", "Radius", "AI", "Cloud-Native", "Agents"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "copilot-deep-dive-classic",
+      "title": "GitHub Copilot Deep Dive: Mastering AI-Assisted Development",
+      "abstract": "Going beyond basic autocomplete: context-aware completions, slash commands, workspace agents, custom instructions. Techniques that measurably improve your daily workflow.",
+      "date": "2026-05",
+      "tags": ["GitHub Copilot", "AI", "Developer Productivity", "Best Practices"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "meo-ai-powered-techco",
+      "title": "MEO: Building an AI-Powered Techco — From Telco to Intelligent Platform",
+      "abstract": "MEO (Altice Portugal) transforms from traditional telco to AI-powered Techco: AI across network optimization, predictive maintenance, customer experience, and autonomous operations.",
+      "date": "2026-05",
+      "tags": ["AI", "Telco", "Digital Transformation", "Case Study", "MEO"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "cloud-careers-panel",
+      "title": "Cloud Careers: Navigating Your Path in the AI-Powered Cloud Era",
+      "abstract": "Panel discussion on career paths in cloud computing, skills that matter in 2026, how AI is changing the cloud engineer role, and practical advice for professionals.",
+      "date": "2026-05",
+      "tags": ["Career", "Cloud", "Panel", "AI", "Skills", "Community"],
+      "events": [{ "name": "Panel Discussion", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "unleashing-agents-maf",
+      "title": "Unleashing AI Agents: Building Intelligent Systems with Microsoft Agent Framework",
+      "abstract": "Design, build, and deploy AI agents using Microsoft Agent Framework — from single-agent patterns to sophisticated multi-agent orchestrations in production.",
+      "date": "2026-05",
+      "tags": ["AI Agents", "Microsoft Agent Framework", "Multi-Agent Systems", ".NET", "Production"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "orleans-distributed-apps",
+      "title": "Orleans: Building Distributed Applications with Virtual Actors",
+      "abstract": "Microsoft Orleans makes distributed systems dramatically simpler with the Virtual Actor model. From fundamentals to production patterns: grains, state, streams, and cluster management.",
+      "date": "2026-05",
+      "tags": ["Orleans", "Distributed Systems", ".NET", "Virtual Actors", "Cloud-Native", "Scalability"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "cloud-native-innovation",
+      "title": "Cloud Native Innovation: Building the Next Generation of Applications on Azure",
+      "abstract": "Cloud-native in 2026: intelligent applications leveraging AI, event-driven architectures, serverless compute, and platform engineering on Azure.",
+      "date": "2026-05",
+      "tags": ["Cloud-Native", "Azure", "Kubernetes", "AKS", "Serverless", "Innovation"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "ai-panel-frontier",
+      "title": "AI at the Frontier: Panel Discussion on the Future of Intelligent Software",
+      "abstract": "Panel on the frontier of AI in software development — coding agents, multi-agent systems, responsible AI, and the evolving role of the human developer.",
+      "date": "2026-05",
+      "tags": ["AI", "Panel", "Future", "Agents", "Responsible AI"],
+      "events": [{ "name": "Panel Discussion", "date": "2026", "location": "TBD" }]
+    },
+    {
+      "slug": "aks-deep-dive",
+      "title": "AKS Deep Dive: Advanced Kubernetes Patterns on Azure",
+      "abstract": "Advanced AKS patterns: cluster architecture, networking, security, scaling, observability, GitOps, AI/GPU workloads, and multi-cluster fleet management.",
+      "date": "2026-05",
+      "tags": ["AKS", "Kubernetes", "Azure", "Security", "Networking", "DevOps"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
     }
   ]
 }

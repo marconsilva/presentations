@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEO: Building an AI-Powered Techco — From Telco to Intelligent Platform</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a0a1e;
+      --slide-text: #f0f6fc;
+      --slide-accent: #e11d48;
+      --slide-secondary: #1a0a2e;
+      --slide-highlight: #fbbf24;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(225, 29, 72, 0.12), transparent 28%),
+        radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.08), transparent 24%);
+      pointer-events: none;
+    }
+
+    .accent-text {
+      color: var(--slide-accent);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--slide-accent), var(--slide-highlight));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.95rem;
+      color: var(--slide-highlight);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero-statement {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      max-width: 88%;
+      margin: 0 auto 1.2rem;
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      color: #c7d2e3;
+      max-width: 70%;
+      margin: 0 auto;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .pill {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(225, 29, 72, 0.14);
+      border: 1px solid rgba(225, 29, 72, 0.35);
+      color: #ff9bb0;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .metric-card {
+      background: linear-gradient(180deg, rgba(26, 10, 46, 0.95), rgba(10, 10, 30, 0.95));
+      border: 1px solid rgba(225, 29, 72, 0.22);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: left;
+      min-height: 200px;
+    }
+
+    .metric-card .metric-value {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--slide-highlight);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+
+    .metric-card h3,
+    .capability-card h3,
+    .initiative-card h3,
+    .result-card h3 {
+      color: var(--slide-text);
+      margin-bottom: 0.65rem;
+    }
+
+    .metric-card p,
+    .capability-card p,
+    .initiative-card p,
+    .result-card p,
+    .stage-card p {
+      font-size: 1.05rem;
+      max-width: 100%;
+      color: #c7d2e3;
+      line-height: 1.55;
+    }
+
+    .capability-card,
+    .initiative-card,
+    .result-card,
+    .stage-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.35rem;
+      text-align: left;
+      height: 100%;
+    }
+
+    .result-card {
+      border-color: rgba(251, 191, 36, 0.22);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.08), rgba(26, 10, 46, 0.72));
+    }
+
+    .icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .number-badge {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(225, 29, 72, 0.2);
+      color: var(--slide-highlight);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .two-column-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      width: 100%;
+      max-width: 92%;
+      margin-top: 1rem;
+    }
+
+    .two-column-list ul {
+      max-width: 100%;
+      font-size: 1.12rem;
+      line-height: 1.7;
+    }
+
+    .diagram-wrap {
+      width: 100%;
+      max-width: 92%;
+      margin-top: 1rem;
+      padding: 1.25rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .architecture-note,
+    .small-note {
+      font-size: 0.95rem;
+      color: #9fb0c6;
+      margin-top: 1rem;
+      max-width: 90%;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 92%;
+      margin-top: 1rem;
+    }
+
+    .comparison .panel {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.4rem;
+      text-align: left;
+    }
+
+    .comparison .panel h3 {
+      margin-bottom: 0.7rem;
+    }
+
+    .comparison .panel ul {
+      max-width: 100%;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 94%;
+      margin-top: 1.5rem;
+    }
+
+    .stage-card {
+      position: relative;
+      padding-top: 2.75rem;
+    }
+
+    .stage-card .stage-label {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--slide-highlight);
+    }
+
+    .quote {
+      font-size: 1.8rem;
+      line-height: 1.5;
+      max-width: 78%;
+      text-align: center;
+      color: var(--slide-text);
+    }
+
+    .quote strong {
+      color: var(--slide-highlight);
+    }
+
+    .slide.layout-top .grid,
+    .slide.layout-top .timeline,
+    .slide.layout-top .comparison,
+    .slide.layout-top .diagram-wrap {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 1100px) {
+      .timeline,
+      .comparison,
+      .two-column-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-statement,
+      .lead,
+      .quote {
+        max-width: 92%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <section class="slide slide-title layout-center" id="title">
+      <p class="eyebrow">Conference session / Case study</p>
+      <h1>MEO: Building an AI-Powered Techco</h1>
+      <p class="subtitle">From Telco to Intelligent Platform</p>
+      <div class="pill-row">
+        <span class="pill">Customer Experience</span>
+        <span class="pill">Network Intelligence</span>
+        <span class="pill">Autonomous Operations</span>
+        <span class="pill">Platform Transformation</span>
+      </div>
+      <p class="author">Marco Antonio Silva, Senior Global Black Belt — Microsoft</p>
+    </section>
+
+    <section class="slide layout-center">
+      <p class="eyebrow">The transformation thesis</p>
+      <h2 class="hero-statement">Winning telcos will stop treating AI as a feature and start using it as the <span class="gradient-text">operating system</span> for the business.</h2>
+      <p class="lead fragment">For MEO, “Techco” means intelligence embedded across customer journeys, networks, platforms, and frontline decisions.</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Why the Telco Model Must Evolve</h2>
+      <div class="grid grid-3" style="margin-top: 1.75rem;">
+        <div class="metric-card fragment">
+          <div class="metric-value">Data</div>
+          <h3>Every signal is already there</h3>
+          <p>Networks, OSS/BSS, apps, stores, field teams, and media platforms generate the raw material for AI advantage.</p>
+        </div>
+        <div class="metric-card fragment">
+          <div class="metric-value">Speed</div>
+          <h3>Customers expect instant service</h3>
+          <p>Static journeys cannot keep pace with real-time intent, context switching, and digital-first support expectations.</p>
+        </div>
+        <div class="metric-card fragment">
+          <div class="metric-value">Scale</div>
+          <h3>Operations are too complex for manual control</h3>
+          <p>Faults, demand spikes, and service dependencies require machine assistance and, increasingly, machine autonomy.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>MEO's AI Strategy Across the Stack</h2>
+      <div class="diagram-wrap fragment">
+        <svg viewBox="0 0 920 430" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 840px;">
+          <rect x="330" y="172" width="260" height="86" rx="18" fill="#e11d48" opacity="0.95"/>
+          <text x="460" y="206" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="800">AI Platform Core</text>
+          <text x="460" y="234" text-anchor="middle" fill="#ffe4ec" font-size="14">Data + models + decisioning + governance</text>
+
+          <rect x="55" y="55" width="220" height="82" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="165" y="90" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="700">Customer Experience</text>
+          <text x="165" y="114" text-anchor="middle" fill="#d7deea" font-size="13">Support, recommendations, next best action</text>
+
+          <rect x="645" y="55" width="220" height="82" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="755" y="90" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="700">Network Intelligence</text>
+          <text x="755" y="114" text-anchor="middle" fill="#d7deea" font-size="13">Forecasting, anomalies, predictive maintenance</text>
+
+          <rect x="55" y="294" width="220" height="82" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="165" y="329" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="700">Content & Commerce</text>
+          <text x="165" y="353" text-anchor="middle" fill="#d7deea" font-size="13">Media personalization, bundle optimization</text>
+
+          <rect x="645" y="294" width="220" height="82" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="755" y="329" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="700">Autonomous Operations</text>
+          <text x="755" y="353" text-anchor="middle" fill="#d7deea" font-size="13">Self-healing, triage, remediation workflows</text>
+
+          <line x1="275" y1="137" x2="355" y2="182" stroke="#e11d48" stroke-width="3" opacity="0.7"/>
+          <line x1="645" y1="137" x2="565" y2="182" stroke="#e11d48" stroke-width="3" opacity="0.7"/>
+          <line x1="275" y1="294" x2="355" y2="248" stroke="#e11d48" stroke-width="3" opacity="0.7"/>
+          <line x1="645" y1="294" x2="565" y2="248" stroke="#e11d48" stroke-width="3" opacity="0.7"/>
+
+          <rect x="240" y="390" width="440" height="24" rx="12" fill="rgba(240,246,252,0.08)" stroke="rgba(240,246,252,0.15)"/>
+          <text x="460" y="407" text-anchor="middle" fill="#c7d2e3" font-size="12">Shared foundations: cloud, MLOps, APIs, observability, responsible AI, security</text>
+        </svg>
+      </div>
+      <p class="small-note fragment">The goal is not isolated AI pilots — it is a reusable intelligence layer powering every major operating domain.</p>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Customer Experience</h2>
+      <p>AI that knows the customer, the product, and the moment</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <p class="eyebrow">Use case cluster</p>
+        <h2>From Scripted Support to Adaptive Journeys</h2>
+        <ul>
+          <li class="fragment">AI assistants resolve routine issues before they hit the contact center.</li>
+          <li class="fragment">Agent copilots summarize history, suggest actions, and generate next-step guidance.</li>
+          <li class="fragment">Recommendation engines personalize bundles, upgrades, and media experiences.</li>
+          <li class="fragment">Intent models route customers by urgency, value, and likelihood to churn.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="comparison">
+          <div class="panel fragment">
+            <h3 class="accent-text">Traditional</h3>
+            <ul>
+              <li>One-size-fits-all menus</li>
+              <li>Reactive complaint handling</li>
+              <li>Static offer catalogs</li>
+            </ul>
+          </div>
+          <div class="panel fragment">
+            <h3 style="color: var(--slide-highlight);">AI-Powered</h3>
+            <ul>
+              <li>Conversational support</li>
+              <li>Proactive issue prevention</li>
+              <li>Context-aware recommendations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Closed-Loop Customer Intelligence</h2>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 920 360" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 840px;">
+          <rect x="40" y="132" width="150" height="72" rx="16" fill="#1a0a2e" stroke="#e11d48" stroke-width="2"/>
+          <text x="115" y="163" text-anchor="middle" fill="#f0f6fc" font-size="17" font-weight="700">Signals</text>
+          <text x="115" y="186" text-anchor="middle" fill="#c7d2e3" font-size="12">Usage, billing, sentiment</text>
+
+          <rect x="250" y="132" width="150" height="72" rx="16" fill="#1a0a2e" stroke="#e11d48" stroke-width="2"/>
+          <text x="325" y="163" text-anchor="middle" fill="#f0f6fc" font-size="17" font-weight="700">Models</text>
+          <text x="325" y="186" text-anchor="middle" fill="#c7d2e3" font-size="12">Intent, churn, propensity</text>
+
+          <rect x="460" y="132" width="150" height="72" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="535" y="163" text-anchor="middle" fill="#f0f6fc" font-size="17" font-weight="700">Decisioning</text>
+          <text x="535" y="186" text-anchor="middle" fill="#c7d2e3" font-size="12">Next best action engine</text>
+
+          <rect x="670" y="132" width="180" height="72" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="760" y="163" text-anchor="middle" fill="#f0f6fc" font-size="17" font-weight="700">Experiences</text>
+          <text x="760" y="186" text-anchor="middle" fill="#c7d2e3" font-size="12">Apps, agents, CRM, media</text>
+
+          <path d="M190 168 L250 168" stroke="#e11d48" stroke-width="3"/>
+          <path d="M400 168 L460 168" stroke="#e11d48" stroke-width="3"/>
+          <path d="M610 168 L670 168" stroke="#fbbf24" stroke-width="3"/>
+          <path d="M760 210 C760 290, 200 290, 115 204" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 6"/>
+          <text x="438" y="315" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="700">Every interaction retrains the journey</text>
+        </svg>
+      </div>
+      <p class="small-note fragment">This is where customer support, commerce, and content recommendation stop being separate systems and become one learning loop.</p>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Network Intelligence</h2>
+      <p>AI applied to reliability, capacity, and field operations</p>
+    </section>
+
+    <section class="slide layout-top">
+      <p class="eyebrow">Predictive maintenance</p>
+      <h2>Detect Failures Before Customers Notice</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="capability-card fragment">
+          <span class="icon">📡</span>
+          <h3>Telemetry Ingestion</h3>
+          <p>Stream alarms, counters, logs, topology, weather, and equipment health into a unified feature layer.</p>
+        </div>
+        <div class="capability-card fragment">
+          <span class="icon">🧠</span>
+          <h3>Failure Prediction</h3>
+          <p>Estimate risk for sites, routers, fiber segments, and power assets hours or days before incidents escalate.</p>
+        </div>
+        <div class="capability-card fragment">
+          <span class="icon">🛠️</span>
+          <h3>Action Orchestration</h3>
+          <p>Trigger inspections, optimize spare parts, pre-position crews, and reduce emergency truck rolls.</p>
+        </div>
+      </div>
+      <p class="architecture-note fragment">AI adds value only when predictions are connected to maintenance workflows, dispatch systems, and clear operator thresholds.</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <p class="eyebrow">Optimization layer</p>
+        <h2>Smarter Networks, Not Just Safer Networks</h2>
+        <ul>
+          <li class="fragment">Traffic forecasting shifts capacity ahead of peak demand.</li>
+          <li class="fragment">Anomaly detection spots degradations invisible to rule-based thresholds.</li>
+          <li class="fragment">Energy optimization tunes sites dynamically for cost and sustainability.</li>
+          <li class="fragment">Quality models identify the experience impact of technical changes before rollout.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="diagram-wrap fragment" style="margin-top: 0;">
+          <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" style="width: 100%;">
+            <rect x="110" y="20" width="200" height="54" rx="14" fill="#e11d48"/>
+            <text x="210" y="53" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">Control Tower</text>
+            <rect x="20" y="130" width="120" height="58" rx="14" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+            <text x="80" y="164" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="700">Demand</text>
+            <rect x="150" y="130" width="120" height="58" rx="14" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+            <text x="210" y="164" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="700">Quality</text>
+            <rect x="280" y="130" width="120" height="58" rx="14" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+            <text x="340" y="164" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="700">Energy</text>
+            <rect x="75" y="255" width="270" height="52" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+            <text x="210" y="286" text-anchor="middle" fill="#c7d2e3" font-size="14" font-weight="600">Recommendations to planners, NOC, and automation engines</text>
+            <line x1="210" y1="74" x2="80" y2="130" stroke="#e11d48" stroke-width="2.5"/>
+            <line x1="210" y1="74" x2="210" y2="130" stroke="#e11d48" stroke-width="2.5"/>
+            <line x1="210" y1="74" x2="340" y2="130" stroke="#e11d48" stroke-width="2.5"/>
+            <line x1="80" y1="188" x2="140" y2="255" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 5"/>
+            <line x1="210" y1="188" x2="210" y2="255" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 5"/>
+            <line x1="340" y1="188" x2="280" y2="255" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 5"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Autonomous Operations: The Self-Healing Flow</h2>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 920 330" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 840px;">
+          <rect x="35" y="120" width="130" height="72" rx="16" fill="#1a0a2e" stroke="#e11d48" stroke-width="2"/>
+          <text x="100" y="151" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="700">Detect</text>
+          <text x="100" y="173" text-anchor="middle" fill="#c7d2e3" font-size="12">Events + anomalies</text>
+
+          <rect x="205" y="120" width="130" height="72" rx="16" fill="#1a0a2e" stroke="#e11d48" stroke-width="2"/>
+          <text x="270" y="151" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="700">Diagnose</text>
+          <text x="270" y="173" text-anchor="middle" fill="#c7d2e3" font-size="12">Root cause ranking</text>
+
+          <rect x="375" y="120" width="130" height="72" rx="16" fill="#1a0a2e" stroke="#e11d48" stroke-width="2"/>
+          <text x="440" y="151" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="700">Decide</text>
+          <text x="440" y="173" text-anchor="middle" fill="#c7d2e3" font-size="12">Policy + confidence</text>
+
+          <rect x="545" y="120" width="130" height="72" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="610" y="151" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="700">Act</text>
+          <text x="610" y="173" text-anchor="middle" fill="#c7d2e3" font-size="12">Automate remediation</text>
+
+          <rect x="715" y="120" width="170" height="72" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="800" y="151" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="700">Learn</text>
+          <text x="800" y="173" text-anchor="middle" fill="#c7d2e3" font-size="12">Measure outcome + retrain</text>
+
+          <line x1="165" y1="156" x2="205" y2="156" stroke="#e11d48" stroke-width="3"/>
+          <line x1="335" y1="156" x2="375" y2="156" stroke="#e11d48" stroke-width="3"/>
+          <line x1="505" y1="156" x2="545" y2="156" stroke="#fbbf24" stroke-width="3"/>
+          <line x1="675" y1="156" x2="715" y2="156" stroke="#fbbf24" stroke-width="3"/>
+
+          <path d="M800 194 C800 270, 270 275, 100 192" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 6"/>
+          <text x="446" y="302" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="700">Human-in-the-loop at high risk, machine-in-the-loop at high scale</text>
+        </svg>
+      </div>
+      <div class="callout fragment info">The shift is from dashboards that describe incidents to systems that resolve a growing percentage of them automatically.</div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Platform Architecture</h2>
+      <p>The foundation that makes AI operational, repeatable, and safe</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>AI Workload Architecture for a Techco</h2>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 920 430" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 840px;">
+          <rect x="35" y="35" width="850" height="54" rx="16" fill="#1a0a2e" stroke="#fbbf24" stroke-width="2"/>
+          <text x="460" y="67" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="700">Channels + Operating Systems</text>
+          <text x="460" y="85" text-anchor="middle" fill="#c7d2e3" font-size="12">Apps · CRM · Contact Center · NOC · Field Service · Media Platforms</text>
+
+          <rect x="60" y="125" width="240" height="85" rx="16" fill="#13081f" stroke="#e11d48" stroke-width="2"/>
+          <text x="180" y="158" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="700">Data Foundation</text>
+          <text x="180" y="181" text-anchor="middle" fill="#d7deea" font-size="12">Streaming, lakehouse, feature store, semantic models</text>
+
+          <rect x="340" y="125" width="240" height="85" rx="16" fill="#13081f" stroke="#e11d48" stroke-width="2"/>
+          <text x="460" y="158" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="700">Intelligence Layer</text>
+          <text x="460" y="181" text-anchor="middle" fill="#d7deea" font-size="12">ML models, GenAI, RAG, optimization, decision engines</text>
+
+          <rect x="620" y="125" width="240" height="85" rx="16" fill="#13081f" stroke="#e11d48" stroke-width="2"/>
+          <text x="740" y="158" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="700">Action Layer</text>
+          <text x="740" y="181" text-anchor="middle" fill="#d7deea" font-size="12">APIs, agents, workflow automation, remediation runbooks</text>
+
+          <rect x="60" y="260" width="180" height="92" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)"/>
+          <text x="150" y="293" text-anchor="middle" fill="#f0f6fc" font-size="15" font-weight="700">MLOps</text>
+          <text x="150" y="316" text-anchor="middle" fill="#c7d2e3" font-size="12">CI/CD, registry, evaluation</text>
+
+          <rect x="265" y="260" width="180" height="92" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)"/>
+          <text x="355" y="293" text-anchor="middle" fill="#f0f6fc" font-size="15" font-weight="700">Observability</text>
+          <text x="355" y="316" text-anchor="middle" fill="#c7d2e3" font-size="12">Quality, latency, drift, business KPIs</text>
+
+          <rect x="470" y="260" width="180" height="92" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)"/>
+          <text x="560" y="293" text-anchor="middle" fill="#f0f6fc" font-size="15" font-weight="700">Governance</text>
+          <text x="560" y="316" text-anchor="middle" fill="#c7d2e3" font-size="12">Privacy, policy, access, guardrails</text>
+
+          <rect x="675" y="260" width="185" height="92" rx="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)"/>
+          <text x="767" y="293" text-anchor="middle" fill="#f0f6fc" font-size="15" font-weight="700">Platform Ops</text>
+          <text x="767" y="316" text-anchor="middle" fill="#c7d2e3" font-size="12">Cost control, security, reliability</text>
+
+          <line x1="180" y1="89" x2="180" y2="125" stroke="#fbbf24" stroke-width="2.5"/>
+          <line x1="460" y1="89" x2="460" y2="125" stroke="#fbbf24" stroke-width="2.5"/>
+          <line x1="740" y1="89" x2="740" y2="125" stroke="#fbbf24" stroke-width="2.5"/>
+        </svg>
+      </div>
+      <p class="architecture-note fragment">The platform matters because AI workloads are not just model endpoints — they are data pipelines, evaluation loops, and operational contracts.</p>
+    </section>
+
+    <section class="slide layout-top">
+      <p class="eyebrow">Operating principles</p>
+      <h2>What the Platform Must Do Well</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="initiative-card fragment">
+          <span class="number-badge">1</span>
+          <h3>Unify Data Access</h3>
+          <p>Break OSS/BSS silos with trusted, reusable data products for customer, network, and service domains.</p>
+        </div>
+        <div class="initiative-card fragment">
+          <span class="number-badge">2</span>
+          <h3>Industrialize MLOps</h3>
+          <p>Move from notebooks and pilots to versioned models, automated deployment, and measurable evaluation.</p>
+        </div>
+        <div class="initiative-card fragment">
+          <span class="number-badge">3</span>
+          <h3>Secure AI by Design</h3>
+          <p>Protect sensitive telecom data with privacy controls, role-based access, audit trails, and policy enforcement.</p>
+        </div>
+        <div class="initiative-card fragment">
+          <span class="number-badge">4</span>
+          <h3>Close the Loop</h3>
+          <p>Connect model outputs to real workflows so every prediction, recommendation, or action has an observable outcome.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Cultural Transformation</h2>
+      <p>Technology changes the stack; leadership changes the company</p>
+    </section>
+
+    <section class="slide layout-top">
+      <p class="eyebrow">Organization design</p>
+      <h2>Becoming a Techco Requires New Muscles</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="capability-card fragment">
+          <span class="icon">👥</span>
+          <h3>Cross-Functional Product Teams</h3>
+          <p>Network, digital, data, and operations experts build AI use cases together instead of handing work off sequentially.</p>
+        </div>
+        <div class="capability-card fragment">
+          <span class="icon">📚</span>
+          <h3>AI Literacy at Scale</h3>
+          <p>Leaders, engineers, frontline agents, and operations teams need a shared language for trust, risk, and value.</p>
+        </div>
+        <div class="capability-card fragment">
+          <span class="icon">📈</span>
+          <h3>Outcome-Based Governance</h3>
+          <p>Fund platforms and reusable components, not just isolated projects, and measure value in operational outcomes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Maturity Roadmap: From Pilots to Platform</h2>
+      <div class="timeline">
+        <div class="stage-card fragment">
+          <div class="stage-label">Stage 1</div>
+          <h3>Experiment</h3>
+          <p>Prove value with targeted copilots and prediction models in high-friction journeys.</p>
+        </div>
+        <div class="stage-card fragment">
+          <div class="stage-label">Stage 2</div>
+          <h3>Operationalize</h3>
+          <p>Embed AI into workflows, establish governance, and create repeatable MLOps patterns.</p>
+        </div>
+        <div class="stage-card fragment">
+          <div class="stage-label">Stage 3</div>
+          <h3>Scale</h3>
+          <p>Share data products and models across customer, network, and content domains.</p>
+        </div>
+        <div class="stage-card fragment">
+          <div class="stage-label">Stage 4</div>
+          <h3>Autonomize</h3>
+          <p>Allow trusted AI systems to optimize and remediate with humans supervising the boundaries.</p>
+        </div>
+      </div>
+      <p class="small-note fragment">The roadmap is less about buying new tools and more about creating reusable capabilities the whole business can depend on.</p>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Lessons Learned & Results</h2>
+      <p>What separates AI theater from operational impact</p>
+    </section>
+
+    <section class="slide layout-top">
+      <p class="eyebrow">Results that matter</p>
+      <h2>How an AI-Powered Techco Creates Value</h2>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="result-card fragment">
+          <span class="icon">⚡</span>
+          <h3>Faster Resolution</h3>
+          <p>Shorter detection-to-action cycles across support and operations reduce customer pain and internal cost.</p>
+        </div>
+        <div class="result-card fragment">
+          <span class="icon">🎯</span>
+          <h3>Higher Relevance</h3>
+          <p>Personalized recommendations improve conversion, retention, and satisfaction across digital and assisted channels.</p>
+        </div>
+        <div class="result-card fragment">
+          <span class="icon">🛰️</span>
+          <h3>Better Reliability</h3>
+          <p>Predictive maintenance and anomaly detection reduce avoidable incidents and increase service continuity.</p>
+        </div>
+        <div class="result-card fragment">
+          <span class="icon">🔁</span>
+          <h3>More Automation</h3>
+          <p>Self-healing workflows free expert teams to focus on exceptions, architecture, and continuous improvement.</p>
+        </div>
+        <div class="result-card fragment">
+          <span class="icon">💡</span>
+          <h3>Smarter Investment</h3>
+          <p>Shared AI platforms avoid duplicate tooling and create leverage across domains instead of one-off solutions.</p>
+        </div>
+        <div class="result-card fragment">
+          <span class="icon">🌱</span>
+          <h3>Efficiency with Sustainability</h3>
+          <p>Network optimization aligns service quality, energy efficiency, and capital planning in the same decision loop.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <p class="eyebrow">Execution insight</p>
+        <h2>Five Lessons MEO's Journey Makes Clear</h2>
+        <ul>
+          <li class="fragment">Start with pain points that have clear data and visible operational owners.</li>
+          <li class="fragment">Treat data quality and workflow design as first-class AI priorities.</li>
+          <li class="fragment">Use one platform for many use cases instead of many platforms for one use case each.</li>
+          <li class="fragment">Keep humans in the loop until trust, controls, and evidence justify more autonomy.</li>
+          <li class="fragment">Measure outcomes in customer, network, and financial terms — not model accuracy alone.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="quote fragment">“The real transformation is not adding AI to a telco. It is redesigning the telco so that <strong>learning, prediction, and action</strong> become native capabilities.”</p>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <p class="eyebrow">What's next</p>
+      <h2>The Next Horizon for MEO</h2>
+      <div class="two-column-list">
+        <ul>
+          <li class="fragment">Domain-specific copilots for network planners, service agents, and field engineers</li>
+          <li class="fragment">Multi-agent orchestration for incident management and customer recovery journeys</li>
+          <li class="fragment">Real-time digital twins for network capacity and service quality simulation</li>
+        </ul>
+        <ul>
+          <li class="fragment">Private, sovereign AI patterns for sensitive telecom workloads</li>
+          <li class="fragment">Unified observability across models, APIs, and business outcomes</li>
+          <li class="fragment">Continuous transition from assisted decisions to trusted autonomous operations</li>
+        </ul>
+      </div>
+      <div class="callout warning fragment">The opportunity is bigger than efficiency: the Techco model creates new products, new revenue logic, and new customer expectations.</div>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You</h1>
+      <p class="subtitle">MEO: From Telco to Intelligent Platform</p>
+      <p class="author">Marco Antonio Silva, Senior Global Black Belt — Microsoft</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

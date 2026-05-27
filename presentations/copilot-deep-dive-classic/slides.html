@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Deep Dive: Mastering AI-Assisted Development</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0d1117;
+      --slide-text: #f0f6fc;
+      --slide-accent: #58a6ff;
+      --slide-secondary: #161b22;
+      --slide-highlight: #7ee787;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(88, 166, 255, 0.12), transparent 35%);
+      pointer-events: none;
+    }
+
+    .slide > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--slide-highlight);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-badge,
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      background: rgba(88, 166, 255, 0.08);
+      color: var(--slide-accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .hero-badge { margin-bottom: 1.25rem; }
+
+    .speaker-line,
+    .muted,
+    .tiny {
+      color: rgba(240, 246, 252, 0.72);
+    }
+
+    .speaker-line {
+      font-size: 1.15rem;
+      margin-top: 1.5rem;
+    }
+
+    .tiny {
+      font-size: 0.95rem;
+    }
+
+    .lead,
+    .wide-text,
+    .tight-list,
+    .roadmap,
+    .command-list,
+    .check-list {
+      max-width: 100%;
+    }
+
+    .lead {
+      font-size: 1.45rem;
+      line-height: 1.7;
+      color: rgba(240, 246, 252, 0.85);
+      margin-bottom: 1.5rem;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .grid-item,
+    .surface-card,
+    .metric-card,
+    .quote-box,
+    .code-card,
+    .workflow-step,
+    .roadmap-step,
+    .context-pill,
+    .tier-card {
+      background: rgba(22, 27, 34, 0.92);
+      border: 1px solid rgba(88, 166, 255, 0.18);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .tier-card,
+    .surface-card,
+    .metric-card,
+    .workflow-step,
+    .roadmap-step,
+    .code-card {
+      padding: 1.4rem;
+      height: 100%;
+    }
+
+    .tier-card h3,
+    .surface-card h3,
+    .metric-card h3,
+    .workflow-step h3,
+    .roadmap-step h3,
+    .code-card h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .tier-card p,
+    .surface-card p,
+    .metric-card p,
+    .workflow-step p,
+    .roadmap-step p,
+    .code-card p {
+      max-width: 100%;
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: rgba(240, 246, 252, 0.82);
+      margin-bottom: 0;
+    }
+
+    .tier-card ul,
+    .surface-card ul,
+    .workflow-step ul,
+    .roadmap-step ul,
+    .check-list,
+    .command-list {
+      max-width: 100%;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      margin-top: 0.8rem;
+      padding-left: 1.2rem;
+    }
+
+    .accent {
+      color: var(--slide-accent);
+      font-weight: 700;
+    }
+
+    .highlight {
+      color: var(--slide-highlight);
+      font-weight: 700;
+    }
+
+    .big-idea {
+      font-size: 2.8rem;
+      line-height: 1.25;
+      font-weight: 800;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .flow-diagram,
+    .workflow-grid,
+    .roadmap,
+    .command-grid {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .flow-diagram svg,
+    .context-svg,
+    .overview-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .surface-icon,
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--slide-highlight);
+      margin-bottom: 0.5rem;
+    }
+
+    .context-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .context-pill {
+      padding: 1rem 1.1rem;
+      min-width: 160px;
+      flex: 1;
+    }
+
+    .context-pill h3 {
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .context-pill p {
+      max-width: 100%;
+      font-size: 0.98rem;
+      margin-bottom: 0;
+      color: rgba(240, 246, 252, 0.75);
+    }
+
+    .code-snippet {
+      width: 100%;
+      max-width: 100%;
+      text-align: left;
+      padding: 1.25rem 1.4rem;
+      background: #010409;
+      border: 1px solid rgba(126, 231, 135, 0.15);
+      border-radius: 16px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+      white-space: pre-wrap;
+    }
+
+    .quote-box {
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 820px;
+      text-align: left;
+    }
+
+    .quote-box p {
+      max-width: 100%;
+      margin-bottom: 0.75rem;
+    }
+
+    .workflow-grid,
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .command-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .workflow-step .step-number,
+    .roadmap-step .step-number {
+      display: inline-flex;
+      width: 2rem;
+      height: 2rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(126, 231, 135, 0.15);
+      color: var(--slide-highlight);
+      font-weight: 800;
+      margin-bottom: 0.7rem;
+    }
+
+    .comparison-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .comparison-columns .surface-card {
+      min-height: 100%;
+    }
+
+    .table-lite {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.05rem;
+      background: rgba(22, 27, 34, 0.92);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(88, 166, 255, 0.18);
+    }
+
+    .table-lite th,
+    .table-lite td {
+      padding: 1rem 1.1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .table-lite th {
+      color: var(--slide-accent);
+      font-size: 1rem;
+    }
+
+    .table-lite tr:last-child td {
+      border-bottom: none;
+    }
+
+    .slide.slide-section {
+      background: linear-gradient(135deg, #161b22 0%, #0d1117 55%, #0f2537 100%) !important;
+    }
+
+    .slide.slide-section h2 {
+      color: var(--slide-text);
+      font-size: 3.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .slide.slide-title {
+      background: linear-gradient(135deg, #161b22 0%, #0d1117 50%, #0f2537 100%);
+    }
+
+    .slide-title h1 {
+      font-size: 3.4rem;
+      max-width: 90%;
+    }
+
+    .slide-title .subtitle {
+      max-width: 80%;
+      color: rgba(240, 246, 252, 0.85);
+    }
+
+    @media (max-width: 900px) {
+      .workflow-grid,
+      .roadmap,
+      .command-grid,
+      .comparison-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .big-idea {
+        max-width: 100%;
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <section class="slide slide-title layout-center" id="title">
+      <div class="hero-badge">Conference Session · 45-60 min</div>
+      <h1>GitHub Copilot Deep Dive: Mastering AI-Assisted Development</h1>
+      <p class="subtitle">Go beyond autocomplete with better context, better workflows, and better engineering habits.</p>
+      <p class="speaker-line">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+      <div class="badge-row">
+        <span class="mini-badge">Completions</span>
+        <span class="mini-badge">Chat</span>
+        <span class="mini-badge">PRs</span>
+        <span class="mini-badge">CLI</span>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="agenda">
+      <p class="eyebrow">Why this matters</p>
+      <h2>Copilot is a platform, not just a feature</h2>
+      <p class="lead">The best results come from choosing the right surface for the job, managing context deliberately, and keeping humans in the review loop.</p>
+      <div class="grid grid-2">
+        <div class="grid-item">
+          <h3>In this session</h3>
+          <ul class="tight-list">
+            <li class="fragment">How Copilot works under the hood</li>
+            <li class="fragment">Where completions, chat, PRs, and CLI fit</li>
+            <li class="fragment">How to operationalize team-wide best practices</li>
+          </ul>
+        </div>
+        <div class="grid-item">
+          <h3>Outcome</h3>
+          <ul class="tight-list">
+            <li class="fragment">Faster everyday coding</li>
+            <li class="fragment">More predictable AI outputs</li>
+            <li class="fragment">Metrics you can defend with leadership</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="ecosystem">
+      <p class="eyebrow">Ecosystem overview</p>
+      <h2>Individual, Business, Enterprise</h2>
+      <div class="grid grid-3">
+        <div class="tier-card fragment">
+          <h3>Individual</h3>
+          <p>Great for personal productivity, experimentation, and skill acceleration inside your editor and terminal.</p>
+        </div>
+        <div class="tier-card fragment">
+          <h3>Business</h3>
+          <p>Team access, policy controls, and organizational visibility so AI adoption is governed instead of improvised.</p>
+        </div>
+        <div class="tier-card fragment">
+          <h3>Enterprise</h3>
+          <p>Deeper governance, compliance alignment, and enterprise-scale rollout patterns across large engineering organizations.</p>
+        </div>
+      </div>
+      <div class="quote-box" style="margin-top: 1.5rem;">
+        <p><span class="accent">Same assistant, different operating model.</span></p>
+        <p class="tiny">As you move up-market, the conversation shifts from “Can developers use this?” to “How do we scale this safely and measurably?”</p>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="how-it-works-section">
+      <h2>How Copilot Works</h2>
+      <p class="subtitle">Models + context window + your intent</p>
+    </section>
+
+    <section class="slide layout-split" id="how-it-works">
+      <div>
+        <p class="eyebrow">Mental model</p>
+        <h2>Copilot predicts the next best useful token</h2>
+        <p class="lead">Under the covers, Copilot sends a carefully assembled prompt to an LLM. The quality of the answer depends on the <span class="accent">model</span>, the <span class="accent">context window</span>, and the <span class="accent">signals</span> available at that moment.</p>
+        <ul class="tight-list">
+          <li class="fragment">Current file and cursor position</li>
+          <li class="fragment">Nearby files, symbols, tests, and repo patterns</li>
+          <li class="fragment">Your chat request, command, or inline comment</li>
+        </ul>
+      </div>
+      <div class="flow-diagram">
+        <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="40" width="120" height="70" rx="16" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+          <text x="80" y="72" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="700">You</text>
+          <text x="80" y="94" text-anchor="middle" fill="#f0f6fc" font-size="13">Prompt, code, intent</text>
+
+          <rect x="190" y="20" width="150" height="110" rx="18" fill="#161b22" stroke="#7ee787" stroke-width="2"/>
+          <text x="265" y="58" text-anchor="middle" fill="#7ee787" font-size="20" font-weight="700">Context Window</text>
+          <text x="265" y="83" text-anchor="middle" fill="#f0f6fc" font-size="13">Open file</text>
+          <text x="265" y="103" text-anchor="middle" fill="#f0f6fc" font-size="13">Repo signals</text>
+
+          <rect x="380" y="40" width="120" height="70" rx="16" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+          <text x="440" y="72" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="700">LLM</text>
+          <text x="440" y="94" text-anchor="middle" fill="#f0f6fc" font-size="13">Reason + generate</text>
+
+          <path d="M 140 75 L 190 75" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+          <path d="M 340 75 L 380 75" stroke="#7ee787" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+
+          <rect x="140" y="210" width="240" height="90" rx="18" fill="#0f2537" stroke="#58a6ff" stroke-width="2"/>
+          <text x="260" y="245" text-anchor="middle" fill="#58a6ff" font-size="22" font-weight="700">Suggestion</text>
+          <text x="260" y="270" text-anchor="middle" fill="#f0f6fc" font-size="14">Completion, answer, patch, summary</text>
+
+          <path d="M 440 110 L 440 190 L 290 190 L 290 210" stroke="#58a6ff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L9,3 z" fill="#58a6ff"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="context-window">
+      <p class="eyebrow">Context engineering</p>
+      <h2>The model is only as good as the context you give it</h2>
+      <div class="context-row">
+        <div class="context-pill fragment">
+          <h3>Local context</h3>
+          <p>The active file, cursor, symbols, imports, and comments are the first signal stream.</p>
+        </div>
+        <div class="context-pill fragment">
+          <h3>Workspace context</h3>
+          <p>Related files, tests, references, and project conventions keep answers aligned with the repo.</p>
+        </div>
+        <div class="context-pill fragment">
+          <h3>User context</h3>
+          <p>Your prompt, chat history, selected code, and attached references shape the actual ask.</p>
+        </div>
+        <div class="context-pill fragment">
+          <h3>Policy context</h3>
+          <p>Custom instructions and organizational controls define what “good” looks like for your team.</p>
+        </div>
+      </div>
+      <div class="quote-box" style="margin-top: 1.5rem;">
+        <p><span class="highlight">Key takeaway:</span> better prompting is useful, but better context usually moves the needle more.</p>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="completions-section">
+      <h2>Completions</h2>
+      <p class="subtitle">Fastest path from intent to code</p>
+    </section>
+
+    <section class="slide layout-top" id="completions">
+      <p class="eyebrow">Everyday flow</p>
+      <h2>Tab, multi-line, ghost text</h2>
+      <div class="grid grid-3">
+        <div class="surface-card fragment">
+          <div class="surface-icon">⇥</div>
+          <h3>Tab completion</h3>
+          <p>Accept a likely next step without breaking focus for small edits, glue code, and repetitive patterns.</p>
+        </div>
+        <div class="surface-card fragment">
+          <div class="surface-icon">⋯</div>
+          <h3>Multi-line completion</h3>
+          <p>Generate loops, handlers, tests, and scaffolding when the surrounding structure is already clear.</p>
+        </div>
+        <div class="surface-card fragment">
+          <div class="surface-icon">👻</div>
+          <h3>Ghost text</h3>
+          <p>Preview intent before you commit, so you stay in control and accept only the parts that help.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="completion-quality">
+      <p class="eyebrow">Better completions</p>
+      <h2>Seed the model before you ask it to guess</h2>
+      <div class="comparison-columns">
+        <div class="surface-card">
+          <h3>Weak setup</h3>
+          <ul class="check-list">
+            <li class="fragment">Generic function names</li>
+            <li class="fragment">No tests or examples nearby</li>
+            <li class="fragment">Ambiguous comments like “fix this”</li>
+          </ul>
+        </div>
+        <div class="surface-card">
+          <h3>Strong setup</h3>
+          <ul class="check-list">
+            <li class="fragment">Name the intent in code and comments</li>
+            <li class="fragment">Sketch the function signature first</li>
+            <li class="fragment">Add a representative test or sample input</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-snippet" style="margin-top: 1.5rem;">// Good Copilot seed:
+// Parse RFC 3339 timestamps, return UTC Date, throw on invalid input.
+function parseAuditTimestamp(value) {
+  // Copilot now has the contract and can fill in the implementation.
+}</div>
+    </section>
+
+    <section class="slide layout-top" id="chat-surfaces">
+      <p class="eyebrow">Chat surfaces</p>
+      <h2>Inline, sidebar, terminal</h2>
+      <div class="grid grid-3">
+        <div class="surface-card fragment">
+          <h3>Inline chat</h3>
+          <p>Best for focused changes in the current file: refactor this function, explain this block, add tests here.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>Sidebar chat</h3>
+          <p>Best for multi-file reasoning, design discussion, code explanations, and iterative back-and-forth.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>Terminal chat</h3>
+          <p>Best for command generation, debugging shell output, and bridging source code with runtime behavior.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="slash-commands">
+      <p class="eyebrow">Fast intent</p>
+      <h2>Slash commands compress common workflows</h2>
+      <div class="command-grid">
+        <div class="code-card fragment">
+          <h3>/explain</h3>
+          <p>Turn unfamiliar code into a concise walkthrough without opening a separate tab.</p>
+        </div>
+        <div class="code-card fragment">
+          <h3>/fix</h3>
+          <p>Propose a targeted repair when you already know the failing area.</p>
+        </div>
+        <div class="code-card fragment">
+          <h3>/tests</h3>
+          <p>Generate a first draft of tests around existing behavior or a newly added function.</p>
+        </div>
+        <div class="code-card fragment">
+          <h3>/doc</h3>
+          <p>Produce documentation, comments, or summaries in the same place you are coding.</p>
+        </div>
+      </div>
+      <div class="quote-box" style="margin-top: 1.5rem;">
+        <p><span class="accent">Tip:</span> slash commands reduce prompt overhead, but they still benefit from good context.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-split" id="participants">
+      <div>
+        <p class="eyebrow">Participants</p>
+        <h2>@workspace and @terminal extend the assistant</h2>
+        <ul class="tight-list">
+          <li class="fragment"><span class="accent">@workspace</span> draws from your repo and IDE context to answer “how does this system work?”</li>
+          <li class="fragment"><span class="accent">@terminal</span> uses shell context for commands, diagnostics, and next-step guidance</li>
+          <li class="fragment">Participants help route your question to the right source of truth</li>
+        </ul>
+      </div>
+      <div class="stack">
+        <div class="code-snippet fragment">@workspace where is auth token refresh handled?</div>
+        <div class="code-snippet fragment">@terminal why did npm test fail after the last install?</div>
+        <div class="quote-box fragment">
+          <p>Think of participants as <span class="highlight">specialized lenses</span>, not just syntax sugar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="context-management">
+      <p class="eyebrow">Precision prompting</p>
+      <h2>#file and #selection keep the conversation grounded</h2>
+      <div class="grid grid-3">
+        <div class="surface-card fragment">
+          <h3>#file</h3>
+          <p>Attach the exact implementation or config file you want the model to reason about.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>#selection</h3>
+          <p>Constrain the problem to the specific code you highlighted when precision matters most.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>#codebase</h3>
+          <p>Widen the search when architecture, patterns, or cross-cutting concerns matter more than one file.</p>
+        </div>
+      </div>
+      <div class="code-snippet" style="margin-top: 1.5rem;">Explain why #selection is vulnerable and show a safer implementation using patterns from #file:src/security/sanitizer.ts</div>
+    </section>
+
+    <section class="slide layout-top" id="custom-instructions">
+      <p class="eyebrow">Team consistency</p>
+      <h2>Custom instructions encode how your team likes to build</h2>
+      <div class="grid grid-2">
+        <div class="surface-card">
+          <h3>.github/copilot-instructions.md</h3>
+          <p>Put architecture rules, naming conventions, testing expectations, and review principles in one discoverable place.</p>
+        </div>
+        <div class="code-snippet"># Example instructions
+- Prefer typed APIs over dynamic objects
+- Add tests for every bug fix
+- Reuse shared UI components before creating new ones
+- Avoid introducing new dependencies without justification</div>
+      </div>
+      <div class="quote-box" style="margin-top: 1.5rem;">
+        <p><span class="highlight">Result:</span> less repetitive prompting, more consistent output across the team.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="workflow-example">
+      <p class="eyebrow">Putting it together</p>
+      <h2>A practical workflow from issue to implementation</h2>
+      <div class="workflow-grid">
+        <div class="workflow-step fragment">
+          <div class="step-number">1</div>
+          <h3>Understand</h3>
+          <p>Use @workspace to map the affected system and locate the files that matter.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">2</div>
+          <h3>Constrain</h3>
+          <p>Attach #file and #selection so the assistant solves the right problem.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">3</div>
+          <h3>Implement</h3>
+          <p>Use inline chat or completions for the change, then ask for targeted tests.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">4</div>
+          <h3>Verify</h3>
+          <p>Use terminal chat or CLI to run commands, interpret failures, and iterate.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="prs-section">
+      <h2>Pull Requests and Reviews</h2>
+      <p class="subtitle">Where AI can accelerate collaboration</p>
+    </section>
+
+    <section class="slide layout-top" id="prs">
+      <p class="eyebrow">PR assistance</p>
+      <h2>Copilot helps reviewers and authors move faster</h2>
+      <div class="grid grid-2">
+        <div class="surface-card fragment">
+          <h3>For authors</h3>
+          <ul class="command-list">
+            <li>Draft clearer PR titles and summaries</li>
+            <li>Explain why a change was made, not just what changed</li>
+            <li>Surface likely risk areas before requesting review</li>
+          </ul>
+        </div>
+        <div class="surface-card fragment">
+          <h3>For reviewers</h3>
+          <ul class="command-list">
+            <li>Summarize large diffs quickly</li>
+            <li>Focus attention on suspicious or complex areas</li>
+            <li>Speed up understanding before deeper manual review</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="review-checklist">
+      <p class="eyebrow">Human in the loop</p>
+      <h2>AI review is acceleration, not absolution</h2>
+      <table class="table-lite">
+        <tr>
+          <th>Always verify</th>
+          <th>Why it matters</th>
+        </tr>
+        <tr class="fragment">
+          <td>Security and permissions</td>
+          <td>These require business context and threat modeling, not just syntax confidence.</td>
+        </tr>
+        <tr class="fragment">
+          <td>Edge cases and failure modes</td>
+          <td>Models can miss system-specific behavior and hidden contracts.</td>
+        </tr>
+        <tr class="fragment">
+          <td>Performance-sensitive paths</td>
+          <td>Code that “looks right” can still be expensive or noisy in production.</td>
+        </tr>
+        <tr class="fragment">
+          <td>Architecture alignment</td>
+          <td>The output should fit team conventions, not just compile.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="slide layout-top" id="copilot-cli">
+      <p class="eyebrow">Terminal-native AI</p>
+      <h2>Copilot CLI connects code context to command-line action</h2>
+      <div class="grid grid-2">
+        <div class="surface-card fragment">
+          <h3>Best use cases</h3>
+          <ul class="command-list">
+            <li>Generate or explain shell commands</li>
+            <li>Debug failing builds and tests</li>
+            <li>Navigate unfamiliar repos faster</li>
+            <li>Bridge runtime output back to source code changes</li>
+          </ul>
+        </div>
+        <div class="surface-card fragment">
+          <h3>Why it matters</h3>
+          <p>The terminal is where code meets reality. Copilot CLI helps reduce context switching between editor, docs, and shell output.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="cli-examples">
+      <p class="eyebrow">Example prompts</p>
+      <h2>Good CLI asks are concrete and observable</h2>
+      <div class="stack">
+        <div class="code-snippet fragment">Explain this stack trace and suggest the next two commands to isolate the failing dependency.</div>
+        <div class="code-snippet fragment">Search this repo for where JWT expiry is configured and summarize the flow.</div>
+        <div class="code-snippet fragment">Help me write a safe git command sequence to inspect what changed without losing local work.</div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="metrics-section">
+      <h2>Measuring Impact</h2>
+      <p class="subtitle">Productivity is more than speed</p>
+    </section>
+
+    <section class="slide layout-top" id="metrics">
+      <p class="eyebrow">Outcome metrics</p>
+      <h2>Measure what improves engineering, not just keystrokes</h2>
+      <div class="grid grid-3">
+        <div class="metric-card fragment">
+          <div class="metric-value">↓</div>
+          <h3>Cycle time</h3>
+          <p>How long it takes to move from issue to merged, verified change.</p>
+        </div>
+        <div class="metric-card fragment">
+          <div class="metric-value">↑</div>
+          <h3>Throughput</h3>
+          <p>How many quality changes a team can ship without increasing toil.</p>
+        </div>
+        <div class="metric-card fragment">
+          <div class="metric-value">↔</div>
+          <h3>Quality</h3>
+          <p>Defect escape rate, rollback rate, and rework should stay flat or improve.</p>
+        </div>
+      </div>
+      <div class="quote-box" style="margin-top: 1.5rem;">
+        <p><span class="accent">Also track sentiment:</span> confidence, flow state, onboarding speed, and how quickly developers can work in unfamiliar code.</p>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="experiment-design">
+      <p class="eyebrow">Practical measurement</p>
+      <h2>Run adoption like an engineering experiment</h2>
+      <div class="workflow-grid">
+        <div class="workflow-step fragment">
+          <div class="step-number">1</div>
+          <h3>Baseline</h3>
+          <p>Capture current delivery, quality, and developer satisfaction metrics.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">2</div>
+          <h3>Pilot</h3>
+          <p>Start with a team or workflow where the signal will be easy to observe.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">3</div>
+          <h3>Coach</h3>
+          <p>Teach prompting, context management, and review habits instead of assuming osmosis.</p>
+        </div>
+        <div class="workflow-step fragment">
+          <div class="step-number">4</div>
+          <h3>Compare</h3>
+          <p>Review results against baseline and decide where to scale next.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center" id="best-practices-section">
+      <h2>Best Practices</h2>
+      <p class="subtitle">Use AI deliberately, not passively</p>
+    </section>
+
+    <section class="slide layout-top" id="best-practices">
+      <p class="eyebrow">Power-user habits</p>
+      <h2>What high-leverage Copilot users do differently</h2>
+      <div class="grid grid-2">
+        <div class="surface-card fragment">
+          <h3>They frame the task</h3>
+          <p>They explain desired behavior, constraints, and success criteria before asking for implementation.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>They keep context tight</h3>
+          <p>They point Copilot to the right files, selections, tests, and examples instead of hoping it infers correctly.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>They iterate in small loops</h3>
+          <p>They accept partial wins, verify, and refine instead of expecting one giant perfect prompt.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>They review aggressively</h3>
+          <p>They treat outputs as drafts to validate, not as authoritative truth.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="anti-patterns">
+      <p class="eyebrow">Anti-patterns</p>
+      <h2>Common ways teams leave value on the table</h2>
+      <div class="grid grid-2">
+        <div class="surface-card fragment">
+          <h3>“Write everything for me”</h3>
+          <p>Over-delegation produces generic code and weak understanding.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>Zero context prompts</h3>
+          <p>Vague asks like “fix this” waste cycles and produce shallow answers.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>Blind acceptance</h3>
+          <p>Autocomplete can feel right while still introducing subtle defects.</p>
+        </div>
+        <div class="surface-card fragment">
+          <h3>No team standard</h3>
+          <p>Without instructions and coaching, every developer reinvents the workflow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top" id="roadmap">
+      <p class="eyebrow">Adoption roadmap</p>
+      <h2>How to level up from experimentation to advantage</h2>
+      <div class="roadmap">
+        <div class="roadmap-step fragment">
+          <div class="step-number">1</div>
+          <h3>Enable</h3>
+          <p>Get developers into the tool and remove friction.</p>
+        </div>
+        <div class="roadmap-step fragment">
+          <div class="step-number">2</div>
+          <h3>Educate</h3>
+          <p>Teach context, prompting, review, and safe usage patterns.</p>
+        </div>
+        <div class="roadmap-step fragment">
+          <div class="step-number">3</div>
+          <h3>Instrument</h3>
+          <p>Track cycle time, quality, and developer sentiment.</p>
+        </div>
+        <div class="roadmap-step fragment">
+          <div class="step-number">4</div>
+          <h3>Scale</h3>
+          <p>Operationalize best practices with custom instructions and governance.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <div class="hero-badge">Thank you</div>
+      <h1>Use Copilot with intent</h1>
+      <p class="subtitle">Better context. Better prompts. Better review. Better outcomes.</p>
+      <p class="speaker-line">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+    </section>
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

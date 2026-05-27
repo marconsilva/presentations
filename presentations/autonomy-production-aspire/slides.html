@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomy in Production: Building Reliable Multi-Agent Systems with .NET Aspire</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a0f1a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #7c3aed;
+      --slide-secondary: #1a1040;
+      --slide-highlight: #06b6d4;
+    }
+    .slide::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .big-statement {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 85%;
+      margin: 0 auto;
+    }
+    .subtitle-glow {
+      color: #06b6d4;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+    .code-block {
+      background: #0d1530;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      text-align: left;
+      overflow-x: auto;
+    }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .comment { color: #546e7a; }
+    .code-block .type { color: #ffcb6b; }
+    .code-block .method { color: #82aaff; }
+    .callout {
+      background: rgba(124, 58, 237, 0.1);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    .callout.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    .callout.info {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+    .metric-card {
+      background: var(--slide-secondary);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .metric-card .metric-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .metric-card .metric-label {
+      font-size: 0.9rem;
+      color: #8b949e;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <section class="slide slide-title layout-center" id="title">
+      <h1>Autonomy in Production</h1>
+      <p class="subtitle">Building Reliable Multi-Agent Systems with .NET Aspire</p>
+      <p class="author">Marco Antonio Silva &#8212; Senior Global Black Belt, Microsoft</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Promise of Multi-Agent Systems</h2>
+      <p class="big-statement">Agents that reason, plan, and act <span class="gradient-text">autonomously</span></p>
+      <p class="fragment subtitle-glow" style="margin-top: 2rem;">But what happens when they fail at 3 AM?</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>The Reality Gap</h2>
+      <div class="grid grid-3" style="margin-top: 2rem;">
+        <div class="grid-item fragment">
+          <div class="metric-card">
+            <div class="metric-value">87%</div>
+            <div class="metric-label">of AI prototypes never reach production</div>
+          </div>
+        </div>
+        <div class="grid-item fragment">
+          <div class="metric-card">
+            <div class="metric-value">3x</div>
+            <div class="metric-label">more failure modes vs single-agent</div>
+          </div>
+        </div>
+        <div class="grid-item fragment">
+          <div class="metric-card">
+            <div class="metric-value">0</div>
+            <div class="metric-label">humans at 3 AM to restart your agent</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Today's Journey</h2>
+      <ul>
+        <li class="fragment">Multi-Agent Architecture Patterns</li>
+        <li class="fragment">.NET Aspire as the Orchestration Backbone</li>
+        <li class="fragment">Agent Lifecycle Management</li>
+        <li class="fragment">Distributed Tracing Across Agents</li>
+        <li class="fragment">Circuit Breakers for AI Services</li>
+        <li class="fragment">Real-Time Observability Dashboard</li>
+      </ul>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Multi-Agent Architecture Patterns</h2>
+      <p class="subtitle-glow">From single agent to production fleet</p>
+    </section>
+
+    <section class="slide layout-split">
+      <div>
+        <h2>Single Agent</h2>
+        <ul>
+          <li class="fragment">One model, one task</li>
+          <li class="fragment">Simple error handling</li>
+          <li class="fragment">Limited scalability</li>
+          <li class="fragment">Monolithic reasoning</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="gradient-text">Multi-Agent</h2>
+        <ul>
+          <li class="fragment">Specialized capabilities</li>
+          <li class="fragment">Distributed failure domains</li>
+          <li class="fragment">Independent scaling</li>
+          <li class="fragment">Collaborative reasoning</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Production Multi-Agent Topology</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px;">
+          <rect x="300" y="20" width="200" height="60" rx="10" fill="#7c3aed" opacity="0.9"/>
+          <text x="400" y="55" text-anchor="middle" fill="white" font-size="14" font-weight="600">Orchestrator Agent</text>
+          <rect x="50" y="150" width="160" height="50" rx="8" fill="#06b6d4" opacity="0.8"/>
+          <text x="130" y="180" text-anchor="middle" fill="white" font-size="12">Research Agent</text>
+          <rect x="250" y="150" width="160" height="50" rx="8" fill="#06b6d4" opacity="0.8"/>
+          <text x="330" y="180" text-anchor="middle" fill="white" font-size="12">Planning Agent</text>
+          <rect x="450" y="150" width="160" height="50" rx="8" fill="#06b6d4" opacity="0.8"/>
+          <text x="530" y="180" text-anchor="middle" fill="white" font-size="12">Execution Agent</text>
+          <rect x="650" y="150" width="130" height="50" rx="8" fill="#06b6d4" opacity="0.8"/>
+          <text x="715" y="180" text-anchor="middle" fill="white" font-size="12">Review Agent</text>
+          <line x1="350" y1="80" x2="130" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.6"/>
+          <line x1="380" y1="80" x2="330" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.6"/>
+          <line x1="420" y1="80" x2="530" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.6"/>
+          <line x1="450" y1="80" x2="715" y2="150" stroke="#7c3aed" stroke-width="2" opacity="0.6"/>
+          <rect x="50" y="280" width="730" height="60" rx="10" fill="#1a1040" stroke="#7c3aed" stroke-width="2"/>
+          <text x="400" y="315" text-anchor="middle" fill="#06b6d4" font-size="14" font-weight="600">.NET Aspire: Service Discovery | Health Checks | Telemetry | Config</text>
+          <line x1="130" y1="200" x2="130" y2="280" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4" opacity="0.5"/>
+          <line x1="330" y1="200" x2="330" y2="280" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4" opacity="0.5"/>
+          <line x1="530" y1="200" x2="530" y2="280" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4" opacity="0.5"/>
+          <line x1="715" y1="200" x2="715" y2="280" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4" opacity="0.5"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Production Challenges</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>Cascading Failures</h3>
+          <p>One agent timeout crashes the chain</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Silent Degradation</h3>
+          <p>Agents returning garbage without errors</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Unpredictable Load</h3>
+          <p>AI calls spike 10x in seconds</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>No Visibility</h3>
+          <p>What did agent B tell agent C?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>.NET Aspire as Orchestration Backbone</h2>
+      <p class="subtitle-glow">Cloud-native infrastructure for autonomous systems</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>What is .NET Aspire?</h2>
+      <ul>
+        <li class="fragment">Opinionated stack for cloud-native distributed apps</li>
+        <li class="fragment">Service discovery and orchestration built-in</li>
+        <li class="fragment">Automatic telemetry (OpenTelemetry)</li>
+        <li class="fragment">Health checks and resilience patterns</li>
+        <li class="fragment">Local dev dashboard to production monitoring</li>
+      </ul>
+      <div class="callout info fragment" style="margin-top: 1.5rem;">
+        Think of it as Kubernetes-lite for your development inner loop with production superpowers.
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Why Aspire for Multi-Agent?</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>Service Discovery</h3>
+          <p>Agents find each other dynamically, no hardcoded URLs</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Health Checks</h3>
+          <p>Detect agent failures before users do</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Telemetry</h3>
+          <p>Trace requests across the entire agent fleet</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Configuration</h3>
+          <p>Centralized config for model endpoints, keys, limits</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Aspire AppHost: Agent Registration</h2>
+      <div class="code-block">
+        <span class="keyword">var</span> builder = DistributedApplication.CreateBuilder(args);<br><br>
+        <span class="keyword">var</span> orchestrator = builder.AddProject&lt;<span class="type">OrchestratorAgent</span>&gt;(<span class="string">"orchestrator"</span>);<br>
+        <span class="keyword">var</span> researcher = builder.AddProject&lt;<span class="type">ResearchAgent</span>&gt;(<span class="string">"researcher"</span>);<br>
+        <span class="keyword">var</span> planner = builder.AddProject&lt;<span class="type">PlanningAgent</span>&gt;(<span class="string">"planner"</span>);<br>
+        <span class="keyword">var</span> executor = builder.AddProject&lt;<span class="type">ExecutionAgent</span>&gt;(<span class="string">"executor"</span>);<br><br>
+        orchestrator<br>
+        &nbsp;&nbsp;.<span class="method">WithReference</span>(researcher)<br>
+        &nbsp;&nbsp;.<span class="method">WithReference</span>(planner)<br>
+        &nbsp;&nbsp;.<span class="method">WithReference</span>(executor);
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Agent Lifecycle Management</h2>
+      <p class="subtitle-glow">From startup to graceful shutdown</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Agent Lifecycle States</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px;">
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#8b949e"/>
+            </marker>
+          </defs>
+          <rect x="20" y="70" width="120" height="50" rx="25" fill="#1a1040" stroke="#7c3aed" stroke-width="2"/>
+          <text x="80" y="100" text-anchor="middle" fill="#f0f6fc" font-size="12">Initializing</text>
+          <rect x="180" y="70" width="120" height="50" rx="25" fill="#1a1040" stroke="#06b6d4" stroke-width="2"/>
+          <text x="240" y="100" text-anchor="middle" fill="#f0f6fc" font-size="12">Ready</text>
+          <rect x="340" y="70" width="120" height="50" rx="25" fill="#7c3aed" stroke="#7c3aed" stroke-width="2"/>
+          <text x="400" y="100" text-anchor="middle" fill="white" font-size="12">Processing</text>
+          <rect x="500" y="70" width="120" height="50" rx="25" fill="#1a1040" stroke="#f59e0b" stroke-width="2"/>
+          <text x="560" y="100" text-anchor="middle" fill="#f0f6fc" font-size="12">Degraded</text>
+          <rect x="660" y="70" width="120" height="50" rx="25" fill="#1a1040" stroke="#ef4444" stroke-width="2"/>
+          <text x="720" y="100" text-anchor="middle" fill="#f0f6fc" font-size="12">Shutdown</text>
+          <path d="M140 95 L175 95" fill="none" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path d="M300 95 L335 95" fill="none" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path d="M460 95 L495 95" fill="none" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path d="M620 95 L655 95" fill="none" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path d="M560 70 Q560 30 400 30 Q240 30 240 68" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arrowhead)"/>
+          <text x="400" y="22" text-anchor="middle" fill="#06b6d4" font-size="10">Recovery</text>
+        </svg>
+      </div>
+      <p class="fragment" style="margin-top: 1rem; color: #8b949e;">Aspire health checks drive state transitions automatically</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Custom Agent Health Checks</h2>
+      <div class="code-block">
+        <span class="keyword">public class</span> <span class="type">AgentHealthCheck</span> : <span class="type">IHealthCheck</span><br>
+        {<br>
+        &nbsp;&nbsp;<span class="keyword">public async</span> Task&lt;<span class="type">HealthCheckResult</span>&gt; <span class="method">CheckHealthAsync</span>(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">HealthCheckContext</span> context, <span class="type">CancellationToken</span> ct)<br>
+        &nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> lastResponse = <span class="keyword">await</span> _agent.<span class="method">GetLastResponseTime</span>();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">var</span> queueDepth = _agent.<span class="method">GetPendingTasks</span>();<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (lastResponse &gt; TimeSpan.FromSeconds(30))<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="type">HealthCheckResult</span>.Degraded(<span class="string">"Slow"</span>);<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="type">HealthCheckResult</span>.Healthy();<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Graceful Shutdown Pattern</h2>
+      <ul>
+        <li class="fragment">Drain in-flight requests (finish current reasoning)</li>
+        <li class="fragment">Persist agent state to durable store</li>
+        <li class="fragment">Notify orchestrator of departure</li>
+        <li class="fragment">Allow replacement agent to resume</li>
+      </ul>
+      <div class="callout warning fragment" style="margin-top: 1.5rem;">
+        Never kill an agent mid-reasoning: you lose context and may corrupt shared state.
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Distributed Tracing Across Agents</h2>
+      <p class="subtitle-glow">Following a request through the agent fleet</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Why Tracing Matters for Agents</h2>
+      <p class="big-statement" style="font-size: 2rem;">A single user request may touch <span class="gradient-text">5 agents</span>, <span class="gradient-text">3 LLM calls</span>, and <span class="gradient-text">2 tool invocations</span></p>
+      <p class="fragment" style="margin-top: 2rem; color: #8b949e;">Without tracing, debugging is archaeology.</p>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>OpenTelemetry Trace Propagation</h2>
+      <div class="code-block">
+        <span class="comment">// Aspire auto-injects W3C trace context</span><br>
+        <span class="keyword">using var</span> activity = <span class="type">ActivitySource</span><br>
+        &nbsp;&nbsp;.StartActivity(<span class="string">"agent.process_request"</span>);<br><br>
+        activity?.<span class="method">SetTag</span>(<span class="string">"agent.name"</span>, <span class="string">"researcher"</span>);<br>
+        activity?.<span class="method">SetTag</span>(<span class="string">"agent.task_id"</span>, taskId);<br>
+        activity?.<span class="method">SetTag</span>(<span class="string">"llm.model"</span>, <span class="string">"gpt-4o"</span>);<br>
+        activity?.<span class="method">SetTag</span>(<span class="string">"llm.tokens_used"</span>, tokens);<br><br>
+        <span class="comment">// Context flows automatically to downstream agents</span><br>
+        <span class="keyword">var</span> result = <span class="keyword">await</span> _plannerClient.<span class="method">SendAsync</span>(plan);
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Trace Across Agent Fleet</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px;">
+          <text x="20" y="60" fill="#8b949e" font-size="11">Orchestrator</text>
+          <rect x="140" y="45" width="620" height="24" rx="4" fill="#7c3aed" opacity="0.7"/>
+          <text x="20" y="110" fill="#8b949e" font-size="11">Researcher</text>
+          <rect x="180" y="95" width="250" height="24" rx="4" fill="#06b6d4" opacity="0.7"/>
+          <text x="20" y="160" fill="#8b949e" font-size="11">Planner</text>
+          <rect x="450" y="145" width="180" height="24" rx="4" fill="#06b6d4" opacity="0.7"/>
+          <text x="20" y="210" fill="#8b949e" font-size="11">Executor</text>
+          <rect x="650" y="195" width="100" height="24" rx="4" fill="#06b6d4" opacity="0.7"/>
+          <rect x="200" y="99" width="80" height="16" rx="3" fill="#f59e0b" opacity="0.6"/>
+          <text x="240" y="111" text-anchor="middle" fill="white" font-size="8">LLM Call</text>
+          <rect x="470" y="149" width="60" height="16" rx="3" fill="#f59e0b" opacity="0.6"/>
+          <text x="500" y="161" text-anchor="middle" fill="white" font-size="8">LLM</text>
+          <rect x="140" y="260" width="16" height="12" rx="2" fill="#7c3aed" opacity="0.7"/>
+          <text x="162" y="271" fill="#8b949e" font-size="10">Orchestrator</text>
+          <rect x="260" y="260" width="16" height="12" rx="2" fill="#06b6d4" opacity="0.7"/>
+          <text x="282" y="271" fill="#8b949e" font-size="10">Agent Span</text>
+          <rect x="380" y="260" width="16" height="12" rx="2" fill="#f59e0b" opacity="0.6"/>
+          <text x="402" y="271" fill="#8b949e" font-size="10">LLM Call</text>
+        </svg>
+      </div>
+      <p class="fragment" style="color: #8b949e;">One trace ID connects everything, visible in the Aspire dashboard</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Agent-Specific Metrics</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item">
+          <h3 style="color: #06b6d4;">Standard Metrics</h3>
+          <ul>
+            <li class="fragment">Request duration</li>
+            <li class="fragment">Error rate</li>
+            <li class="fragment">Queue depth</li>
+          </ul>
+        </div>
+        <div class="grid-item">
+          <h3 style="color: #7c3aed;">AI-Specific Metrics</h3>
+          <ul>
+            <li class="fragment">Tokens consumed per minute</li>
+            <li class="fragment">Reasoning steps per task</li>
+            <li class="fragment">Hallucination detection rate</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Circuit Breakers for AI Services</h2>
+      <p class="subtitle-glow">Resilience when the LLM does not respond</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>AI Services Are Unreliable</h2>
+      <ul>
+        <li class="fragment">Rate limits hit without warning (429s)</li>
+        <li class="fragment">Latency spikes from 200ms to 30 seconds</li>
+        <li class="fragment">Model endpoints go down for maintenance</li>
+        <li class="fragment">Token limits cause silent truncation</li>
+      </ul>
+      <div class="callout fragment" style="margin-top: 1.5rem;">
+        Circuit breakers prevent one slow LLM from taking down your entire agent fleet.
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Circuit Breaker States</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="max-width: 600px;">
+          <defs>
+            <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ef4444"/></marker>
+            <marker id="arrowYellow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/></marker>
+            <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#22c55e"/></marker>
+          </defs>
+          <circle cx="130" cy="140" r="60" fill="#1a1040" stroke="#22c55e" stroke-width="3"/>
+          <text x="130" y="135" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="600">CLOSED</text>
+          <text x="130" y="155" text-anchor="middle" fill="#8b949e" font-size="10">Normal flow</text>
+          <circle cx="370" cy="140" r="60" fill="#1a1040" stroke="#ef4444" stroke-width="3"/>
+          <text x="370" y="135" text-anchor="middle" fill="#ef4444" font-size="13" font-weight="600">OPEN</text>
+          <text x="370" y="155" text-anchor="middle" fill="#8b949e" font-size="10">Fail fast</text>
+          <circle cx="570" cy="140" r="60" fill="#1a1040" stroke="#f59e0b" stroke-width="3"/>
+          <text x="570" y="135" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="600">HALF</text>
+          <text x="570" y="155" text-anchor="middle" fill="#8b949e" font-size="10">Probe</text>
+          <path d="M190 120 Q250 60 310 120" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+          <text x="250" y="70" text-anchor="middle" fill="#ef4444" font-size="9">Failures exceed threshold</text>
+          <path d="M430 140 L510 140" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowYellow)"/>
+          <text x="470" y="132" text-anchor="middle" fill="#f59e0b" font-size="9">Timeout</text>
+          <path d="M570 200 Q370 260 130 200" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+          <text x="350" y="255" text-anchor="middle" fill="#22c55e" font-size="9">Probe succeeds, reset</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-top">
+      <h2>Resilience with Polly + Aspire</h2>
+      <div class="code-block">
+        builder.Services.<span class="method">AddHttpClient</span>(<span class="string">"llm-service"</span>)<br>
+        &nbsp;&nbsp;.<span class="method">AddResilienceHandler</span>(<span class="string">"ai-pipeline"</span>, pipeline =&gt;<br>
+        &nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;pipeline.<span class="method">AddCircuitBreaker</span>(<span class="keyword">new</span> <span class="type">CircuitBreakerStrategyOptions</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FailureRatio = 0.3,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SamplingDuration = TimeSpan.FromSeconds(30),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BreakDuration = TimeSpan.FromSeconds(15)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;pipeline.<span class="method">AddRetry</span>(<span class="keyword">new</span> <span class="type">RetryStrategyOptions</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MaxRetryAttempts = 3,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BackoffType = <span class="type">DelayBackoffType</span>.Exponential<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+        &nbsp;&nbsp;});
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Fallback Strategies for Agents</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>Model Fallback</h3>
+          <p>GPT-4o to GPT-4o-mini to cached response</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Cached Reasoning</h3>
+          <p>Return last-known-good result for similar queries</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Peer Delegation</h3>
+          <p>Another agent picks up the failed task</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>Graceful Degradation</h3>
+          <p>Operate with reduced capability, notify user</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-section layout-center">
+      <h2>Real-Time Observability</h2>
+      <p class="subtitle-glow">The Aspire Dashboard for your agent fleet</p>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Aspire Dashboard: Agent Fleet View</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px;">
+          <rect x="30" y="20" width="740" height="340" rx="12" fill="#0d1530" stroke="#2d3748" stroke-width="2"/>
+          <rect x="30" y="20" width="740" height="40" rx="12" fill="#1a1040"/>
+          <rect x="30" y="48" width="740" height="12" fill="#1a1040"/>
+          <text x="60" y="46" fill="#f0f6fc" font-size="12" font-weight="600">Agent Fleet Dashboard</text>
+          <rect x="50" y="80" width="170" height="80" rx="8" fill="#1a1040" stroke="#22c55e" stroke-width="1.5"/>
+          <circle cx="70" cy="100" r="5" fill="#22c55e"/>
+          <text x="82" y="104" fill="#f0f6fc" font-size="10">Orchestrator</text>
+          <text x="60" y="130" fill="#22c55e" font-size="11" font-weight="600">Healthy</text>
+          <text x="60" y="148" fill="#8b949e" font-size="9">Tasks: 42 | Latency: 230ms</text>
+          <rect x="240" y="80" width="170" height="80" rx="8" fill="#1a1040" stroke="#22c55e" stroke-width="1.5"/>
+          <circle cx="260" cy="100" r="5" fill="#22c55e"/>
+          <text x="272" y="104" fill="#f0f6fc" font-size="10">Researcher</text>
+          <text x="250" y="130" fill="#22c55e" font-size="11" font-weight="600">Healthy</text>
+          <text x="250" y="148" fill="#8b949e" font-size="9">Tasks: 18 | Latency: 1.2s</text>
+          <rect x="430" y="80" width="170" height="80" rx="8" fill="#1a1040" stroke="#f59e0b" stroke-width="1.5"/>
+          <circle cx="450" cy="100" r="5" fill="#f59e0b"/>
+          <text x="462" y="104" fill="#f0f6fc" font-size="10">Planner</text>
+          <text x="440" y="130" fill="#f59e0b" font-size="11" font-weight="600">Degraded</text>
+          <text x="440" y="148" fill="#8b949e" font-size="9">Tasks: 7 | Latency: 8.4s</text>
+          <rect x="620" y="80" width="130" height="80" rx="8" fill="#1a1040" stroke="#ef4444" stroke-width="1.5"/>
+          <circle cx="640" cy="100" r="5" fill="#ef4444"/>
+          <text x="652" y="104" fill="#f0f6fc" font-size="10">Executor</text>
+          <text x="630" y="130" fill="#ef4444" font-size="11" font-weight="600">Circuit Open</text>
+          <text x="630" y="148" fill="#8b949e" font-size="9">Retry in 12s</text>
+          <rect x="50" y="180" width="350" height="80" rx="8" fill="#1a1040" stroke="#2d3748" stroke-width="1"/>
+          <text x="70" y="205" fill="#8b949e" font-size="10">Token Consumption (last hour)</text>
+          <polyline points="70,250 120,235 170,240 220,220 270,245 320,230 370,225" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="420" y="180" width="340" height="80" rx="8" fill="#1a1040" stroke="#2d3748" stroke-width="1"/>
+          <text x="440" y="205" fill="#8b949e" font-size="10">Agent Communication (traces)</text>
+          <polyline points="440,250 490,240 540,245 590,230 640,235 690,220 730,225" fill="none" stroke="#06b6d4" stroke-width="2"/>
+          <text x="60" y="300" fill="#06b6d4" font-size="20" font-weight="700">1,247</text>
+          <text x="60" y="320" fill="#8b949e" font-size="9">Total requests</text>
+          <text x="200" y="300" fill="#22c55e" font-size="20" font-weight="700">99.2%</text>
+          <text x="200" y="320" fill="#8b949e" font-size="9">Success rate</text>
+          <text x="350" y="300" fill="#f59e0b" font-size="20" font-weight="700">340ms</text>
+          <text x="350" y="320" fill="#8b949e" font-size="9">Avg latency</text>
+          <text x="500" y="300" fill="#7c3aed" font-size="20" font-weight="700">52K</text>
+          <text x="500" y="320" fill="#8b949e" font-size="9">Tokens per min</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Structured Logging for Agents</h2>
+      <div class="code-block">
+        _logger.<span class="method">LogInformation</span>(<br>
+        &nbsp;&nbsp;<span class="string">"Agent {AgentName} completed task {TaskId} in {Duration}ms. "</span> +<br>
+        &nbsp;&nbsp;<span class="string">"Tokens: {TokensUsed}, Model: {Model}, Steps: {Steps}"</span>,<br>
+        &nbsp;&nbsp;agentName, taskId, elapsed, tokens, model, steps);<br><br>
+        <span class="comment">// Aspire dashboard shows these as structured, filterable fields</span><br>
+        <span class="comment">// Query: where AgentName == "planner" and Duration &gt; 5000</span>
+      </div>
+      <div class="callout info fragment" style="margin-top: 1rem;">
+        Structured logs + distributed traces = complete agent audit trail
+      </div>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Lessons from Production</h2>
+      <ul>
+        <li class="fragment">Start with 2 agents, not 10: complexity grows exponentially</li>
+        <li class="fragment">Define clear agent boundaries (single responsibility)</li>
+        <li class="fragment">Chaos-test your agents: inject failures early</li>
+        <li class="fragment">Track cost per agent per task: LLM spend adds up fast</li>
+        <li class="fragment">Never let agents modify production state without confirmation</li>
+      </ul>
+    </section>
+
+    <section class="slide layout-center">
+      <h2>Key Takeaways</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3 style="color: #7c3aed;">1. Aspire = Agent Platform</h3>
+          <p>Service discovery, health, telemetry: built for this</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #06b6d4;">2. Observability First</h3>
+          <p>If you cannot see it, you cannot fix it at 3 AM</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #22c55e;">3. Resilience by Design</h3>
+          <p>Circuit breakers + fallbacks = agents that self-heal</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #f59e0b;">4. Start Small, Scale Smart</h3>
+          <p>Prove reliability before adding agents</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You!</h1>
+      <p class="subtitle">Questions and Discussion</p>
+      <p class="author">Marco Antonio Silva &#8212; @marconsilva</p>
+      <p style="margin-top: 2rem; color: #8b949e; font-size: 1rem;">Autonomy in Production: Building Reliable Multi-Agent Systems with .NET Aspire</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

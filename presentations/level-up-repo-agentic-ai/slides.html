@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level Up your Repository with Agentic AI: Spec-Driven Development with GitHub Copilot</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0d0b1a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #a78bfa;
+      --slide-secondary: #1e1b3a;
+      --slide-highlight: #06b6d4;
+    }
+
+    /* Presentation-specific styles */
+    .card {
+      background: var(--slide-secondary);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: left;
+    }
+
+    .card h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: rgba(240, 246, 252, 0.7);
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(6, 182, 212, 0.1));
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin: 1rem 0;
+    }
+
+    .pipeline-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--slide-secondary);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid var(--slide-accent);
+    }
+
+    .pipeline-step .step-num {
+      background: var(--slide-accent);
+      color: #0d0b1a;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .emoji-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.2rem;
+    }
+
+    .comparison-table th {
+      background: var(--slide-secondary);
+      color: var(--slide-accent);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid rgba(167, 139, 250, 0.3);
+    }
+
+    .comparison-table td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--slide-highlight);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .badge-purple {
+      background: rgba(167, 139, 250, 0.2);
+      color: var(--slide-accent);
+      border-color: rgba(167, 139, 250, 0.3);
+    }
+
+    .code-filename {
+      font-size: 0.8rem;
+      color: var(--slide-accent);
+      margin-bottom: 0.25rem;
+      font-family: monospace;
+    }
+
+    .roadmap-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .roadmap-item .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--slide-accent);
+      margin-top: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .roadmap-item .dot.cyan {
+      background: var(--slide-highlight);
+    }
+
+    pre {
+      text-align: left;
+      background: rgba(0,0,0,0.4);
+      border-radius: 8px;
+      padding: 1.25rem;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      border: 1px solid rgba(167, 139, 250, 0.15);
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    .subtitle {
+      font-size: 1.4rem;
+      opacity: 0.8;
+    }
+
+    .author {
+      font-size: 1.2rem;
+      opacity: 0.6;
+      margin-top: 1rem;
+    }
+
+    .diagram {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .diagram svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .big-quote {
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--slide-accent);
+      border-left: 4px solid var(--slide-accent);
+      padding-left: 1.5rem;
+      text-align: left;
+      max-width: 700px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <!-- SLIDE 1: Title -->
+    <section class="slide slide-title layout-center" id="title">
+      <h1>Level Up your Repository<br>with Agentic AI</h1>
+      <p class="subtitle">Spec-Driven Development with GitHub Copilot</p>
+      <p class="author">Marco Antonio Silva · Senior Global Black Belt — Microsoft</p>
+    </section>
+
+    <!-- SLIDE 2: The Promise -->
+    <section class="slide layout-center">
+      <h2>The Promise of AI-Assisted Development</h2>
+      <div class="highlight-box">
+        <p style="font-size:1.3rem; text-align:center;">"AI will write all our code for us"</p>
+      </div>
+      <p class="fragment" style="margin-top:1.5rem; text-align:center; opacity:0.7; font-size:1.2rem;">But is that what's actually happening?</p>
+    </section>
+
+    <!-- SLIDE 3: Reality Check -->
+    <section class="slide layout-center">
+      <h2>The Reality Today</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="emoji-icon">⌨️</div>
+          <h3>Copilot as Fast Typist</h3>
+          <p class="fragment">Autocomplete on steroids — helpful but limited to line-level suggestions</p>
+        </div>
+        <div class="card">
+          <div class="emoji-icon">🤖</div>
+          <h3>Copilot as Collaborator</h3>
+          <p class="fragment">Autonomous agent that understands architecture and delivers features end-to-end</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: The Gap -->
+    <section class="slide layout-center">
+      <h2>What's Missing?</h2>
+      <ul>
+        <li class="fragment">Context about your system's architecture</li>
+        <li class="fragment">Clear contracts and boundaries</li>
+        <li class="fragment">A shared "source of truth" for agents to follow</li>
+        <li class="fragment">Coordination between multiple agents</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 5: The Answer -->
+    <section class="slide layout-center">
+      <div class="big-quote">
+        "The best code starts with a great spec — and so does the best AI."
+      </div>
+      <p class="fragment" style="margin-top:2rem; font-size:1.2rem;">Enter: <strong style="color:var(--slide-accent);">Spec-Driven Development</strong></p>
+    </section>
+
+    <!-- SLIDE 6: Section Divider -->
+    <section class="slide slide-section layout-center">
+      <h2>Spec-Driven Development</h2>
+      <p>Define the contract first</p>
+    </section>
+
+    <!-- SLIDE 7: What is Spec-Driven -->
+    <section class="slide layout-center">
+      <h2>What is Spec-Driven Development?</h2>
+      <ul>
+        <li class="fragment">Write the specification <em>before</em> writing code</li>
+        <li class="fragment">The spec becomes the single source of truth</li>
+        <li class="fragment">Agents use the spec as ground truth for generation</li>
+        <li class="fragment">Humans review specs; agents implement them</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 8: Types of Specs -->
+    <section class="slide layout-center">
+      <h2>Types of Specifications</h2>
+      <div class="grid grid-3">
+        <div class="card fragment">
+          <div class="emoji-icon">📄</div>
+          <h3>OpenAPI</h3>
+          <p>REST contracts, schemas, endpoints</p>
+        </div>
+        <div class="card fragment">
+          <div class="emoji-icon">🏗️</div>
+          <h3>Architecture Docs</h3>
+          <p>System design, component boundaries, data flow</p>
+        </div>
+        <div class="card fragment">
+          <div class="emoji-icon">📋</div>
+          <h3>Requirements</h3>
+          <p>User stories, acceptance criteria, constraints</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Spec as Ground Truth -->
+    <section class="slide layout-split">
+      <div>
+        <h2>Spec as Ground Truth</h2>
+        <ul>
+          <li class="fragment">Agents read the spec on every invocation</li>
+          <li class="fragment">Generated code stays aligned with design intent</li>
+          <li class="fragment">Drift is caught via spec validation</li>
+          <li class="fragment">Specs evolve — agents adapt</li>
+        </ul>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg">
+          <rect x="110" y="10" width="140" height="50" rx="8" fill="#a78bfa" opacity="0.9"/>
+          <text x="180" y="40" text-anchor="middle" fill="#0d0b1a" font-size="14" font-weight="bold">SPEC</text>
+          <line x1="180" y1="60" x2="100" y2="120" stroke="#a78bfa" stroke-width="2"/>
+          <line x1="180" y1="60" x2="180" y2="120" stroke="#a78bfa" stroke-width="2"/>
+          <line x1="180" y1="60" x2="260" y2="120" stroke="#a78bfa" stroke-width="2"/>
+          <rect x="40" y="120" width="120" height="44" rx="8" fill="#1e1b3a" stroke="#a78bfa" stroke-width="1"/>
+          <text x="100" y="146" text-anchor="middle" fill="#f0f6fc" font-size="12">Code Agent</text>
+          <rect x="120" y="120" width="120" height="44" rx="8" fill="#1e1b3a" stroke="#06b6d4" stroke-width="1"/>
+          <text x="180" y="146" text-anchor="middle" fill="#f0f6fc" font-size="12">Test Agent</text>
+          <rect x="200" y="120" width="120" height="44" rx="8" fill="#1e1b3a" stroke="#a78bfa" stroke-width="1"/>
+          <text x="260" y="146" text-anchor="middle" fill="#f0f6fc" font-size="12">Review Agent</text>
+          <line x1="100" y1="164" x2="100" y2="220" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4"/>
+          <line x1="180" y1="164" x2="180" y2="220" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4"/>
+          <line x1="260" y1="164" x2="260" y2="220" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4"/>
+          <rect x="50" y="220" width="260" height="44" rx="8" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="1"/>
+          <text x="180" y="247" text-anchor="middle" fill="#06b6d4" font-size="13" font-weight="bold">Generated Codebase</text>
+          <rect x="80" y="280" width="200" height="30" rx="6" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1"/>
+          <text x="180" y="300" text-anchor="middle" fill="#a78bfa" font-size="11">✓ Validated against Spec</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Benefits -->
+    <section class="slide layout-center">
+      <h2>Why Spec-First?</h2>
+      <div class="grid grid-2">
+        <div class="card fragment">
+          <h3>🎯 Precision</h3>
+          <p>Agents generate exactly what the spec describes — no hallucinations</p>
+        </div>
+        <div class="card fragment">
+          <h3>🔄 Repeatability</h3>
+          <p>Same spec → same output, every time</p>
+        </div>
+        <div class="card fragment">
+          <h3>👥 Collaboration</h3>
+          <p>Teams align on specs before a single line is written</p>
+        </div>
+        <div class="card fragment">
+          <h3>📈 Scalability</h3>
+          <p>Multiple agents work in parallel from the same contract</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: Section Divider -->
+    <section class="slide slide-section layout-center">
+      <h2>Spec2Cloud</h2>
+      <p>From specification to deployment</p>
+    </section>
+
+    <!-- SLIDE 12: Spec2Cloud Overview -->
+    <section class="slide layout-center">
+      <h2>The Spec2Cloud Pipeline</h2>
+      <div style="max-width:600px; margin:0 auto;">
+        <div class="pipeline-step fragment">
+          <span class="step-num">1</span>
+          <span>Write your spec (OpenAPI, architecture doc, requirements)</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">2</span>
+          <span>Copilot agent generates implementation from spec</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">3</span>
+          <span>Automated validation against the spec contract</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">4</span>
+          <span>CI/CD pipeline packages and deploys to cloud</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">5</span>
+          <span>Runtime verification confirms spec compliance</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: Spec2Cloud Diagram -->
+    <section class="slide layout-center">
+      <h2>Spec2Cloud Flow</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+            </marker>
+          </defs>
+          <!-- Spec box -->
+          <rect x="20" y="100" width="120" height="60" rx="10" fill="#a78bfa" opacity="0.9"/>
+          <text x="80" y="125" text-anchor="middle" fill="#0d0b1a" font-size="11" font-weight="bold">SPEC</text>
+          <text x="80" y="143" text-anchor="middle" fill="#0d0b1a" font-size="9">OpenAPI / Arch</text>
+          <!-- Arrow 1 -->
+          <line x1="140" y1="130" x2="185" y2="130" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Agent box -->
+          <rect x="190" y="100" width="120" height="60" rx="10" fill="#1e1b3a" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="250" y="125" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">COPILOT</text>
+          <text x="250" y="143" text-anchor="middle" fill="#a78bfa" font-size="9">Agent</text>
+          <!-- Arrow 2 -->
+          <line x1="310" y1="130" x2="355" y2="130" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Code box -->
+          <rect x="360" y="100" width="120" height="60" rx="10" fill="#1e1b3a" stroke="#06b6d4" stroke-width="1.5"/>
+          <text x="420" y="125" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">CODE</text>
+          <text x="420" y="143" text-anchor="middle" fill="#06b6d4" font-size="9">+ Tests</text>
+          <!-- Arrow 3 -->
+          <line x1="480" y1="130" x2="525" y2="130" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- CI/CD box -->
+          <rect x="530" y="100" width="120" height="60" rx="10" fill="#1e1b3a" stroke="#06b6d4" stroke-width="1.5"/>
+          <text x="590" y="125" text-anchor="middle" fill="#f0f6fc" font-size="11" font-weight="bold">CI/CD</text>
+          <text x="590" y="143" text-anchor="middle" fill="#06b6d4" font-size="9">Validate + Build</text>
+          <!-- Arrow 4 -->
+          <line x1="650" y1="130" x2="695" y2="130" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Cloud box -->
+          <rect x="700" y="100" width="80" height="60" rx="10" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+          <text x="740" y="125" text-anchor="middle" fill="#06b6d4" font-size="11" font-weight="bold">☁️</text>
+          <text x="740" y="143" text-anchor="middle" fill="#06b6d4" font-size="9">Cloud</text>
+          <!-- Feedback loop -->
+          <path d="M 740 160 L 740 220 L 80 220 L 80 160" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="5"/>
+          <text x="410" y="240" text-anchor="middle" fill="rgba(167,139,250,0.6)" font-size="10">Feedback Loop — Spec evolves</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: Spec Example -->
+    <section class="slide layout-center">
+      <h2>Example: OpenAPI Spec</h2>
+      <div class="code-filename">spec/openapi.yaml</div>
+      <pre><code>openapi: 3.0.3
+info:
+  title: Order Service API
+  version: 1.0.0
+paths:
+  /orders:
+    post:
+      summary: Create a new order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Order created</code></pre>
+    </section>
+
+    <!-- SLIDE 15: Agent Uses Spec -->
+    <section class="slide layout-center">
+      <h2>Agent Reads the Spec</h2>
+      <div class="code-filename">.github/copilot-instructions.md</div>
+      <pre><code># Copilot Instructions
+
+## API Implementation
+- Always read spec/openapi.yaml before generating endpoints
+- Validate request/response schemas against spec
+- Generate tests that verify spec compliance
+- Never add endpoints not defined in the spec</code></pre>
+    </section>
+
+    <!-- SLIDE 16: Section Divider - Squads -->
+    <section class="slide slide-section layout-center">
+      <h2>Squads</h2>
+      <p>Multi-Agent Development</p>
+    </section>
+
+    <!-- SLIDE 17: What are Squads -->
+    <section class="slide layout-center">
+      <h2>What are Squads?</h2>
+      <div class="highlight-box" style="text-align:center;">
+        <p style="font-size:1.2rem;">Multiple specialized AI agents working together on a single codebase</p>
+      </div>
+      <ul style="margin-top:1.5rem;">
+        <li class="fragment">Created by <strong>Brady Gaster</strong> (Microsoft)</li>
+        <li class="fragment">MIT Licensed — open source</li>
+        <li class="fragment">Install: <code style="color:var(--slide-highlight);">npm install @anthropic/squads</code></li>
+        <li class="fragment">Config lives in <code style="color:var(--slide-highlight);">.squad/</code> directory</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 18: Squad Roles -->
+    <section class="slide layout-center">
+      <h2>Squad Roles</h2>
+      <div class="grid grid-2">
+        <div class="card fragment">
+          <div class="emoji-icon">🎨</div>
+          <h3>Designer</h3>
+          <p>Creates UI specs, component hierarchy, accessibility guidelines</p>
+        </div>
+        <div class="card fragment">
+          <div class="emoji-icon">💻</div>
+          <h3>Coder</h3>
+          <p>Implements features from specs, follows conventions, writes clean code</p>
+        </div>
+        <div class="card fragment">
+          <div class="emoji-icon">🔍</div>
+          <h3>Reviewer</h3>
+          <p>Reviews PRs, checks spec compliance, ensures quality standards</p>
+        </div>
+        <div class="card fragment">
+          <div class="emoji-icon">🧪</div>
+          <h3>Tester</h3>
+          <p>Generates test cases from spec, runs validation, reports coverage</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 19: Squad Directory Structure -->
+    <section class="slide layout-center">
+      <h2>Squad Configuration</h2>
+      <div class="code-filename">.squad/ directory</div>
+      <pre><code>your-repo/
+├── .squad/
+│   ├── config.yaml        # Squad orchestration config
+│   ├── designer.md        # Designer agent instructions
+│   ├── coder.md           # Coder agent instructions
+│   ├── reviewer.md        # Reviewer agent instructions
+│   └── tester.md          # Tester agent instructions
+├── spec/
+│   └── openapi.yaml       # The source of truth
+└── src/                   # Generated & maintained code</code></pre>
+    </section>
+
+    <!-- SLIDE 20: Squad Workflow Diagram -->
+    <section class="slide layout-center">
+      <h2>Squad Workflow</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+          <!-- Central spec -->
+          <circle cx="350" cy="175" r="50" fill="#a78bfa" opacity="0.9"/>
+          <text x="350" y="170" text-anchor="middle" fill="#0d0b1a" font-size="12" font-weight="bold">SPEC</text>
+          <text x="350" y="188" text-anchor="middle" fill="#0d0b1a" font-size="9">Source of Truth</text>
+          <!-- Designer -->
+          <rect x="80" y="40" width="130" height="55" rx="10" fill="#1e1b3a" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="145" y="63" text-anchor="middle" fill="#f0f6fc" font-size="11">🎨 Designer</text>
+          <text x="145" y="80" text-anchor="middle" fill="rgba(240,246,252,0.6)" font-size="9">UI Specs</text>
+          <line x1="210" y1="75" x2="305" y2="155" stroke="#a78bfa" stroke-width="1.5"/>
+          <!-- Coder -->
+          <rect x="490" y="40" width="130" height="55" rx="10" fill="#1e1b3a" stroke="#06b6d4" stroke-width="1.5"/>
+          <text x="555" y="63" text-anchor="middle" fill="#f0f6fc" font-size="11">💻 Coder</text>
+          <text x="555" y="80" text-anchor="middle" fill="rgba(240,246,252,0.6)" font-size="9">Implementation</text>
+          <line x1="490" y1="75" x2="395" y2="155" stroke="#06b6d4" stroke-width="1.5"/>
+          <!-- Reviewer -->
+          <rect x="80" y="255" width="130" height="55" rx="10" fill="#1e1b3a" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="145" y="278" text-anchor="middle" fill="#f0f6fc" font-size="11">🔍 Reviewer</text>
+          <text x="145" y="295" text-anchor="middle" fill="rgba(240,246,252,0.6)" font-size="9">Quality Gate</text>
+          <line x1="210" y1="280" x2="305" y2="200" stroke="#a78bfa" stroke-width="1.5"/>
+          <!-- Tester -->
+          <rect x="490" y="255" width="130" height="55" rx="10" fill="#1e1b3a" stroke="#06b6d4" stroke-width="1.5"/>
+          <text x="555" y="278" text-anchor="middle" fill="#f0f6fc" font-size="11">🧪 Tester</text>
+          <text x="555" y="295" text-anchor="middle" fill="rgba(240,246,252,0.6)" font-size="9">Validation</text>
+          <line x1="490" y1="280" x2="395" y2="200" stroke="#06b6d4" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- SLIDE 21: How Squads Communicate -->
+    <section class="slide layout-center">
+      <h2>How Squads Communicate</h2>
+      <ul>
+        <li class="fragment">Agents communicate via <strong>spec artifacts</strong> — not chat</li>
+        <li class="fragment">Each agent has a scoped role and clear boundaries</li>
+        <li class="fragment">Handoffs happen through file changes + PR reviews</li>
+        <li class="fragment">Human stays in the loop at spec-review checkpoints</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 22: Comparison Old vs New -->
+    <section class="slide layout-center">
+      <h2>Traditional vs Spec-Driven + Squads</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Traditional</th>
+            <th>Spec + Squads</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fragment">
+            <td>Planning</td>
+            <td>Meetings → tickets</td>
+            <td>Write a spec</td>
+          </tr>
+          <tr class="fragment">
+            <td>Implementation</td>
+            <td>Manual coding</td>
+            <td>Agent generates from spec</td>
+          </tr>
+          <tr class="fragment">
+            <td>Code Review</td>
+            <td>Human reviewers</td>
+            <td>Reviewer agent + human approval</td>
+          </tr>
+          <tr class="fragment">
+            <td>Testing</td>
+            <td>Write tests after code</td>
+            <td>Tester agent from spec</td>
+          </tr>
+          <tr class="fragment">
+            <td>Consistency</td>
+            <td>Varies by developer</td>
+            <td>Spec-enforced uniformity</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SLIDE 23: Section Divider -->
+    <section class="slide slide-section layout-center">
+      <h2>Live Demo</h2>
+      <p>Seeing it in action</p>
+    </section>
+
+    <!-- SLIDE 24: Demo Setup -->
+    <section class="slide layout-top">
+      <h2>Demo: What We'll Build</h2>
+      <div class="highlight-box">
+        <p style="font-size:1.2rem; text-align:center;">A new REST API endpoint — from spec to deployed, using Squads</p>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <div class="pipeline-step fragment">
+          <span class="step-num">1</span>
+          <span>Define endpoint in OpenAPI spec</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">2</span>
+          <span>Squad designer creates interface contract</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">3</span>
+          <span>Squad coder implements the endpoint</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">4</span>
+          <span>Squad tester generates integration tests</span>
+        </div>
+        <div class="pipeline-step fragment">
+          <span class="step-num">5</span>
+          <span>Squad reviewer validates spec compliance → merge</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 25: Demo - Spec First -->
+    <section class="slide layout-center">
+      <h2>Step 1: Write the Spec</h2>
+      <pre><code>paths:
+  /products/{id}/reviews:
+    get:
+      summary: Get product reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'</code></pre>
+    </section>
+
+    <!-- SLIDE 26: Demo - Coder Agent Output -->
+    <section class="slide layout-center">
+      <h2>Step 3: Coder Agent Output</h2>
+      <pre><code>// Generated by Squad Coder Agent
+app.get('/products/:id/reviews', async (req, res) => {
+  const { id } = req.params;
+  
+  const reviews = await reviewService.getByProductId(id);
+  
+  if (!reviews) {
+    return res.status(404).json({ 
+      error: 'Product not found' 
+    });
+  }
+  
+  res.json(reviews);
+});</code></pre>
+      <p class="fragment" style="margin-top:1rem; font-size:1.2rem; opacity:0.7;">✓ Matches spec schema · ✓ Error handling included · ✓ Typed responses</p>
+    </section>
+
+    <!-- SLIDE 27: Demo - Test Agent -->
+    <section class="slide layout-center">
+      <h2>Step 4: Tester Agent Output</h2>
+      <pre><code>describe('GET /products/:id/reviews', () => {
+  it('returns reviews for valid product', async () => {
+    const res = await request(app)
+      .get('/products/prod-123/reviews');
+    
+    expect(res.status).toBe(200);
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body[0]).toHaveProperty('rating');
+  });
+
+  it('returns 404 for unknown product', async () => {
+    const res = await request(app)
+      .get('/products/unknown/reviews');
+    expect(res.status).toBe(404);
+  });
+});</code></pre>
+    </section>
+
+    <!-- SLIDE 28: Section Divider -->
+    <section class="slide slide-section layout-center">
+      <h2>Level Up Your Repo</h2>
+      <p>Starting tomorrow</p>
+    </section>
+
+    <!-- SLIDE 29: Getting Started -->
+    <section class="slide layout-top">
+      <h2>How to Start Tomorrow</h2>
+      <div class="roadmap-item fragment">
+        <div class="dot"></div>
+        <div>
+          <strong>Add copilot-instructions.md</strong>
+          <p style="opacity:0.7; font-size:1.2rem;">Tell Copilot about your architecture and conventions</p>
+        </div>
+      </div>
+      <div class="roadmap-item fragment">
+        <div class="dot cyan"></div>
+        <div>
+          <strong>Write your first spec</strong>
+          <p style="opacity:0.7; font-size:1.2rem;">Start with one API endpoint or feature — keep it small</p>
+        </div>
+      </div>
+      <div class="roadmap-item fragment">
+        <div class="dot"></div>
+        <div>
+          <strong>Enable Copilot Agents</strong>
+          <p style="opacity:0.7; font-size:1.2rem;">Use agent mode in VS Code or the Copilot coding agent on GitHub</p>
+        </div>
+      </div>
+      <div class="roadmap-item fragment">
+        <div class="dot cyan"></div>
+        <div>
+          <strong>Add a .squad/ directory</strong>
+          <p style="opacity:0.7; font-size:1.2rem;">Define roles, install squads, let agents collaborate</p>
+        </div>
+      </div>
+      <div class="roadmap-item fragment">
+        <div class="dot"></div>
+        <div>
+          <strong>Iterate on specs, not code</strong>
+          <p style="opacity:0.7; font-size:1.2rem;">Make spec changes → let agents re-generate implementation</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 30: Maturity Model -->
+    <section class="slide layout-center">
+      <h2>Agentic AI Maturity Model</h2>
+      <div class="grid grid-3">
+        <div class="card fragment">
+          <span class="badge-purple badge">Level 1</span>
+          <h3 style="margin-top:0.5rem;">Autocomplete</h3>
+          <p>Inline suggestions, fast typing</p>
+        </div>
+        <div class="card fragment">
+          <span class="badge">Level 2</span>
+          <h3 style="margin-top:0.5rem;">Agent Mode</h3>
+          <p>Task-level delegation with context</p>
+        </div>
+        <div class="card fragment">
+          <span class="badge-purple badge">Level 3</span>
+          <h3 style="margin-top:0.5rem;">Squads</h3>
+          <p>Multi-agent orchestration from specs</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 31: Key Takeaways -->
+    <section class="slide layout-center">
+      <h2>Key Takeaways</h2>
+      <ul>
+        <li class="fragment"><strong style="color:var(--slide-accent);">Specs are the new code</strong> — invest time in specifications</li>
+        <li class="fragment"><strong style="color:var(--slide-highlight);">Agents need ground truth</strong> — give them a spec to follow</li>
+        <li class="fragment"><strong style="color:var(--slide-accent);">Squads multiply output</strong> — parallel agents, one contract</li>
+        <li class="fragment"><strong style="color:var(--slide-highlight);">Start small</strong> — one spec, one agent, one feature</li>
+        <li class="fragment"><strong style="color:var(--slide-accent);">Humans own the spec</strong> — agents own the implementation</li>
+      </ul>
+    </section>
+
+    <!-- SLIDE 32: Resources -->
+    <section class="slide layout-center">
+      <h2>Resources</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>📚 Learn More</h3>
+          <ul style="list-style:none; padding:0; font-size:1.2rem; line-height:2;">
+            <li>→ GitHub Copilot Docs</li>
+            <li>→ OpenAPI Specification</li>
+            <li>→ Spec2Cloud Guide</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🛠️ Get Started</h3>
+          <ul style="list-style:none; padding:0; font-size:1.2rem; line-height:2;">
+            <li>→ Squads on npm</li>
+            <li>→ copilot-instructions.md template</li>
+            <li>→ Sample .squad/ config</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 33: Thank You -->
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You!</h1>
+      <p class="subtitle">Level Up your Repository with Agentic AI</p>
+      <p class="author">Marco Antonio Silva<br>Senior Global Black Belt — Microsoft</p>
+      <p style="margin-top:2rem; font-size:1.2rem; opacity:0.6;">Questions?</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

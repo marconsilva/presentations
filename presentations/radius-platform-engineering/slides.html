@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radius: The Open-Source Platform for Cloud-Native Application Development</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0f172a;
+      --slide-text: #f0f6fc;
+      --slide-accent: #38bdf8;
+      --slide-secondary: #1e293b;
+      --slide-highlight: #a78bfa;
+    }
+    .slide::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.015) 0%, transparent 70%); pointer-events: none; }
+    .gradient-text { background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .big-number { font-size: 5rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 1rem; }
+    .big-statement { font-size: 2.5rem; font-weight: 700; line-height: 1.3; max-width: 85%; margin: 0 auto; }
+    .callout { background: var(--slide-secondary); border-left: 4px solid var(--slide-accent); padding: 1.2rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 1.1rem; }
+    .comparison-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 1rem; }
+    .comparison-table th, .comparison-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .comparison-table th { color: var(--slide-accent); font-weight: 600; }
+    .code-block { background: #0d1117; border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; padding: 1.2rem; font-family: 'Fira Code', 'Cascadia Code', monospace; font-size: 0.85rem; overflow-x: auto; text-align: left; }
+    .code-block .keyword { color: #ff7b72; }
+    .code-block .string { color: #a5d6ff; }
+    .code-block .comment { color: #8b949e; }
+    .code-block .property { color: #79c0ff; }
+    .code-block .value { color: #7ee787; }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <!-- Slide 1: Title -->
+    <section class="slide slide-title layout-center" id="title">
+      <h1 class="gradient-text">Radius</h1>
+      <p class="subtitle">The Open-Source Platform for Cloud-Native Application Development</p>
+      <p class="author">Marco Antonio Silva</p>
+      <p style="font-size: 1rem; color: #8b949e; margin-top: 0.5rem;">Senior Global Black Belt &mdash; Microsoft</p>
+    </section>
+
+    <!-- Slide 2: The Problem -->
+    <section class="slide layout-center">
+      <h2>The Cloud-Native Reality</h2>
+      <p class="big-statement" style="margin-bottom: 2rem;">Developers just want to ship features.</p>
+      <p class="fragment" style="font-size: 1.3rem; color: #8b949e;">Instead, they are drowning in infrastructure complexity.</p>
+    </section>
+
+    <!-- Slide 3: Complexity -->
+    <section class="slide layout-center">
+      <h2>The Knowledge Tax</h2>
+      <div class="grid grid-3" style="margin-top: 2rem;">
+        <div class="grid-item fragment">
+          <div class="big-number" style="font-size: 3rem;">K8s</div>
+          <p>Kubernetes manifests, Helm charts, operators</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="big-number" style="font-size: 3rem;">IaC</div>
+          <p>Terraform, Bicep, CloudFormation, Pulumi</p>
+        </div>
+        <div class="grid-item fragment">
+          <div class="big-number" style="font-size: 3rem;">3+</div>
+          <p>Cloud providers, each with unique APIs</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: The Gap -->
+    <section class="slide layout-center">
+      <h2>The Platform Engineering Gap</h2>
+      <div style="margin-top: 2rem;">
+        <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px; margin: 0 auto; display: block;">
+          <rect x="20" y="30" width="220" height="80" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="130" y="75" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="600">Developers</text>
+          <text x="130" y="95" text-anchor="middle" fill="#8b949e" font-size="12">I need a database</text>
+          <rect x="560" y="30" width="220" height="80" rx="12" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+          <text x="670" y="75" text-anchor="middle" fill="#f0f6fc" font-size="16" font-weight="600">Platform Team</text>
+          <text x="670" y="95" text-anchor="middle" fill="#8b949e" font-size="12">Here is how to get one</text>
+          <line x1="240" y1="70" x2="560" y2="70" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,4"/>
+          <text x="400" y="60" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="600">Tickets, delays, drift</text>
+          <rect x="200" y="160" width="400" height="60" rx="12" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="400" y="195" text-anchor="middle" fill="#38bdf8" font-size="16" font-weight="600">What if there was a better contract?</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 5: Section -->
+    <section class="slide slide-section layout-center">
+      <h2 class="gradient-text">Introducing Radius</h2>
+      <p style="font-size: 1.3rem; color: #8b949e;">A unified application model for cloud-native development</p>
+    </section>
+
+    <!-- Slide 6: What is Radius -->
+    <section class="slide layout-center">
+      <h2>What is Radius?</h2>
+      <ul style="font-size: 1.2rem; max-width: 700px; margin: 1.5rem auto 0;">
+        <li class="fragment">Open-source platform by Microsoft (radapp.io)</li>
+        <li class="fragment">Unified application model across any cloud</li>
+        <li class="fragment">Separates what developers need from how it is provisioned</li>
+        <li class="fragment">Built on Kubernetes, integrates with existing IaC tools</li>
+      </ul>
+    </section>
+
+    <!-- Slide 8: Section -->
+    <section class="slide slide-section layout-center">
+      <h2 class="gradient-text">Core Concepts</h2>
+      <p style="font-size: 1.3rem; color: #8b949e;">Applications, Environments, Recipes, Connections</p>
+    </section>
+
+    <!-- Slide 9: App Model -->
+    <section class="slide layout-center">
+      <h2>The Application Model</h2>
+      <div style="margin-top: 1.5rem;">
+        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px; margin: 0 auto; display: block;">
+          <rect x="250" y="10" width="300" height="60" rx="10" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8" stroke-width="2"/>
+          <text x="400" y="45" text-anchor="middle" fill="#38bdf8" font-size="18" font-weight="700">Application</text>
+          <rect x="50" y="120" width="200" height="55" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="150" y="152" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="600">Container (frontend)</text>
+          <rect x="300" y="120" width="200" height="55" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="400" y="152" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="600">Container (backend)</text>
+          <rect x="550" y="120" width="200" height="55" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="650" y="152" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="600">Container (worker)</text>
+          <line x1="400" y1="70" x2="150" y2="120" stroke="#8b949e" stroke-width="1"/>
+          <line x1="400" y1="70" x2="400" y2="120" stroke="#8b949e" stroke-width="1"/>
+          <line x1="400" y1="70" x2="650" y2="120" stroke="#8b949e" stroke-width="1"/>
+          <rect x="100" y="240" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="190" y="270" text-anchor="middle" fill="#7ee787" font-size="13" font-weight="600">Redis Cache</text>
+          <rect x="320" y="240" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="410" y="270" text-anchor="middle" fill="#7ee787" font-size="13" font-weight="600">SQL Database</text>
+          <rect x="540" y="240" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="630" y="270" text-anchor="middle" fill="#7ee787" font-size="13" font-weight="600">Message Queue</text>
+          <text x="400" y="330" text-anchor="middle" fill="#8b949e" font-size="12">Portable Resources (connections)</text>
+          <line x1="150" y1="175" x2="190" y2="240" stroke="#8b949e" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="400" y1="175" x2="410" y2="240" stroke="#8b949e" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="650" y1="175" x2="630" y2="240" stroke="#8b949e" stroke-width="1" stroke-dasharray="4,3"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 10: Environments -->
+    <section class="slide layout-center">
+      <h2>Environments</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">An Environment is a landing zone where applications are deployed.</p>
+      <div class="grid grid-3">
+        <div class="grid-item fragment">
+          <h3 style="color: #38bdf8;">Dev</h3>
+          <p>Local containers, lightweight DBs</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #a78bfa;">Staging</h3>
+          <p>Shared cloud resources, cost-optimized</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #7ee787;">Production</h3>
+          <p>HA, geo-replicated, fully governed</p>
+        </div>
+      </div>
+      <p class="fragment" style="margin-top: 1.5rem; color: #8b949e; font-size: 1.1rem;">Same app definition, different infrastructure per environment</p>
+    </section>
+
+    <!-- Slide 11: Connections -->
+    <section class="slide layout-center">
+      <h2>Connections</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">Automatic dependency injection from infrastructure to containers.</p>
+      <div class="code-block fragment">
+        <span class="comment">// Radius injects connection info as env vars</span><br>
+        <span class="property">REDIS_HOST</span>=redis-abc.cache.windows.net<br>
+        <span class="property">REDIS_PORT</span>=6380<br>
+        <span class="property">REDIS_PASSWORD</span>=********<br>
+        <span class="property">SQL_CONNECTION_STRING</span>=Server=...
+      </div>
+      <p class="fragment" style="margin-top: 1rem; color: #8b949e;">No secrets in code. No manual wiring. Automatic.</p>
+    </section>
+
+    <!-- Slide 12: Recipes -->
+    <section class="slide layout-center">
+      <h2>Recipes: The Bridge</h2>
+      <div class="callout fragment">
+        <strong>Recipe</strong> = A template that fulfills a portable resource type using real infrastructure (Terraform module, Bicep template, etc.)
+      </div>
+      <ul style="font-size: 1.1rem; margin-top: 1.5rem;">
+        <li class="fragment">Platform engineers author recipes</li>
+        <li class="fragment">Developers consume them transparently</li>
+        <li class="fragment">Same resource type, different recipe per environment</li>
+      </ul>
+    </section>
+
+    <!-- Slide 13: Section -->
+    <section class="slide slide-section layout-center">
+      <h2 class="gradient-text">Developer Experience</h2>
+      <p style="font-size: 1.3rem; color: #8b949e;">Self-service without the tickets</p>
+    </section>
+
+    <!-- Slide 14: Dev Workflow -->
+    <section class="slide layout-center">
+      <h2>Developer Workflow</h2>
+      <div style="margin-top: 1.5rem;">
+        <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px; margin: 0 auto; display: block;">
+          <rect x="20" y="60" width="150" height="70" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="95" y="95" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="600">Define App</text>
+          <text x="95" y="115" text-anchor="middle" fill="#8b949e" font-size="11">app.bicep</text>
+          <polygon points="190,95 210,85 210,105" fill="#38bdf8"/>
+          <rect x="225" y="60" width="150" height="70" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="300" y="95" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="600">rad deploy</text>
+          <text x="300" y="115" text-anchor="middle" fill="#8b949e" font-size="11">CLI command</text>
+          <polygon points="395,95 415,85 415,105" fill="#38bdf8"/>
+          <rect x="430" y="60" width="150" height="70" rx="10" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+          <text x="505" y="95" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="600">Radius Engine</text>
+          <text x="505" y="115" text-anchor="middle" fill="#8b949e" font-size="11">Executes recipes</text>
+          <polygon points="600,95 620,85 620,105" fill="#a78bfa"/>
+          <rect x="635" y="60" width="150" height="70" rx="10" fill="#1e293b" stroke="#7ee787" stroke-width="2"/>
+          <text x="710" y="95" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="600">Running App</text>
+          <text x="710" y="115" text-anchor="middle" fill="#8b949e" font-size="11">+ infrastructure</text>
+        </svg>
+      </div>
+      <p class="fragment" style="margin-top: 1.5rem; font-size: 1.2rem;">One command. No infra knowledge required.</p>
+    </section>
+
+    <!-- Slide 15: App Definition -->
+    <section class="slide layout-center">
+      <h2>Defining an Application</h2>
+      <div class="code-block" style="font-size: 0.8rem; margin-top: 1rem;">
+        <span class="comment">// app.bicep</span><br>
+        <span class="keyword">resource</span> app <span class="string">'Applications.Core/applications@2023-10-01-preview'</span> = {<br>
+        &nbsp;&nbsp;<span class="property">name</span>: <span class="string">'myapp'</span><br>
+        }<br><br>
+        <span class="keyword">resource</span> frontend <span class="string">'Applications.Core/containers@2023-10-01-preview'</span> = {<br>
+        &nbsp;&nbsp;<span class="property">name</span>: <span class="string">'frontend'</span><br>
+        &nbsp;&nbsp;<span class="property">properties</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">application</span>: app.id<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">container</span>: { <span class="property">image</span>: <span class="string">'myregistry/frontend:latest'</span> }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">connections</span>: { <span class="property">redis</span>: { <span class="property">source</span>: cache.id } }<br>
+        &nbsp;&nbsp;}<br>
+        }<br><br>
+        <span class="keyword">resource</span> cache <span class="string">'Applications.Datastores/redisCaches@2023-10-01-preview'</span> = {<br>
+        &nbsp;&nbsp;<span class="property">name</span>: <span class="string">'cache'</span><br>
+        &nbsp;&nbsp;<span class="property">properties</span>: { <span class="property">application</span>: app.id }<br>
+        }
+      </div>
+    </section>
+
+    <!-- Slide 16: Before/After -->
+    <section class="slide layout-center">
+      <h2>What Developers Don't Worry About</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3 style="color: #f87171; margin-bottom: 0.5rem;">Before Radius</h3>
+          <ul style="font-size: 1rem; color: #8b949e;">
+            <li>Which cloud provider?</li>
+            <li>Which Redis SKU?</li>
+            <li>Networking / VNet rules</li>
+            <li>Secret management</li>
+            <li>Terraform state files</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment" style="text-align: left;">
+          <h3 style="color: #7ee787; margin-bottom: 0.5rem;">With Radius</h3>
+          <ul style="font-size: 1rem; color: #8b949e;">
+            <li>I need a Redis cache</li>
+            <li>I need a SQL database</li>
+            <li>Connect them to my containers</li>
+            <li>Done.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 18: PE Role -->
+    <section class="slide layout-center">
+      <h2>Platform Engineers Create Recipes</h2>
+      <ul style="font-size: 1.15rem; max-width: 700px; margin: 1.5rem auto 0;">
+        <li class="fragment">Define how each resource type is provisioned</li>
+        <li class="fragment">Encode compliance, security, cost controls</li>
+        <li class="fragment">Register recipes to environments</li>
+        <li class="fragment">Developers never touch infrastructure directly</li>
+      </ul>
+      <div class="callout fragment" style="margin-top: 1.5rem;">
+        Think of it as an internal developer platform with a well-defined API contract.
+      </div>
+    </section>
+
+    <!-- Slide 19: Recipe Types -->
+    <section class="slide layout-center">
+      <h2>Recipe Types</h2>
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3 style="color: #38bdf8;">Terraform Recipes</h3>
+          <p style="font-size: 1rem; color: #8b949e;">Point to any Terraform module in a registry. Radius executes it, manages state, and wires outputs to connections.</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3 style="color: #a78bfa;">Bicep Recipes</h3>
+          <p style="font-size: 1rem; color: #8b949e;">Use Bicep templates stored in OCI registries. Native Azure integration with ARM deployment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 20: TF Recipe Example -->
+    <section class="slide layout-center">
+      <h2>Terraform Recipe Example</h2>
+      <div class="code-block" style="font-size: 0.8rem; margin-top: 1rem;">
+        <span class="comment"># main.tf - Redis recipe for production</span><br>
+        <span class="keyword">resource</span> <span class="string">"azurerm_redis_cache"</span> <span class="value">"this"</span> {<br>
+        &nbsp;&nbsp;<span class="property">name</span>                = var.name<br>
+        &nbsp;&nbsp;<span class="property">location</span>            = var.location<br>
+        &nbsp;&nbsp;<span class="property">resource_group_name</span> = var.resource_group<br>
+        &nbsp;&nbsp;<span class="property">capacity</span>            = 2<br>
+        &nbsp;&nbsp;<span class="property">family</span>              = <span class="string">"C"</span><br>
+        &nbsp;&nbsp;<span class="property">sku_name</span>            = <span class="string">"Standard"</span><br>
+        &nbsp;&nbsp;<span class="property">minimum_tls_version</span> = <span class="string">"1.2"</span>  <span class="comment"># Security guardrail</span><br>
+        }<br><br>
+        <span class="keyword">output</span> <span class="string">"result"</span> {<br>
+        &nbsp;&nbsp;<span class="property">value</span> = {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">host</span>     = azurerm_redis_cache.this.hostname<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">port</span>     = azurerm_redis_cache.this.ssl_port<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">password</span> = azurerm_redis_cache.this.primary_access_key<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+    </section>
+
+    <!-- Slide 21: Recipe Registration -->
+    <section class="slide layout-center">
+      <h2>Registering Recipes to Environments</h2>
+      <div class="code-block" style="font-size: 0.8rem; margin-top: 1rem;">
+        <span class="comment">// environment.bicep</span><br>
+        <span class="keyword">resource</span> env <span class="string">'Applications.Core/environments@2023-10-01-preview'</span> = {<br>
+        &nbsp;&nbsp;<span class="property">name</span>: <span class="string">'production'</span><br>
+        &nbsp;&nbsp;<span class="property">properties</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">compute</span>: { <span class="property">kind</span>: <span class="string">'kubernetes'</span>, ... }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">recipes</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'Applications.Datastores/redisCaches'</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">default</span>: {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">templateKind</span>: <span class="string">'terraform'</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">templatePath</span>: <span class="string">'registry.example.com/recipes/redis:1.0'</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+    </section>
+
+    <!-- Slide 22: Section -->
+    <section class="slide slide-section layout-center">
+      <h2 class="gradient-text">Architecture Deep Dive</h2>
+      <p style="font-size: 1.3rem; color: #8b949e;">How Radius works under the hood</p>
+    </section>
+
+    <!-- Slide 23: Architecture -->
+    <section class="slide layout-center">
+      <h2>Radius Architecture</h2>
+      <div style="margin-top: 1rem;">
+        <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" style="max-width: 720px; margin: 0 auto; display: block;">
+          <rect x="300" y="10" width="200" height="50" rx="8" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8" stroke-width="2"/>
+          <text x="400" y="40" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="700">rad CLI / API</text>
+          <line x1="400" y1="60" x2="400" y2="90" stroke="#8b949e" stroke-width="1.5"/>
+          <rect x="250" y="90" width="300" height="55" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+          <text x="400" y="118" text-anchor="middle" fill="#a78bfa" font-size="14" font-weight="700">Radius Control Plane (UCP)</text>
+          <text x="400" y="136" text-anchor="middle" fill="#8b949e" font-size="11">Universal Control Plane on Kubernetes</text>
+          <line x1="300" y1="145" x2="200" y2="190" stroke="#8b949e" stroke-width="1"/>
+          <line x1="400" y1="145" x2="400" y2="190" stroke="#8b949e" stroke-width="1"/>
+          <line x1="500" y1="145" x2="600" y2="190" stroke="#8b949e" stroke-width="1"/>
+          <rect x="100" y="190" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="190" y="220" text-anchor="middle" fill="#7ee787" font-size="12" font-weight="600">Applications RP</text>
+          <rect x="310" y="190" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="400" y="220" text-anchor="middle" fill="#7ee787" font-size="12" font-weight="600">Datastores RP</text>
+          <rect x="520" y="190" width="180" height="50" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="610" y="220" text-anchor="middle" fill="#7ee787" font-size="12" font-weight="600">Messaging RP</text>
+          <line x1="190" y1="240" x2="190" y2="280" stroke="#8b949e" stroke-width="1"/>
+          <line x1="400" y1="240" x2="400" y2="280" stroke="#8b949e" stroke-width="1"/>
+          <line x1="610" y1="240" x2="610" y2="280" stroke="#8b949e" stroke-width="1"/>
+          <rect x="50" y="280" width="700" height="50" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="400" y="310" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="600">Recipe Engine (Terraform / Bicep execution)</text>
+          <line x1="400" y1="330" x2="400" y2="360" stroke="#8b949e" stroke-width="1"/>
+          <text x="400" y="375" text-anchor="middle" fill="#8b949e" font-size="12">Azure - AWS - GCP - On-Premises</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 24: K8s Native -->
+    <section class="slide layout-center">
+      <h2>Kubernetes-Native</h2>
+      <ul style="font-size: 1.15rem; max-width: 700px; margin: 1.5rem auto 0;">
+        <li class="fragment">Installs into any conformant K8s cluster</li>
+        <li class="fragment">UCP runs as a set of controllers and resource providers</li>
+        <li class="fragment">Containers deploy as standard K8s Deployments and Services</li>
+        <li class="fragment">Works alongside existing Helm charts, Kustomize, GitOps</li>
+      </ul>
+    </section>
+
+    <!-- Slide 25: Multi-Cloud -->
+    <section class="slide layout-center">
+      <h2>Multi-Cloud Portability</h2>
+      <table class="comparison-table" style="max-width: 650px; margin: 1.5rem auto 0;">
+        <tr>
+          <th>Resource Type</th>
+          <th>Azure Recipe</th>
+          <th>AWS Recipe</th>
+        </tr>
+        <tr class="fragment">
+          <td>Redis Cache</td>
+          <td>Azure Cache for Redis</td>
+          <td>ElastiCache</td>
+        </tr>
+        <tr class="fragment">
+          <td>SQL Database</td>
+          <td>Azure SQL</td>
+          <td>RDS PostgreSQL</td>
+        </tr>
+        <tr class="fragment">
+          <td>Message Queue</td>
+          <td>Azure Service Bus</td>
+          <td>Amazon SQS</td>
+        </tr>
+        <tr class="fragment">
+          <td>Object Storage</td>
+          <td>Azure Blob</td>
+          <td>S3</td>
+        </tr>
+      </table>
+      <p class="fragment" style="margin-top: 1rem; color: #38bdf8; font-size: 1.1rem;">Same app definition, different cloud, different recipe, same result</p>
+    </section>
+
+    <!-- Slide 26: Section -->
+    <section class="slide slide-section layout-center">
+      <h2 class="gradient-text">Tooling and Dashboard</h2>
+      <p style="font-size: 1.3rem; color: #8b949e;">CLI, Dashboard, and CI/CD integration</p>
+    </section>
+
+    <!-- Slide 27: rad CLI -->
+    <section class="slide layout-center">
+      <h2>The rad CLI</h2>
+      <div class="code-block" style="font-size: 0.85rem; margin-top: 1.5rem; text-align: left;">
+        <span class="comment"># Initialize Radius in a cluster</span><br>
+        $ <span class="keyword">rad</span> install kubernetes<br><br>
+        <span class="comment"># Create an environment</span><br>
+        $ <span class="keyword">rad</span> env create production --namespace prod<br><br>
+        <span class="comment"># Deploy an application</span><br>
+        $ <span class="keyword">rad</span> deploy app.bicep --environment production<br><br>
+        <span class="comment"># Check app status</span><br>
+        $ <span class="keyword">rad</span> app status myapp<br><br>
+        <span class="comment"># View application graph</span><br>
+        $ <span class="keyword">rad</span> app graph myapp
+      </div>
+    </section>
+
+    <!-- Slide 28: Dashboard -->
+    <section class="slide layout-center">
+      <h2>Radius Dashboard</h2>
+      <div style="margin-top: 1.5rem;">
+        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" style="max-width: 700px; margin: 0 auto; display: block;">
+          <rect x="50" y="20" width="700" height="310" rx="12" fill="#0d1117" stroke="#38bdf8" stroke-width="1.5"/>
+          <rect x="50" y="20" width="700" height="35" rx="12" fill="#1e293b"/>
+          <rect x="50" y="43" width="700" height="2" fill="#38bdf8" fill-opacity="0.3"/>
+          <circle cx="75" cy="38" r="6" fill="#f87171"/>
+          <circle cx="95" cy="38" r="6" fill="#fbbf24"/>
+          <circle cx="115" cy="38" r="6" fill="#34d399"/>
+          <text x="400" y="42" text-anchor="middle" fill="#8b949e" font-size="11">Radius Dashboard - myapp</text>
+          <rect x="80" y="70" width="150" height="30" rx="6" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+          <text x="155" y="90" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">Applications</text>
+          <rect x="240" y="70" width="150" height="30" rx="6" fill="transparent" stroke="#8b949e" stroke-width="1"/>
+          <text x="315" y="90" text-anchor="middle" fill="#8b949e" font-size="11">Environments</text>
+          <rect x="400" y="70" width="150" height="30" rx="6" fill="transparent" stroke="#8b949e" stroke-width="1"/>
+          <text x="475" y="90" text-anchor="middle" fill="#8b949e" font-size="11">Recipes</text>
+          <rect x="100" y="120" width="250" height="180" rx="8" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <text x="225" y="145" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">Application Graph</text>
+          <circle cx="180" cy="190" r="20" fill="#38bdf8" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="180" y="194" text-anchor="middle" fill="#38bdf8" font-size="9">FE</text>
+          <circle cx="270" cy="190" r="20" fill="#a78bfa" fill-opacity="0.2" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="270" y="194" text-anchor="middle" fill="#a78bfa" font-size="9">BE</text>
+          <circle cx="225" cy="260" r="20" fill="#7ee787" fill-opacity="0.2" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="225" y="264" text-anchor="middle" fill="#7ee787" font-size="9">DB</text>
+          <line x1="195" y1="205" x2="215" y2="245" stroke="#8b949e" stroke-width="1"/>
+          <line x1="255" y1="205" x2="235" y2="245" stroke="#8b949e" stroke-width="1"/>
+          <line x1="195" y1="185" x2="250" y2="185" stroke="#8b949e" stroke-width="1"/>
+          <rect x="380" y="120" width="340" height="180" rx="8" fill="#1e293b" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <text x="550" y="145" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">Resource Details</text>
+          <text x="400" y="175" fill="#8b949e" font-size="11">Name:</text>
+          <text x="480" y="175" fill="#f0f6fc" font-size="11">frontend</text>
+          <text x="400" y="200" fill="#8b949e" font-size="11">Type:</text>
+          <text x="480" y="200" fill="#f0f6fc" font-size="11">Container</text>
+          <text x="400" y="225" fill="#8b949e" font-size="11">Status:</text>
+          <text x="480" y="225" fill="#7ee787" font-size="11">Running</text>
+          <text x="400" y="250" fill="#8b949e" font-size="11">Connections:</text>
+          <text x="480" y="250" fill="#f0f6fc" font-size="11">redis, sqldb</text>
+          <text x="400" y="275" fill="#8b949e" font-size="11">Image:</text>
+          <text x="480" y="275" fill="#f0f6fc" font-size="11">myregistry/fe:v2.1</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 29: Demo -->
+    <section class="slide layout-center">
+      <h2>Demo: Multi-Service App</h2>
+      <div style="margin-top: 1.5rem;">
+        <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="max-width: 650px; margin: 0 auto; display: block;">
+          <text x="400" y="25" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="600">eShop Application</text>
+          <rect x="50" y="50" width="140" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="120" y="82" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">Web Frontend</text>
+          <text x="120" y="98" text-anchor="middle" fill="#8b949e" font-size="10">React SPA</text>
+          <rect x="240" y="50" width="140" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="310" y="82" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">API Gateway</text>
+          <text x="310" y="98" text-anchor="middle" fill="#8b949e" font-size="10">.NET 8</text>
+          <rect x="430" y="50" width="140" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="500" y="82" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">Order Service</text>
+          <text x="500" y="98" text-anchor="middle" fill="#8b949e" font-size="10">.NET 8</text>
+          <rect x="620" y="50" width="140" height="60" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="690" y="82" text-anchor="middle" fill="#f0f6fc" font-size="12" font-weight="600">Catalog Service</text>
+          <text x="690" y="98" text-anchor="middle" fill="#8b949e" font-size="10">Go</text>
+          <line x1="190" y1="80" x2="240" y2="80" stroke="#8b949e" stroke-width="1"/>
+          <line x1="380" y1="80" x2="430" y2="80" stroke="#8b949e" stroke-width="1"/>
+          <rect x="150" y="170" width="140" height="55" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="220" y="198" text-anchor="middle" fill="#7ee787" font-size="11" font-weight="600">Redis Cache</text>
+          <text x="220" y="214" text-anchor="middle" fill="#8b949e" font-size="9">Sessions + Cart</text>
+          <rect x="340" y="170" width="140" height="55" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="410" y="198" text-anchor="middle" fill="#7ee787" font-size="11" font-weight="600">SQL Database</text>
+          <text x="410" y="214" text-anchor="middle" fill="#8b949e" font-size="9">Orders + Catalog</text>
+          <rect x="530" y="170" width="140" height="55" rx="8" fill="#1e293b" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="600" y="198" text-anchor="middle" fill="#7ee787" font-size="11" font-weight="600">RabbitMQ</text>
+          <text x="600" y="214" text-anchor="middle" fill="#8b949e" font-size="9">Events</text>
+          <text x="400" y="265" text-anchor="middle" fill="#a78bfa" font-size="12" font-weight="600">All portable resources - provisioned by recipes</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 30: Getting Started -->
+    <section class="slide layout-center">
+      <h2>Getting Started</h2>
+      <div class="code-block" style="font-size: 0.9rem; margin-top: 1.5rem; text-align: left;">
+        <span class="comment"># 1. Install the rad CLI</span><br>
+        $ <span class="keyword">curl</span> -fsSL https://get.radapp.dev/tools/rad/install.sh | bash<br><br>
+        <span class="comment"># 2. Initialize Radius on your cluster</span><br>
+        $ <span class="keyword">rad</span> install kubernetes<br><br>
+        <span class="comment"># 3. Create your first app</span><br>
+        $ <span class="keyword">rad</span> init<br>
+        $ <span class="keyword">rad</span> deploy app.bicep
+      </div>
+      <div class="fragment" style="margin-top: 1.5rem;">
+        <p style="font-size: 1.2rem;">radapp.dev | github.com/radius-project/radius</p>
+      </div>
+    </section>
+
+    <!-- Slide 31: Takeaways -->
+    <section class="slide layout-center">
+      <h2>Key Takeaways</h2>
+      <ul style="font-size: 1.2rem; max-width: 700px; margin: 1.5rem auto 0;">
+        <li class="fragment">Radius provides a contract between devs and platform teams</li>
+        <li class="fragment">Recipes let you encode guardrails without blocking velocity</li>
+        <li class="fragment">One app definition, portable across clouds and environments</li>
+        <li class="fragment">Built on Kubernetes, works with your existing tools</li>
+        <li class="fragment">Open source, community-driven, production-ready</li>
+      </ul>
+    </section>
+
+    <!-- Slide 32: Thank You -->
+    <section class="slide slide-title layout-center" id="end">
+      <h1 class="gradient-text">Thank You!</h1>
+      <p class="subtitle">Questions?</p>
+      <p style="font-size: 1.1rem; margin-top: 1.5rem; color: #8b949e;">Marco Antonio Silva</p>
+      <p style="font-size: 1rem; color: #8b949e;">radapp.dev | @radius-project</p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>
