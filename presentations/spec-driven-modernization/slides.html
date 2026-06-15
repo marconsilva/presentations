@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec Driven Modernization: Modernize your Repository using Spec2Cloud and the GHCP Modernization CLI</title>
+  <link rel="stylesheet" href="../../assets/css/slides.css">
+  <style>
+    :root {
+      --slide-bg: #0a0e1a;
+      --slide-text: #eef2ff;
+      --slide-accent: #38bdf8;
+      --slide-secondary: #0f1629;
+      --slide-highlight: #a78bfa;
+    }
+
+    .slide {
+      position: absolute;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.07), transparent 30%),
+        radial-gradient(circle at left center, rgba(167, 139, 250, 0.05), transparent 26%),
+        var(--slide-bg);
+    }
+
+    .slide.layout-top,
+    .slide.layout-split {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .slide.layout-top p,
+    .slide.layout-top ul,
+    .slide.layout-top ol,
+    .slide.layout-split p,
+    .slide.layout-split ul,
+    .slide.layout-split ol {
+      max-width: 100%;
+    }
+
+    .slide.layout-center p,
+    .slide.layout-center ul {
+      max-width: 88%;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: rgba(238, 242, 255, 0.84);
+      max-width: 900px;
+    }
+
+    .author strong,
+    .accent {
+      color: var(--slide-accent);
+    }
+
+    .highlight {
+      color: var(--slide-highlight);
+    }
+
+    .lead {
+      font-size: 1.55rem;
+      max-width: 980px;
+      color: rgba(238, 242, 255, 0.92);
+    }
+
+    .muted {
+      color: rgba(238, 242, 255, 0.68);
+    }
+
+    .grid {
+      max-width: 100%;
+    }
+
+    .grid-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 1.5rem;
+      height: 100%;
+    }
+
+    .grid-item h3 {
+      color: var(--slide-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-card {
+      padding: 1.6rem;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(56, 189, 248, 0.18);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--slide-highlight);
+      margin-bottom: 0.6rem;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .process-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .process-step {
+      position: relative;
+      padding: 1.3rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      min-height: 180px;
+    }
+
+    .process-step::after {
+      content: '→';
+      position: absolute;
+      top: 50%;
+      right: -0.8rem;
+      transform: translateY(-50%);
+      color: var(--slide-highlight);
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .process-step:last-child::after {
+      content: '';
+    }
+
+    .process-step h3 {
+      margin-bottom: 0.75rem;
+      color: var(--slide-accent);
+    }
+
+    .process-step p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba(238, 242, 255, 0.78);
+    }
+
+    .diagram-shell {
+      width: 100%;
+      padding: 1.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .diagram-shell svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .check-list,
+    .agenda-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .check-list li,
+    .agenda-list li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .check-list li::before,
+    .agenda-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--slide-highlight);
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #bae6fd;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .comparison h3 {
+      margin-bottom: 1rem;
+    }
+
+    .slide.slide-section {
+      background: linear-gradient(135deg, #0f1629 0%, #1a1040 55%, #1e2a4a 100%);
+    }
+
+    .slide.slide-section h2 {
+      color: white;
+      font-size: 3.2rem;
+    }
+
+    .slide.slide-section p {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1.4rem;
+    }
+
+    .quote {
+      font-size: 2rem;
+      line-height: 1.5;
+      max-width: 980px;
+      text-align: center;
+    }
+
+    .quote strong {
+      color: var(--slide-highlight);
+    }
+
+    .warning-box {
+      padding: 1.5rem;
+      border-radius: 18px;
+      background: rgba(251, 146, 60, 0.08);
+      border: 1px solid rgba(251, 146, 60, 0.25);
+      margin-top: 1rem;
+    }
+
+    .warning-box h3 {
+      color: #fb923c;
+      margin-bottom: 0.5rem;
+    }
+
+    pre {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: #e2e8f0;
+    }
+
+    .mini-label {
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      color: var(--slide-highlight);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1200px) {
+      .kpi-row,
+      .process-flow,
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .process-step::after {
+        content: '';
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+
+    <!-- TITLE SLIDE -->
+    <section class="slide slide-title layout-center" id="title">
+      <h1>Spec Driven Modernization</h1>
+      <p class="subtitle">Modernize your Repository using Spec2Cloud and the GHCP Modernization CLI</p>
+      <p class="author">Marco Antonio Silva · <strong>Senior Global Black Belt — Microsoft</strong></p>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="slide layout-top" id="legacy-reality">
+      <div class="eyebrow">The reality</div>
+      <h2>Every enterprise has <em>that</em> codebase</h2>
+      <p class="lead">Hundreds of thousands of lines. Frameworks nobody remembers. Business logic buried in <span class="accent">layers of technical debt</span>.</p>
+      <div class="kpi-row">
+        <div class="stat-card fragment">
+          <div class="stat-number">$2.5T</div>
+          <p>Annual global spend on legacy system maintenance<sup style="color:var(--slide-accent);">¹</sup></p>
+        </div>
+        <div class="stat-card fragment">
+          <div class="stat-number">70%</div>
+          <p>Of modernization projects fail or exceed budget<sup style="color:var(--slide-accent);">²</sup></p>
+        </div>
+        <div class="stat-card fragment">
+          <div class="stat-number">3–5yr</div>
+          <p>Average enterprise modernization programme duration<sup style="color:var(--slide-accent);">³</sup></p>
+        </div>
+      </div>
+      <p class="muted" style="font-size: 0.75rem; margin-top: 1.5rem;">¹ Gartner, "IT Spending Forecast", 2025 · ² McKinsey, "Unlocking the Value of Legacy Modernization", 2024 · ³ Forrester, "The State of Application Modernization", 2024</p>
+    </section>
+
+    <!-- WHAT IF -->
+    <section class="slide layout-center" id="what-if">
+      <h2>What if LLMs could do the heavy lifting?</h2>
+      <p class="lead fragment">Safely. At scale. With <span class="accent">specs as the contract</span> for correctness.</p>
+      <p class="muted fragment" style="margin-top: 1.5rem; font-size: 1.2rem;">Not a vendor demo — a practitioner's honest account of taking LLMs into production on a mission-critical modernization programme.</p>
+    </section>
+
+    <!-- SECTION: SPEC-DRIVEN DEVELOPMENT -->
+    <section class="slide slide-section layout-center">
+      <h2>Spec-Driven Development</h2>
+      <p>Specs as the contract for safe transformation</p>
+    </section>
+
+    <!-- WHY SPECS -->
+    <section class="slide layout-top" id="why-specs">
+      <div class="eyebrow">The problem with "vibe-coding"</div>
+      <h2>LLMs without constraints hallucinate</h2>
+      <p class="lead">Without a machine-readable contract, how do you know the LLM got it right?</p>
+      <div class="comparison" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>❌ Vibe-Coding</h3>
+          <ul class="check-list">
+            <li>Prompt → code → hope it works</li>
+            <li>No verifiable correctness criteria</li>
+            <li>Hallucinations go undetected</li>
+            <li>Regression risk at scale</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>✅ Spec-Driven</h3>
+          <ul class="check-list">
+            <li>Spec → code → validate against spec</li>
+            <li>Machine-readable contracts</li>
+            <li>Hallucinations caught by validation</li>
+            <li>Safe, incremental, verifiable</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT IS A SPEC -->
+    <section class="slide layout-top" id="what-is-spec">
+      <div class="eyebrow">Spec-Driven Development</div>
+      <h2>What is a Spec?</h2>
+      <p class="lead">A structured, machine-readable description of <em>what</em> the code should do — separate from <em>how</em> it does it.</p>
+      <div class="grid grid-3" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>📋 Behavior Contracts</h3>
+          <p>Input/output mappings, business rules, invariants</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🔗 API Schemas</h3>
+          <p>Endpoints, types, validation rules, error codes</p>
+        </div>
+        <div class="grid-item fragment">
+          <h3>🏗️ Architecture Specs</h3>
+          <p>Component boundaries, dependencies, data flows</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPEC AS CONTRACT -->
+    <section class="slide layout-center" id="spec-contract">
+      <h2>Specs reduce hallucinations</h2>
+      <div class="diagram-shell">
+        <svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+            </marker>
+          </defs>
+          <!-- Legacy Code -->
+          <rect x="30" y="100" width="160" height="80" rx="14" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="2"/>
+          <text x="110" y="135" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">Legacy Code</text>
+          <text x="110" y="160" text-anchor="middle" fill="#a78bfa" font-size="12">.NET Framework</text>
+          <!-- Arrow 1 -->
+          <line x1="195" y1="140" x2="270" y2="140" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Spec -->
+          <rect x="275" y="80" width="160" height="120" rx="14" fill="rgba(56,189,248,0.15)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="355" y="120" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">Structured Spec</text>
+          <text x="355" y="145" text-anchor="middle" fill="#7dd3fc" font-size="11">Behavior contracts</text>
+          <text x="355" y="165" text-anchor="middle" fill="#7dd3fc" font-size="11">API schemas</text>
+          <text x="355" y="185" text-anchor="middle" fill="#7dd3fc" font-size="11">Invariants</text>
+          <!-- Arrow 2 -->
+          <line x1="440" y1="140" x2="515" y2="140" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- LLM -->
+          <rect x="520" y="100" width="160" height="80" rx="14" fill="rgba(56,189,248,0.15)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="600" y="135" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">LLM Agent</text>
+          <text x="600" y="160" text-anchor="middle" fill="#7dd3fc" font-size="12">Generates code</text>
+          <!-- Arrow 3 -->
+          <line x1="685" y1="140" x2="720" y2="140" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Validation -->
+          <rect x="725" y="90" width="150" height="100" rx="14" fill="rgba(74,222,128,0.12)" stroke="#4ade80" stroke-width="2"/>
+          <text x="800" y="125" text-anchor="middle" fill="#e2e8f0" font-size="14" font-weight="600">Validation</text>
+          <text x="800" y="150" text-anchor="middle" fill="#4ade80" font-size="11">Spec compliance ✓</text>
+          <text x="800" y="170" text-anchor="middle" fill="#4ade80" font-size="11">Tests pass ✓</text>
+          <!-- Feedback loop -->
+          <path d="M 800 195 L 800 240 L 600 240 L 600 185" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+          <text x="700" y="257" text-anchor="middle" fill="#fb923c" font-size="11">Retry on failure</text>
+        </svg>
+      </div>
+      <p class="fragment muted" style="margin-top: 1rem;">The spec is the oracle. If the output doesn't match, the LLM tries again.</p>
+    </section>
+
+    <!-- SECTION: GHCP MODERNIZATION CLI -->
+    <section class="slide slide-section layout-center">
+      <h2>GHCP Modernization CLI</h2>
+      <p>Orchestrating AI agents for end-to-end transformation</p>
+    </section>
+
+    <!-- CLI OVERVIEW -->
+    <section class="slide layout-top" id="cli-overview">
+      <div class="eyebrow">GHCP Modernization CLI</div>
+      <h2>An Agentic Modernization tool</h2>
+      <p class="lead">The GHCP Modernization CLI is an Agentic Modernization tool, grounded with deterministic assessment tools like AppCAT and leveraging Agentic Skills grounded in the best practices and framework knowledge of .NET and Java.</p>
+    </section>
+
+    <!-- PIPELINE ARCHITECTURE -->
+    <section class="slide layout-top" id="pipeline-arch">
+      <div class="eyebrow">Architecture</div>
+      <h2>Multi-skill pipeline</h2>
+      <div class="diagram-shell" style="margin-top: 1rem;">
+        <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+            </marker>
+          </defs>
+          <!-- Context Layer -->
+          <rect x="30" y="20" width="840" height="50" rx="10" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <text x="450" y="50" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="600">Context Layer — Codebase-grounded context for every skill</text>
+          <!-- Analysis Skill -->
+          <rect x="50" y="100" width="160" height="90" rx="14" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="130" y="130" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Analysis Skill</text>
+          <text x="130" y="155" text-anchor="middle" fill="#7dd3fc" font-size="11">Dependency graph</text>
+          <text x="130" y="172" text-anchor="middle" fill="#7dd3fc" font-size="11">Complexity scoring</text>
+          <!-- Arrow -->
+          <line x1="215" y1="145" x2="260" y2="145" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow2)"/>
+          <!-- Planning Skill -->
+          <rect x="265" y="100" width="160" height="90" rx="14" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="345" y="130" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Planning Skill</text>
+          <text x="345" y="155" text-anchor="middle" fill="#7dd3fc" font-size="11">Migration strategy</text>
+          <text x="345" y="172" text-anchor="middle" fill="#7dd3fc" font-size="11">Task decomposition</text>
+          <!-- Arrow -->
+          <line x1="430" y1="145" x2="475" y2="145" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow2)"/>
+          <!-- Transform Skill -->
+          <rect x="480" y="100" width="160" height="90" rx="14" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="2"/>
+          <text x="560" y="130" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Transform Skill</text>
+          <text x="560" y="155" text-anchor="middle" fill="#7dd3fc" font-size="11">Code generation</text>
+          <text x="560" y="172" text-anchor="middle" fill="#7dd3fc" font-size="11">Spec-constrained</text>
+          <!-- Arrow -->
+          <line x1="645" y1="145" x2="690" y2="145" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow2)"/>
+          <!-- Validation Skill -->
+          <rect x="695" y="100" width="160" height="90" rx="14" fill="rgba(74,222,128,0.12)" stroke="#4ade80" stroke-width="2"/>
+          <text x="775" y="130" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Validation Skill</text>
+          <text x="775" y="155" text-anchor="middle" fill="#4ade80" font-size="11">Spec compliance</text>
+          <text x="775" y="172" text-anchor="middle" fill="#4ade80" font-size="11">LLM-as-judge</text>
+          <!-- Specs input -->
+          <rect x="350" y="230" width="200" height="60" rx="12" fill="rgba(251,146,60,0.1)" stroke="#fb923c" stroke-width="1.5"/>
+          <text x="450" y="258" text-anchor="middle" fill="#fb923c" font-size="13" font-weight="600">Structured Specs</text>
+          <text x="450" y="278" text-anchor="middle" fill="#fdba74" font-size="11">From Spec2Cloud</text>
+          <!-- Lines from specs to skills -->
+          <line x1="400" y1="230" x2="345" y2="195" stroke="#fb923c" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="450" y1="230" x2="560" y2="195" stroke="#fb923c" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="500" y1="230" x2="775" y2="195" stroke="#fb923c" stroke-width="1" stroke-dasharray="4,3"/>
+        </svg>
+      </div>
+      <p class="fragment muted" style="margin-top: 0.8rem;">Each skill is grounded in codebase context and constrained by the structured specs.</p>
+    </section>
+
+    <!-- DEMO: GHCP MODERNIZATION CLI -->
+    <section class="slide slide-section layout-center" id="demo-ghcp-cli">
+      <h2>Demo</h2>
+      <p>GHCP Modernization CLI in action</p>
+    </section>
+
+    <!-- SECTION: SPEC2CLOUD -->
+    <section class="slide slide-section layout-center">
+      <h2>Spec2Cloud</h2>
+      <p>Spec-enabling your legacy codebase for LLM-driven migration</p>
+    </section>
+
+    <!-- SPEC2CLOUD OVERVIEW -->
+    <section class="slide layout-top" id="spec2cloud-overview">
+      <div class="eyebrow">Spec2Cloud</div>
+      <h2>From legacy code to structured specifications</h2>
+      <p class="lead">Spec2Cloud analyzes your legacy codebase and generates machine-readable specifications — <span class="accent">the bridge</span> between what exists and what you're migrating to.</p>
+      <div class="process-flow" style="margin-top: 1.5rem;">
+        <div class="process-step fragment">
+          <h3>1. Scan</h3>
+          <p>Static analysis of legacy code: classes, methods, dependencies</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>2. Extract</h3>
+          <p>Business logic, data flows, API contracts, invariants</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>3. Generate</h3>
+          <p>Structured specs: OpenAPI, behavior contracts, arch specs</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>4. Validate</h3>
+          <p>Human review + automated consistency checks</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO: SPEC2CLOUD -->
+    <section class="slide slide-section layout-center" id="demo-spec2cloud">
+      <h2>Demo</h2>
+      <p>Spec2Cloud in action</p>
+    </section>
+
+    <!-- SECTION: EVALUATION -->
+    <section class="slide slide-section layout-center">
+      <h2>Evaluation Strategies</h2>
+      <p>How do you know the LLM got it right?</p>
+    </section>
+
+    <!-- LLM AS JUDGE -->
+    <section class="slide layout-top" id="llm-judge">
+      <div class="eyebrow">Evaluation</div>
+      <h2>LLM-as-Judge + Automated Metrics</h2>
+      <p class="lead">Two complementary strategies to verify migration quality at scale.</p>
+      <div class="comparison" style="margin-top: 1.5rem;">
+        <div class="grid-item fragment">
+          <h3>🤖 LLM-as-Judge</h3>
+          <ul class="check-list">
+            <li>Semantic equivalence checking</li>
+            <li>Business logic preservation scoring</li>
+            <li>Code quality assessment</li>
+            <li>Spec compliance verification</li>
+          </ul>
+        </div>
+        <div class="grid-item fragment">
+          <h3>📏 Automated Metrics</h3>
+          <ul class="check-list">
+            <li>Unit test pass rates</li>
+            <li>Integration test coverage</li>
+            <li>API contract conformance</li>
+            <li>Performance regression tests</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVALUATION PIPELINE -->
+    <section class="slide layout-top" id="eval-pipeline">
+      <div class="eyebrow">Evaluation pipeline</div>
+      <h2>Multi-layer validation gate</h2>
+      <div class="process-flow" style="margin-top: 1.5rem;">
+        <div class="process-step fragment">
+          <h3>Layer 1</h3>
+          <p>Compile &amp; lint — does it build?</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Layer 2</h3>
+          <p>Spec compliance — does it match the contract?</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Layer 3</h3>
+          <p>LLM-as-judge — is the behavior preserved?</p>
+        </div>
+        <div class="process-step fragment">
+          <h3>Layer 4</h3>
+          <p>Human review — final sign-off on critical paths</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: LESSONS LEARNED -->
+    <section class="slide slide-section layout-center">
+      <h2>Lessons Learned</h2>
+      <p>What worked and what we can do better</p>
+    </section>
+
+    <!-- WHAT WORKED -->
+    <section class="slide layout-top" id="what-worked">
+      <div class="eyebrow">What worked</div>
+      <h2>Where agentic modernization shines</h2>
+      <ul class="check-list">
+        <li class="fragment"><strong class="accent">Spec-first approach eliminated hallucination drift</strong> — the spec is the oracle, not the prompt</li>
+        <li class="fragment"><strong class="accent">RAG grounding was essential</strong> — agents without codebase context produce generic, wrong code</li>
+        <li class="fragment"><strong class="accent">Multi-layer validation caught 95%+ of issues</strong> before human review</li>
+        <li class="fragment"><strong class="accent">Service-by-service decomposition</strong> kept each agent task within context limits</li>
+        <li class="fragment"><strong class="accent">Automated evaluation enabled CI/CD for migrations</strong> — merge only when all gates pass</li>
+      </ul>
+    </section>
+
+    <!-- WHAT WE CAN DO BETTER -->
+    <section class="slide layout-top" id="do-better">
+      <div class="eyebrow">Retrospective</div>
+      <h2>What we can do better</h2>
+      <ul class="check-list">
+        <li class="fragment">Invest more upfront in <span class="accent">spec quality</span> — garbage specs → garbage migrations</li>
+        <li class="fragment">Build domain expert review into the <span class="accent">spec generation</span> phase, not just the code review phase</li>
+        <li class="fragment">Start with <span class="accent">simpler services</span> to build trust and calibrate evaluation thresholds</li>
+        <li class="fragment">Implement <span class="accent">incremental migration</span> with feature flags — not big-bang cutover</li>
+        <li class="fragment">Track <span class="accent">LLM cost per service</span> from day one for realistic budgeting</li>
+      </ul>
+    </section>
+
+    <!-- KEY TAKEAWAYS -->
+    <section class="slide layout-top" id="takeaways">
+      <div class="eyebrow">Key Takeaways</div>
+      <h2>What to take home</h2>
+      <ul class="check-list">
+        <li class="fragment">📋 <strong class="accent">Spec-driven development</strong>: Spec2Cloud generates specs as the contract for safe LLM-driven modernization</li>
+        <li class="fragment">🛠️ <strong class="accent">GHCP Modernization CLI</strong>: end-to-end orchestrator for agentic modernization pipelines</li>
+        <li class="fragment">🔍 <strong class="accent">Structured Specs reduce hallucinations</strong> that plague typical "vibe-coding" approaches</li>
+        <li class="fragment">📏 <strong class="accent">LLM-as-judge + automated evaluation</strong> verify migration quality in production</li>
+        <li class="fragment">⚠️ <strong class="accent">Agentic modernization accelerates delivery</strong> — but human engineers remain essential for the hard 15%</li>
+      </ul>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="slide layout-top" id="resources">
+      <div class="eyebrow">Resources</div>
+      <h2>Learn more</h2>
+      <ul class="check-list">
+        <li class="fragment"><strong class="accent">Spec2Cloud</strong> — <a href="https://github.com/EmeaAppGbb/spec2cloud" style="color: var(--slide-accent);">github.com/EmeaAppGbb/spec2cloud</a></li>
+        <li class="fragment"><strong class="accent">GHCP Modernization CLI</strong> — <a href="https://github.com/microsoft/modernize-cli" style="color: var(--slide-accent);">github.com/microsoft/modernize-cli</a></li>
+        <li class="fragment"><strong class="accent">Agentic Labs</strong> — <a href="https://emeaappgbb.github.io/AppModernizationLabs/" style="color: var(--slide-accent);">emeaappgbb.github.io/AppModernizationLabs</a></li>
+      </ul>
+    </section>
+
+    <!-- THANK YOU -->
+    <section class="slide slide-title layout-center" id="end">
+      <h1>Thank You!</h1>
+      <p class="subtitle">Questions?</p>
+      <p class="author" style="margin-top: 1.5rem;">Marco Antonio Silva · <strong>Senior Global Black Belt — Microsoft</strong></p>
+    </section>
+
+  </div>
+
+  <script src="../../assets/js/slides.js"></script>
+</body>
+</html>

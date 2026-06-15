@@ -1,6 +1,14 @@
 {
   "presentations": [
     {
+      "slug": "spec-driven-modernization",
+      "title": "Spec Driven Modernization: Modernize your Repository using Spec2Cloud and the GHCP Modernization CLI",
+      "abstract": "Lessons from real-world agentic code modernization projects — using Spec2Cloud and the GHCP Modernization CLI to drive spec-driven modernization at scale, including a large-scale transformation at a major Portuguese financial institution.",
+      "date": "2026-06",
+      "tags": ["Modernization", "Spec-Driven Development", "Spec2Cloud", "GitHub Copilot", "LLM", "Enterprise", "Agentic AI"],
+      "events": [{ "name": "Conference Session", "date": "2026", "location": "TBD" }]
+    },
+    {
       "slug": "autonomy-unleashed-agent-framework",
       "title": "🚀 Autonomy Unleashed: Agent Framework and the New Age of AI Agents 🤖✨",
       "abstract": "Step into the future of AI! In this dynamic session, we'll explore how Microsoft Agent Framework empowers a new generation of agentic AI — systems that don't just respond, but reason, plan, and act.",
